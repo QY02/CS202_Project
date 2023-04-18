@@ -51,7 +51,6 @@ assign nbranch = (Opcode==6'b000101)?1'b1:1'b0;
 assign regDST = R_format;
 
 //
-wire sx=1'b1;
 wire lw = (Opcode==6'b100011)?1'b1:1'b0;
 wire sw = (Opcode==6'b101011)?1'b1:1'b0;
 assign memToReg = lw;
