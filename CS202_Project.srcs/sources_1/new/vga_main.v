@@ -32,7 +32,7 @@ module vga_main(
 
 
 wire clk_out;
-clk_vga cv(clk, rst_n, clk_out);
+clk_vga cv(.clk_out(clk_out), .resetn(rst_n), .clk_in(clk));
 
 wire [10:0] pix_x;
 wire [10:0] pix_y;
