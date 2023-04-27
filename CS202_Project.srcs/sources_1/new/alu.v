@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module Executs32 ( 
 // from Decoder
 input[31:0] Read_data_1, //the source of Ainput
