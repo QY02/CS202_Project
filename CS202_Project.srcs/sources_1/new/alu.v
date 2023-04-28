@@ -35,5 +35,7 @@ assign Binput = (ALUSrc == 0) ? Read_data_2 : Sign_extend[31:0];
 
 // ALUOp ={ (R_format || I_format) , (Branch || nBranch) }
 // assign Exe_code = (I_format==0)?Function_opcode :{ 3'b000 , Opcode[2:0] };
-// R_format = (Opcode==6'b000000)? 1'b1:1'b0;
+wire R_format;
+assign R_format = (Opcode==6'b000000)? 1'b1:1'b0;
+
 endmodule
