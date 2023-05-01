@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module display_main(
+module display(
     input wire clk,
     input wire rst_n,
 
@@ -30,7 +30,6 @@ module display_main(
 
     output [7:0] seg_en, //数码显示管使能信号
     output [7:0] seg_out0, //数码显示管显示内容
-    output [7:0] seg_out1,  //数码显示管显示内容
 
     output hsync,
     output vsync,
@@ -60,11 +59,10 @@ end
 wire [7:0] seg_en_active_high;
 wire [7:0] seg_out0_active_high;
 wire [7:0] seg_out1_active_high;
-seven_seg ss(clk, rst_n, display_in, seg_en_active_high, seg_out0_active_high, seg_out1_active_high);
+seven_seg ss(clk, rst_n, display_in, seg_en_active_high, seg_out0_active_high);
 
 assign seg_en = ~seg_en_active_high;
 assign seg_out0 = ~seg_out0_active_high;
-assign seg_out1 = ~seg_out1_active_high;
 
 vga_main vgam(clk, rst_n, display_in, hsync, vsync, vga_rgb);
 

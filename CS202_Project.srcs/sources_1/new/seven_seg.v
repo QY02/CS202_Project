@@ -25,8 +25,7 @@ module seven_seg(
     input rst_n, //重置
     input [63:0] display_in, //待显示的八位字符
     output reg [7:0] seg_en, //数码显示管使能信号
-    output reg [7:0] seg_out0, //数码显示管显示内容
-    output reg [7:0] seg_out1  //数码显示管显示内容
+    output reg [7:0] seg_out0 //数码显示管显示内容
     );
     
 wire clk_out;
@@ -37,7 +36,6 @@ always@(posedge clk_out, negedge rst_n) begin
     if (!rst_n) begin
         seg_en <= 8'b0;
         seg_out0 <= 8'b0;
-        seg_out1 <= 8'b0;
         scan_cnt <= 3'b000;
     end
     else begin
@@ -59,19 +57,19 @@ always@(posedge clk_out, negedge rst_n) begin
                 seg_en <= 8'h08;
             end
             3'b100: begin
-                seg_out1 <= display_in[39:32];
+                seg_out0 <= display_in[39:32];
                 seg_en <= 8'h10;
             end
             3'b101: begin
-                seg_out1 <= display_in[47:40];
+                seg_out0 <= display_in[47:40];
                 seg_en <= 8'h20;
             end
             3'b110: begin
-                seg_out1 <= display_in[55:48];
+                seg_out0 <= display_in[55:48];
                 seg_en <= 8'h40;
             end
             3'b111: begin
-                seg_out1 <= display_in[63:56];
+                seg_out0 <= display_in[63:56];
                 seg_en <= 8'h80;
             end
         endcase
