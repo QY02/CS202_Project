@@ -299,8 +299,3 @@ INFO: [Common 17-83] Releasing license: Synthesis
 synth_design completed successfully
 synth_design: Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 750.391 ; gain = 519.500
 INFO: [Common 17-1381] The checkpoint 'D:/Projects/CO/Project/CS202_Project/CS202_Project.runs/clk_vga_synth_1/clk_vga.dcp' has been generated.
-INFO: [Coretcl 2-1482] Added synthesis output to IP cache for IP d:/Projects/CO/Project/CS202_Project/CS202_Project.srcs/sources_1/ip/clk_vga/clk_vga.xci
-INFO: [Common 17-1381] The checkpoint 'D:/Projects/CO/Project/CS202_Project/CS202_Project.runs/clk_vga_synth_1/clk_vga.dcp' has been generated.
-INFO: [runtcl-4] Executing : report_utilization -file clk_vga_utilization_synth.rpt -pb clk_vga_utilization_synth.pb
-report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.027 . Memory (MB): peak = 750.391 ; gain = 0.000
-INFO: [Common 17-206] Exiting Vivado at Mon May  1 16:15:56 2023...

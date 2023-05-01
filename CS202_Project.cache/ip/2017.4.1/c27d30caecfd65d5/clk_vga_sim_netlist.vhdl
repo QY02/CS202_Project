@@ -3,8 +3,8 @@
 -- Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
 -- Date        : Mon May  1 16:15:56 2023
 -- Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode funcsim
---               d:/Projects/CO/Project/CS202_Project/CS202_Project.srcs/sources_1/ip/clk_vga/clk_vga_sim_netlist.vhdl
+-- Command     : write_vhdl -force -mode funcsim -rename_top decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix -prefix
+--               decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix_ clk_vga_sim_netlist.vhdl
 -- Design      : clk_vga
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -14,17 +14,15 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
-entity clk_vga_clk_vga_clk_wiz is
+entity decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix_clk_vga_clk_wiz is
   port (
     clk_out : out STD_LOGIC;
     resetn : in STD_LOGIC;
     clk_in : in STD_LOGIC
   );
-  attribute ORIG_REF_NAME : string;
-  attribute ORIG_REF_NAME of clk_vga_clk_vga_clk_wiz : entity is "clk_vga_clk_wiz";
-end clk_vga_clk_vga_clk_wiz;
+end decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix_clk_vga_clk_wiz;
 
-architecture STRUCTURE of clk_vga_clk_vga_clk_wiz is
+architecture STRUCTURE of decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix_clk_vga_clk_wiz is
   signal clk_in_clk_vga : STD_LOGIC;
   signal clk_out_clk_vga : STD_LOGIC;
   signal clkfbout_buf_clk_vga : STD_LOGIC;
@@ -138,19 +136,19 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
-entity clk_vga is
+entity decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix is
   port (
     clk_out : out STD_LOGIC;
     resetn : in STD_LOGIC;
     clk_in : in STD_LOGIC
   );
   attribute NotValidForBitStream : boolean;
-  attribute NotValidForBitStream of clk_vga : entity is true;
-end clk_vga;
+  attribute NotValidForBitStream of decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix : entity is true;
+end decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix;
 
-architecture STRUCTURE of clk_vga is
+architecture STRUCTURE of decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix is
 begin
-inst: entity work.clk_vga_clk_vga_clk_wiz
+inst: entity work.decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix_clk_vga_clk_wiz
      port map (
       clk_in => clk_in,
       clk_out => clk_out,

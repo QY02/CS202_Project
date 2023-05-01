@@ -3,8 +3,8 @@
 -- Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
 -- Date        : Mon May  1 16:15:56 2023
 -- Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode synth_stub
---               d:/Projects/CO/Project/CS202_Project/CS202_Project.srcs/sources_1/ip/clk_vga/clk_vga_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub -rename_top decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix -prefix
+--               decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix_ clk_vga_stub.vhdl
 -- Design      : clk_vga
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a100tfgg484-1
@@ -12,16 +12,16 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity clk_vga is
+entity decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix is
   Port ( 
     clk_out : out STD_LOGIC;
     resetn : in STD_LOGIC;
     clk_in : in STD_LOGIC
   );
 
-end clk_vga;
+end decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix;
 
-architecture stub of clk_vga is
+architecture stub of decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix is
 attribute syn_black_box : boolean;
 attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;

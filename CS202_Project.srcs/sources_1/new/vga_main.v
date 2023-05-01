@@ -23,7 +23,7 @@
 module vga_main(
     input wire clk,
     input wire rst_n,
-    input wire [63:0] data,
+    input wire [63:0] display_in,
 
     output wire hsync,
     output wire vsync,
@@ -45,7 +45,7 @@ vga_ctrl vc(
 
 wire [11:0] pix_data;
 vga_pic vp(
-    clk_out, rst_n, pix_x, pix_y, data,
+    clk_out, rst_n, pix_x, pix_y, display_in,
     pix_data
 );
 
