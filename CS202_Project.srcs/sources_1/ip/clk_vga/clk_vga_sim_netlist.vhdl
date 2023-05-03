@@ -1,14 +1,14 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
--- Date        : Sat Apr 22 23:01:32 2023
+-- Date        : Mon May  1 16:15:56 2023
 -- Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               d:/Projects/CO/Project/CS202_Project/CS202_Project.srcs/sources_1/ip/clk_vga/clk_vga_sim_netlist.vhdl
 -- Design      : clk_vga
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
--- Device      : xc7a35tcsg324-1
+-- Device      : xc7a100tfgg484-1
 -- --------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;

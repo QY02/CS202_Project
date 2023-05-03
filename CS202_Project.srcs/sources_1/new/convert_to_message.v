@@ -22,15 +22,19 @@
 
 module convert_to_message(
     input [4:0] message_code,
-    output reg [7:0] message0,
-    output reg [7:0] message1,
-    output reg [7:0] message2,
-    output reg [7:0] message3,
-    output reg [7:0] message4,
-    output reg [7:0] message5,
-    output reg [7:0] message6,
-    output reg [7:0] message7
+    output [63:0] messages
     );
+
+    reg [7:0] message0;
+    reg [7:0] message1;
+    reg [7:0] message2;
+    reg [7:0] message3;
+    reg [7:0] message4;
+    reg [7:0] message5;
+    reg [7:0] message6;
+    reg [7:0] message7;
+
+    assign messages = {message7, message6, message5, message4, message3, message2, message1, message0};
 
     always @(*) begin
         case (message_code)

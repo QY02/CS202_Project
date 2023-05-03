@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module clk_display(input clk, rst_n, output reg clk_out);
+module clk_seven_seg(input clk, rst_n, output reg clk_out);
     
 parameter period = 200000;
 reg [17:0] cnt;
