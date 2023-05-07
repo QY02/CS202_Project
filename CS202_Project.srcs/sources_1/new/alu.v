@@ -17,8 +17,8 @@ input I_format, // 1 means I-Type instruction except beq, bne, LW, SW
 input Sftmd, // 1 means this is a shift instruction
 
 output reg [31:0]  ALU_Result, // the ALU calculation result
-output Zero, // 1 means the ALU_reslut is zero, 0 otherwise
-output[31:0] Addr_Result // the calculated instruction addres
+output Zero, // 1 means the ALU_result is zero, 0 otherwise
+output[31:0] Addr_Result // the calculated instruction address
 );
 
 wire[31:0] Ainput,Binput; // two operands for calculation
@@ -32,10 +32,65 @@ wire[32:0] Branch_Addr; // the calculated address of the instruction, Addr_Resul
 assign Ainput = Read_data_1;
 assign Binput = (ALUSrc == 0) ? Read_data_2 : Sign_extend[31:0];
 
-
-// ALUOp ={ (R_format || I_format) , (Branch || nBranch) }
-// assign Exe_code = (I_format==0)?Function_opcode :{ 3'b000 , Opcode[2:0] };
+assign Exe_code = (I_format==0)?Function_opcode :{ 3'b000 , Opcode[2:0] };
 wire R_format;
-assign R_format = (Opcode==6'b000000)? 1'b1:1'b0;
+assign R_format= (Opcode==6'b000000)? 1'b1:1'b0;
+
+assign ALU_ctl[0] = (Exe_code[0] | Exe_code[3]) & ALUOp[1];
+assign ALU_ctl[1] = ((!Exe_code[2]) | (!ALUOp[1]));
+assign ALU_ctl[2] = (Exe_code[1] & ALUOp[1]) || ALUOp[0];
+
+assign Sftm = Function_opcode[2:0]; //the code of shift operations
+
+
+always @(ALU_ctl or Ainput or Binput) begin
+    case (ALU_ctl)
+        3'b000:ALU_output_mux = Ainput & Binput;
+        3'b001:ALU_output_mux = Ainput | Binput;
+        3'b010:ALU_output_mux = $signed(Ainput)+ $signed(Binput);
+        3'b011:ALU_output_mux = Ainput + Binput;
+        3'b100:ALU_output_mux = Ainput ^ Binput;
+        3'b101:ALU_output_mux = ~(Ainput | Binput);
+        3'b110:ALU_output_mux = $signed(Ainput)- $signed(Binput);
+        3'b111:ALU_output_mux = Ainput - Binput;
+        default:ALU_output_mux = 32'b0; 
+    endcase
+end
+
+
+always @* begin // six types of shift instructions
+    if(Sftmd)
+        case(Sftm[2:0])
+            3'b000:Shift_Result = Binput << Shamt; //Sll rd,rt,shamt 00000
+            3'b010:Shift_Result = Binput >> Shamt; //Srl rd,rt,shamt 00010
+            3'b100:Shift_Result = Binput << Ainput; //Sllv rd,rt,rs 00100
+            3'b110:Shift_Result = Binput >> Ainput; //Srlv rd,rt,rs 00110
+            3'b011:Shift_Result = ({{31{Binput}}, 1'b0} << (~Shamt)) | (Binput >> Shamt) ; //Sra rd,rt,shamt 00011
+            3'b111:Shift_Result = ({{31{Binput}}, 1'b0} << (~Ainput)) | (Binput >> Ainput); //Srav rd,rt,rs 00111
+            default:Shift_Result = Binput;
+        endcase
+    else
+        Shift_Result = Binput;
+end
+
+
+always @* begin
+//set type operation (slt, slti, sltu, sltiu)
+if(((ALU_ctl==3'b111) && (Exe_code[3]==1))||((ALU_ctl==3'b110) && (ALUOp==2'b10) && (I_format==1))||((ALU_ctl==3'b111) && (Exe_code[3]==0) && (I_format==1)))
+ALU_Result = (Ainput-Binput<0)?1:0;
+//lui operation
+else if((ALU_ctl==3'b101) && (I_format==1))
+  ALU_Result[31:0]= {Binput[15:0], 16'b0};
+//shift operation
+else if(Sftmd==1)
+ALU_Result = Shift_Result ;
+//other types of operation in ALU (arithmatic or logic calculation)
+else
+ALU_Result = ALU_output_mux[31:0];
+end
+
+assign Zero = (Ainput-Binput==0)?1:0;
+
+assign Addr_Result = PC_plus_4 + (Sign_extend <<2);
 
 endmodule
