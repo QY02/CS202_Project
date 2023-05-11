@@ -1,7 +1,7 @@
 #reset,clk
-set_property IOSTANDARD LVCMOS33 [get_ports {clock_in}]
+set_property IOSTANDARD LVCMOS33 [get_ports {fpga_clk}]
 set_property IOSTANDARD LVCMOS33 [get_ports {reset_h}]
-set_property PACKAGE_PIN Y18 [get_ports {clock_in}]
+set_property PACKAGE_PIN Y18 [get_ports {fpga_clk}]
 set_property PACKAGE_PIN P1 [get_ports {reset_h}]
 
 
