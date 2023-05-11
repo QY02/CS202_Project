@@ -6,7 +6,10 @@ input[23:0] switch,  //24个拨码开关
 input reset,  
 output[23:0] led_out, //17个led输出（测试场景1）
 output[7:0] seg_out, 
-output[7:0] seg_en  //数码显像管
+output[7:0] seg_en,  //数码显像管
+output hsync,
+output vsync,
+output [11:0] vga_rgb
 );
 
 
@@ -69,6 +72,9 @@ wire[4:0] Shamt;
 assign Shamt=Instruction[10:6];
 assign Opcode=Instruction[31:26]; 
 assign Function_opcode=Instruction[5:0];
+
+//display
+display dis(clock,reset,2'b0,27'b110,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
 
 
 //Data memory
