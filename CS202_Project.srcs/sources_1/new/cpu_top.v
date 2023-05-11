@@ -88,15 +88,14 @@ IFetc32 ifetch(Instruction, branch_base_addr, link_addr, clock, reset, Addr_resu
  Read_data_1, branch, nbranch, jmp, jal, jr, Zero);
 
 //ALU
-executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,branch_base_addr,ALUOp
+Executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,branch_base_addr,ALUOp
                         ,ALUSrc,I_format,Sftmd,ALU_Result,Zero,Addr_Result);
 
 //controller
 control32 control(Opcode,Function_opcode,ALU_Result[31:10],jr,jmp,jal,branch,nbranch,regDST,memIOToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp);
 
 //decoder
-decode32 decoder(Read_data_1,Read_data_2,Instruction,r_wdata,ALU_Result,
-                        jal,regWrite,MemtoReg,regDST,Sign_extend,clk_out,rst,link_addr);
+decoder32 decoder(clock, reset, Instruction[25:21], Instruction[20:16], Instruction[15:11], ALU_Result, regwrite, Read_data_1, Read_data_2);
 
 //MemOrIO
 MemOrIO mem(memIOToReg, memWrite, IORead, IOWrite, Addr_Result, address, readData, io_rdata, r_wdata, 
