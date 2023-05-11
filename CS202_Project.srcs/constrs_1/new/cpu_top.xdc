@@ -1,8 +1,8 @@
 #reset,clk
 set_property IOSTANDARD LVCMOS33 [get_ports {clock}]
-set_property IOSTANDARD LVCMOS33 [get_ports {reset}]
+set_property IOSTANDARD LVCMOS33 [get_ports {reset_h}]
 set_property PACKAGE_PIN Y18 [get_ports {clock}]
-set_property PACKAGE_PIN P20 [get_ports {reset}]
+set_property PACKAGE_PIN P1 [get_ports {reset_h}]
 
 
 #display

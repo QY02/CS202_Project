@@ -3,7 +3,7 @@
 module cpu_top (
 input clock,  //时钟
 input[23:0] switch,  //24个拨码开关
-input reset,  
+input reset_h,  
 output[23:0] led_out, //17个led输出（测试场景1）
 output[7:0] seg_out, 
 output[7:0] seg_en,  //数码显像管
@@ -11,6 +11,8 @@ output hsync,
 output vsync,
 output [11:0] vga_rgb
 );
+
+assign reset = ~reset_h;
 
 wire clk_cpu;
 
@@ -116,6 +118,6 @@ io_address_convert iac(LEDCtrl, SwitchCtrl, address, address_io);
 
 led led(clk_cpu, reset, LEDCtrl, address_io[1:0], writeData, led_out);
 
-switch switch0(clk_cpu, reset, SwitchCtrl, address_io[1:0], io_rdata, switch);
+Switch switch0(clk_cpu, reset, SwitchCtrl, address_io[1:0], switch, io_rdata);
 
 endmodule
