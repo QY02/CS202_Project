@@ -111,5 +111,9 @@ decoder32 decoder(clk_cpu, reset, Instruction[25:21], Instruction[20:16], Instru
 MemOrIO mem(memIOToReg, memWrite, IORead, IOWrite, Addr_Result, address, readData, io_rdata, r_wdata, 
 Read_data_1, writeData, LEDCtrl, SwitchCtrl);
 
+wire [31:0] address_io;
+io_address_convert iac(LEDCtrl, SwitchCtrl, address, address_io);
+
+led led(clk_cpu, reset, LEDCtrl, address_io[1:0], writeData, led_out);
 
 endmodule
