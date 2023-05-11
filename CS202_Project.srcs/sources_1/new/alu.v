@@ -32,7 +32,7 @@ wire[32:0] Branch_Addr; // the calculated address of the instruction, Addr_Resul
 assign Ainput = Read_data_1;
 assign Binput = (ALUSrc == 0) ? Read_data_2 : Sign_extend[31:0];
 
-assign Exe_code = (I_format==0)?Function_opcode :{ 3'b000 , Opcode[2:0] };
+assign Exe_code = (I_format==0)?Function_opcode :{ 3'b000 , Opcode[2:0]};
 wire R_format;
 assign R_format= (Opcode==6'b000000)? 1'b1:1'b0;
 
@@ -45,14 +45,14 @@ assign Sftm = Function_opcode[2:0]; //the code of shift operations
 
 always @(ALU_ctl or Ainput or Binput) begin
     case (ALU_ctl)
-        3'b000:ALU_output_mux = Ainput & Binput;
-        3'b001:ALU_output_mux = Ainput | Binput;
-        3'b010:ALU_output_mux = $signed(Ainput)+ $signed(Binput);
-        3'b011:ALU_output_mux = Ainput + Binput;
-        3'b100:ALU_output_mux = Ainput ^ Binput;
-        3'b101:ALU_output_mux = ~(Ainput | Binput);
-        3'b110:ALU_output_mux = $signed(Ainput)- $signed(Binput);
-        3'b111:ALU_output_mux = Ainput - Binput;
+        3'b000:ALU_output_mux = Ainput & Binput; //and
+        3'b001:ALU_output_mux = Ainput | Binput; //or
+        3'b010:ALU_output_mux = $signed(Ainput)+ $signed(Binput); //signed add
+        3'b011:ALU_output_mux = Ainput + Binput; //unsigned add
+        3'b100:ALU_output_mux = Ainput ^ Binput; //xor
+        3'b101:ALU_output_mux = ~(Ainput | Binput); //nor
+        3'b110:ALU_output_mux = $signed(Ainput)- $signed(Binput);  //signed sub
+        3'b111:ALU_output_mux = Ainput - Binput; //unsigned add
         default:ALU_output_mux = 32'b0; 
     endcase
 end
