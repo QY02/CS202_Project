@@ -29,7 +29,7 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
     assign branch_base_addr = PC + 32'd4; // pc+4
     assign link_addr = PC + 32'd4; // pc+4
 
-    always @* begin
+    always @(*) begin
         if(((Branch == 1) && (Zero == 1 )) || ((nBranch == 1) && (Zero == 0))) // beq, bne
             Next_PC = Addr_result; // the calculated new value for PC
         else if(Jr == 1)
