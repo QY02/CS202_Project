@@ -96,7 +96,7 @@ assign clk = !clk_cpu;
 
 
 //Instruction Fetch
-IFetc32 ifetch(Instruction, branch_base_addr, link_addr, clk_cpu, reset, Addr_result,
+IFetc32 ifetch(Instruction, branch_base_addr, link_addr, clk_cpu, reset, Addr_Result,
  Read_data_1, branch, nbranch, jmp, jal, jr, Zero);
 
 //ALU
@@ -107,7 +107,7 @@ Executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,b
 control32 control(Opcode,Function_opcode,ALU_Result[31:10],jr,jmp,jal,branch,nbranch,regDST,memIOToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp);
 
 //decoder
-decoder32 decoder(clk_cpu, reset, Instruction[25:21], Instruction[20:16], Instruction[15:11], r_wdata, regwrite, Read_data_1, Read_data_2);
+decoder32 decoder(clk_cpu, reset, Instruction[25:21], Instruction[20:16], Instruction[15:11], r_wdata, regWrite, Read_data_1, Read_data_2);
 
 //MemOrIO
 MemOrIO mem(memIOToReg, memWrite, IORead, IOWrite, Addr_Result, address, readData, io_rdata, r_wdata, 
