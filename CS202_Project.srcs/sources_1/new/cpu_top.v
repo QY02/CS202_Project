@@ -64,8 +64,8 @@ wire [31:0] Read_data_2;//读出的第二个data -->ALU  inputs (one of the sour
 wire [31:0] Sign_extend;//16-32 -->ALU  inputs
 
 
-wire [15:0] io_rdata;
-assign io_rdata = 16'b0;
+wire [31:0] io_rdata;
+//assign io_rdata = 16'b0;
 
 //MemOrIO  outputs
 wire [31:0] address;// 地址 -->d_memory  inputs
@@ -115,5 +115,7 @@ wire [31:0] address_io;
 io_address_convert iac(LEDCtrl, SwitchCtrl, address, address_io);
 
 led led(clk_cpu, reset, LEDCtrl, address_io[1:0], writeData, led_out);
+
+switch switch0(clk_cpu, reset, SwitchCtrl, address_io[1:0], io_rdata, switch);
 
 endmodule

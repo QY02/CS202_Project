@@ -15,14 +15,14 @@ module Switch(clk, rst,SwitchCtrl,addr_in, switch_in,switch_wdata);
         if (SwitchCtrl) begin
             case (addr_in)
                 2'b00: switch_wdata[23:0] <= switch_in[23:0];
-                2'b01: switch_wdata[23:8] <= switch_in[15:0];
-                2'b10: switch_wdata[23:16] <= switch_in[7:0];
+                2'b01: switch_wdata[23:0] <= {8'b0, switch_in[23:8]};
+                2'b10: switch_wdata[23:0] <= {16'b0, switch_in[23:16]};
                 default: switch_wdata <= switch_wdata;
             endcase
         end
         else begin
             switch_wdata <= switch_wdata;
         end
-    end
+        end
     end
 endmodule
