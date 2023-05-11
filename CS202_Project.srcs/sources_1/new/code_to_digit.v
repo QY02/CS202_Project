@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module code_to_digit(
+module code_to_digit(//显像管根据 data[5:0] 匹配显示模式
     input [5:0] data,
     output reg [7:0] seg_out
     );

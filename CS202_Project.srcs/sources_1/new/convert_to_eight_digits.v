@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module convert_to_eight_digits(
+module convert_to_eight_digits//将27位二进制数字转换成8位十进制数字，便于显像管使用
     input [26:0] data,
     output [63:0] digits
     );

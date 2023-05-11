@@ -20,17 +20,17 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module clk_button_debounce(input clk, rst_n, output reg clk_out);
+module clk_button_debounce(input clk, rst_n, output reg clk_out);//一个给按钮消抖的分频器
     
 parameter period = 100000;
 reg [16:0] cnt;
 
 always@(posedge clk, negedge rst_n) begin
-    if(~rst_n)begin
+    if(~rst_n)begin//reset
         cnt <= 0;
         clk_out <= 0;
     end
-    else if(cnt == ((period>>1) - 1)) begin
+    else if(cnt == ((period>>1) - 1)) begin //分频
         clk_out <= ~clk_out;
         cnt <= 0;
     end
