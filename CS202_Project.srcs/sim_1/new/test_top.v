@@ -37,6 +37,9 @@ cpu_top cpu_top(clk, switch, rst_h, led_out, seg_out, seg_en, hsync, vsync, vga_
 
 initial begin
     forever #5 clk = ~clk;
+end
+
+initial begin
     repeat (100) #20 switch = switch + 1;
 end
 
