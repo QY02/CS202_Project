@@ -24,7 +24,7 @@ module test_top();
 
 reg clk = 1'b0;
 reg [23:0] switch = 24'b0;
-reg rst_h = 1'b1;
+reg rst_h = 1'b0;
 
 wire [23:0] led_out;
 wire [7:0] seg_out;
