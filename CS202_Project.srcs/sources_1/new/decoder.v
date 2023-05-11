@@ -24,6 +24,7 @@ module decoder32(
     input clk,
     input rst_n,
 
+    input extend_mode,
     input [4:0] read_reg1,
     input [4:0] read_reg2,
     input [4:0] write_reg,
@@ -33,7 +34,7 @@ module decoder32(
 
     output [31:0] read_data1,
     output [31:0] read_data2,
-    output reg [31:0] sign_extend
+    output reg [31:0] extended_data
 );
 
 reg [31:0] registers [0:31];
@@ -43,11 +44,16 @@ assign read_data2 = registers[read_reg2];
 integer i;
 
 always @(*) begin
-    if (write_reg[4] == 1'b1) begin
-        sign_extend = {16'b1111_1111_1111_1111, write_reg, to_extend_data_low11};
+    if (extend_mode) begin
+        extended_data = {16'b0000_0000_0000_0000, write_reg, to_extend_data_low11};
     end
     else begin
-        sign_extend = {16'b0000_0000_0000_0000, write_reg, to_extend_data_low11};
+        if (write_reg[4] == 1'b1) begin
+            extended_data = {16'b1111_1111_1111_1111, write_reg, to_extend_data_low11};
+        end
+        else begin
+            extended_data = {16'b0000_0000_0000_0000, write_reg, to_extend_data_low11};
+        end
     end
 end
 

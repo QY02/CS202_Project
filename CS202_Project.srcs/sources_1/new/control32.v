@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module control32(Opcode,func,Alu_resultHigh,jr,jmp,jal,branch,nbranch,regDST,memIOToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp);
+module control32(Opcode,func,Alu_resultHigh,jr,jmp,jal,branch,nbranch,regDST,memIOToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp,extend_mode);
 input [5:0] Opcode;
 input [5:0] func;
 input [21:0] Alu_resultHigh;
@@ -39,6 +39,7 @@ output ALUSrc; // 1 indicate the 2nd data is immidiate (except "beq","bne")
 output I_format;
 output Sftmd; // 1 indicate the instruction is shift
 output [1:0] ALUOp;
+output extend_mode;
 
 
 wire R_format;
@@ -64,6 +65,7 @@ assign IOWrite = ((sw==1) && (Alu_resultHigh[21:0] == 22'b0000_0000_0000_0000_11
 assign IORead = ((lw==1) && (Alu_resultHigh[21:0] == 22'b0000_0000_0000_0000_1111_11)) ? 1'b1:1'b0;
 assign ALUSrc = I_format||lw|sw;
 assign Sftmd = (((func==6'b000000)||(func==6'b000010)||(func==6'b000011)||(func==6'b000100)||(func==6'b000110)||(func==6'b000111))&& R_format)? 1'b1:1'b0;
-assign ALUOp = {(R_format||I_format),(branch||nbranch)};     
+assign ALUOp = {(R_format||I_format),(branch||nbranch)};
+assign extend_mode = lw||sw;     
 
 endmodule
