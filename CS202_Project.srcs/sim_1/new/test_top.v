@@ -24,7 +24,7 @@ module test_top();
 
 reg clk = 1'b0;
 reg [23:0] switch = 24'b0;
-reg rst_h = 1'b1;
+reg rst_h = 1'b0;
 
 wire [23:0] led_out;
 wire [7:0] seg_out;
@@ -37,6 +37,9 @@ cpu_top cpu_top(clk, switch, rst_h, led_out, seg_out, seg_en, hsync, vsync, vga_
 
 initial begin
     forever #5 clk = ~clk;
+end
+
+initial begin
     repeat (100) #20 switch = switch + 1;
 end
 
