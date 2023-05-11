@@ -12,6 +12,13 @@ output vsync,
 output [11:0] vga_rgb
 );
 
+wire clk_cpu;
+
+clk_main clk_main(
+    .clk_out(clk_cpu),
+    .resetn(reset),
+    .clk_in(clock)
+);
 
 //d_memory  inputs
 wire clk; //给d_memory专用的clk（下降沿）
@@ -78,13 +85,13 @@ display dis(clock,reset,2'b0,27'b110,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
 
 
 //Data memory
-dmemory32 uram(clock,memWrite,address,writeData,readData);
+dmemory32 uram(clk_cpu,memWrite,address,writeData,readData);
 /*The ‘clock’ is from CPU-TOP, suppose its one edge has been used at the upstream module of data memory, such as IFetch, Why Data-Memroy DO NOT use the same edge as other module ? */
-assign clk = !clock;
+assign clk = !clk_cpu;
 
 
 //Instruction Fetch
-IFetc32 ifetch(Instruction, branch_base_addr, link_addr, clock, reset, Addr_result,
+IFetc32 ifetch(Instruction, branch_base_addr, link_addr, clk_cpu, reset, Addr_result,
  Read_data_1, branch, nbranch, jmp, jal, jr, Zero);
 
 //ALU
@@ -95,7 +102,7 @@ Executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,b
 control32 control(Opcode,Function_opcode,ALU_Result[31:10],jr,jmp,jal,branch,nbranch,regDST,memIOToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp);
 
 //decoder
-decoder32 decoder(clock, reset, Instruction[25:21], Instruction[20:16], Instruction[15:11], ALU_Result, regwrite, Read_data_1, Read_data_2);
+decoder32 decoder(clk_cpu, reset, Instruction[25:21], Instruction[20:16], Instruction[15:11], ALU_Result, regwrite, Read_data_1, Read_data_2);
 
 //MemOrIO
 MemOrIO mem(memIOToReg, memWrite, IORead, IOWrite, Addr_Result, address, readData, io_rdata, r_wdata, 
