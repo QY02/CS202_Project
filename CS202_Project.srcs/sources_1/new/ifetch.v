@@ -35,7 +35,7 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
         else if(Jr == 1)
             Next_PC = Read_data_1; // the value of $31 register
         else
-            Next_PC = Next_PC + 32'd4; // PC+4
+            Next_PC = PC + 32'd4; // PC+4
     end
 
     always @(negedge clk, negedge rst_n) begin
