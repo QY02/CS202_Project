@@ -59,8 +59,8 @@ always @(*) begin
     end
 end
 
-assign LEDCtrl = ((addr_in >= 32'hFFFFFC60) && (addr_in <= 32'hFFFFFC62)) ? 1'b1 : 1'b0;
+assign LEDCtrl = ((addr_in >= 32'h0000FC60) && (addr_in <= 32'h0000FC62)) ? 1'b1 : 1'b0;
 
-assign SwitchCtrl = ((addr_in >= 32'hFFFFFC70) && (addr_in <= 32'hFFFFFC72)) ? 1'b1 : 1'b0;
+assign SwitchCtrl = ((addr_in >= 32'h0000FC70) && (addr_in <= 32'h0000FC72)) ? 1'b1 : 1'b0;
 
 endmodule

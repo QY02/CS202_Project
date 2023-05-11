@@ -28,10 +28,10 @@ module io_address_convert(
 
 always @(*) begin
     if (LEDCtrl) begin
-        addr_out = addr_in - 32'hFFFFFC60;
+        addr_out = addr_in - 32'h0000FC60;
     end
     else if (SwitchCtrl) begin
-        addr_out = addr_in - 32'hFFFFFC70;
+        addr_out = addr_in - 32'h0000FC70;
     end
     else begin
         addr_out = 32'b0;
