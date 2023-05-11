@@ -16,7 +16,7 @@ assign reset = ~reset_h;
 
 wire clk_cpu;
 
-clk_main clk_main(
+clk_main clk_main(  //顶层模块分频
     .clk_out(clk_cpu),
     .resetn(reset),
     .clk_in(clock)
