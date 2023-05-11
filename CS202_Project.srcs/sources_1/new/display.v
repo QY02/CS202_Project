@@ -22,6 +22,7 @@
 
 module display(
     input wire clk,
+    input wire clk_vga,
     input wire rst_n,
 
     input [1:0] mode, //显示模式
@@ -64,6 +65,6 @@ seven_seg ss(clk, rst_n, display_in, seg_en_active_high, seg_out0_active_high);
 assign seg_en = ~seg_en_active_high;
 assign seg_out0 = ~seg_out0_active_high;
 
-vga_main vgam(clk, rst_n, display_in, hsync, vsync, vga_rgb);
+vga_main vgam(clk_vga, rst_n, display_in, hsync, vsync, vga_rgb);
 
 endmodule

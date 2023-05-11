@@ -15,9 +15,11 @@ output [11:0] vga_rgb
 assign reset = ~reset_h;
 
 wire clk_cpu;
+wire clk_vga;
 
 clk_main clk_main(  //顶层模块分频
-    .clk_out(clk_cpu),
+    .clk_out1(clk_cpu),
+    .clk_out2(clk_vga),
     .resetn(reset),
     .clk_in(fpga_clk)
 );
@@ -88,7 +90,7 @@ assign Opcode=Instruction[31:26];
 assign Function_opcode=Instruction[5:0];
 
 //display
-display dis(fpga_clk,reset,2'b0,27'b110,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
+display dis(fpga_clk,clk_vga,reset,2'b0,27'b110,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
 
 
 //Data memory

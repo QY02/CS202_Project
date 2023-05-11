@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
--- Date        : Thu May 11 16:40:23 2023
+-- Date        : Thu May 11 22:55:12 2023
 -- Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
---               d:/Projects/CO/Project/CS202_Project/CS202_Project.srcs/sources_1/ip/clk_main/clk_main_sim_netlist.vhdl
+--               D:/Projects/CO/Project/CS202_Project/CS202_Project.srcs/sources_1/ip/clk_main/clk_main_sim_netlist.vhdl
 -- Design      : clk_main
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -16,7 +16,8 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity clk_main_clk_main_clk_wiz is
   port (
-    clk_out : out STD_LOGIC;
+    clk_out1 : out STD_LOGIC;
+    clk_out2 : out STD_LOGIC;
     resetn : in STD_LOGIC;
     clk_in : in STD_LOGIC
   );
@@ -26,11 +27,11 @@ end clk_main_clk_main_clk_wiz;
 
 architecture STRUCTURE of clk_main_clk_main_clk_wiz is
   signal clk_in_clk_main : STD_LOGIC;
-  signal clk_out_clk_main : STD_LOGIC;
+  signal clk_out1_clk_main : STD_LOGIC;
+  signal clk_out2_clk_main : STD_LOGIC;
   signal clkfbout_buf_clk_main : STD_LOGIC;
   signal clkfbout_clk_main : STD_LOGIC;
   signal reset_high : STD_LOGIC;
-  signal NLW_plle2_adv_inst_CLKOUT1_UNCONNECTED : STD_LOGIC;
   signal NLW_plle2_adv_inst_CLKOUT2_UNCONNECTED : STD_LOGIC;
   signal NLW_plle2_adv_inst_CLKOUT3_UNCONNECTED : STD_LOGIC;
   signal NLW_plle2_adv_inst_CLKOUT4_UNCONNECTED : STD_LOGIC;
@@ -48,6 +49,7 @@ architecture STRUCTURE of clk_main_clk_main_clk_wiz is
   attribute IFD_DELAY_VALUE : string;
   attribute IFD_DELAY_VALUE of clkin1_ibufg : label is "AUTO";
   attribute BOX_TYPE of clkout1_buf : label is "PRIMITIVE";
+  attribute BOX_TYPE of clkout2_buf : label is "PRIMITIVE";
   attribute BOX_TYPE of plle2_adv_inst : label is "PRIMITIVE";
 begin
 clkf_buf: unisim.vcomponents.BUFG
@@ -65,20 +67,25 @@ clkin1_ibufg: unisim.vcomponents.IBUF
     );
 clkout1_buf: unisim.vcomponents.BUFG
      port map (
-      I => clk_out_clk_main,
-      O => clk_out
+      I => clk_out1_clk_main,
+      O => clk_out1
+    );
+clkout2_buf: unisim.vcomponents.BUFG
+     port map (
+      I => clk_out2_clk_main,
+      O => clk_out2
     );
 plle2_adv_inst: unisim.vcomponents.PLLE2_ADV
     generic map(
       BANDWIDTH => "OPTIMIZED",
-      CLKFBOUT_MULT => 41,
+      CLKFBOUT_MULT => 46,
       CLKFBOUT_PHASE => 0.000000,
       CLKIN1_PERIOD => 10.000000,
       CLKIN2_PERIOD => 0.000000,
-      CLKOUT0_DIVIDE => 82,
+      CLKOUT0_DIVIDE => 40,
       CLKOUT0_DUTY_CYCLE => 0.500000,
       CLKOUT0_PHASE => 0.000000,
-      CLKOUT1_DIVIDE => 1,
+      CLKOUT1_DIVIDE => 23,
       CLKOUT1_DUTY_CYCLE => 0.500000,
       CLKOUT1_PHASE => 0.000000,
       CLKOUT2_DIVIDE => 1,
@@ -108,8 +115,8 @@ plle2_adv_inst: unisim.vcomponents.PLLE2_ADV
       CLKIN1 => clk_in_clk_main,
       CLKIN2 => '0',
       CLKINSEL => '1',
-      CLKOUT0 => clk_out_clk_main,
-      CLKOUT1 => NLW_plle2_adv_inst_CLKOUT1_UNCONNECTED,
+      CLKOUT0 => clk_out1_clk_main,
+      CLKOUT1 => clk_out2_clk_main,
       CLKOUT2 => NLW_plle2_adv_inst_CLKOUT2_UNCONNECTED,
       CLKOUT3 => NLW_plle2_adv_inst_CLKOUT3_UNCONNECTED,
       CLKOUT4 => NLW_plle2_adv_inst_CLKOUT4_UNCONNECTED,
@@ -140,7 +147,8 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity clk_main is
   port (
-    clk_out : out STD_LOGIC;
+    clk_out1 : out STD_LOGIC;
+    clk_out2 : out STD_LOGIC;
     resetn : in STD_LOGIC;
     clk_in : in STD_LOGIC
   );
@@ -153,7 +161,8 @@ begin
 inst: entity work.clk_main_clk_main_clk_wiz
      port map (
       clk_in => clk_in,
-      clk_out => clk_out,
+      clk_out1 => clk_out1,
+      clk_out2 => clk_out2,
       resetn => resetn
     );
 end STRUCTURE;

@@ -21,7 +21,7 @@
 
 
 module vga_main(
-    input wire clk,
+    input wire clk_vga,
     input wire rst_n,
     input wire [63:0] display_in,
 
@@ -30,22 +30,18 @@ module vga_main(
     output wire [11:0] vga_rgb
 );
 
-
-wire clk_out;
-clk_vga cv(.clk_out(clk_out), .resetn(rst_n), .clk_in(clk));
-
 wire [10:0] pix_x;
 wire [10:0] pix_y;
 wire is_valid;
 
 vga_ctrl vc(
-    clk_out, rst_n,
+    clk_vga, rst_n,
     pix_x, pix_y, hsync, vsync, is_valid
 );
 
 wire [11:0] pix_data;
 vga_pic vp(
-    clk_out, rst_n, pix_x, pix_y, display_in,
+    clk_vga, rst_n, pix_x, pix_y, display_in,
     pix_data
 );
 
