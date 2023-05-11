@@ -42,6 +42,7 @@ wire regDST; // 1 indicate destination register is "rd"(R),otherwise it's "rt"(I
 wire memIOToReg; // 1 indicate read data from memory and write it into register
 wire regWrite; // 1 indicate write register(R,I(lw)), otherwise it's not -->decoder  input
 wire IORead; // 1 indicate read data from IO, otherwise it's not
+//assign IORead = 1'b0;
 wire IOWrite; // 1 indicate write data into IO, otherwise it's not
 wire memWrite; // 1 indicate write data memory, otherwise it's not -->d_memory  inputs
 wire ALUSrc; // 1 indicate the 2nd data is immidiate (except "beq","bne") -->ALU  inputs
@@ -64,6 +65,8 @@ wire [31:0] Sign_extend;//16-32 -->ALU  inputs
 
 
 wire [15:0] io_rdata;
+assign io_rdata = 16'b0;
+
 //MemOrIO  outputs
 wire [31:0] address;// 地址 -->d_memory  inputs
 wire [31:0] r_wdata;// data to decoder(register file) -->decoder  input
@@ -102,7 +105,7 @@ Executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,b
 control32 control(Opcode,Function_opcode,ALU_Result[31:10],jr,jmp,jal,branch,nbranch,regDST,memIOToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp);
 
 //decoder
-decoder32 decoder(clk_cpu, reset, Instruction[25:21], Instruction[20:16], Instruction[15:11], ALU_Result, regwrite, Read_data_1, Read_data_2);
+decoder32 decoder(clk_cpu, reset, Instruction[25:21], Instruction[20:16], Instruction[15:11], r_wdata, regwrite, Read_data_1, Read_data_2);
 
 //MemOrIO
 MemOrIO mem(memIOToReg, memWrite, IORead, IOWrite, Addr_Result, address, readData, io_rdata, r_wdata, 
