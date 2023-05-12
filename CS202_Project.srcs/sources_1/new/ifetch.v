@@ -1,6 +1,7 @@
 `timescale 1ns / 1ps
 
-module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result, Read_data_1, Branch, nBranch, Jmp, Jal, Jr, Zero);
+module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result, Read_data_1, Branch, nBranch, Jmp, Jal, Jr, Zero
+,upg_rst_i,upg_clk_i,upg_wen_i,upg_adr_i,upg_dat_i,upg_done_i);
     output[31:0] Instruction; // the instruction fetched from this module to Decoder and Controller
     output[31:0] branch_base_addr; // (pc+4) to ALU which is used by branch type instruction
     output[31:0] link_addr; // (pc+4) to Decoder which is used by jal instruction
@@ -18,11 +19,20 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
     input Jal; // while Jal is 1, it means current instruction is jal
     input Jr; // while Jr is 1, it means current instruction is j
 
-    reg[31:0] PC, Next_PC;
+    input upg_rst_i; // UPG reset (Active High)
+    input upg_clk_i; // UPG clock (10MHz)
+    input upg_wen_i; // UPG write enable
+    input[13:0] upg_adr_i; // UPG write address
+    input[31:0] upg_dat_i; // UPG write data
+    input upg_done_i ;// 1 if program finished
 
+    reg[31:0] PC, Next_PC;
+    wire kickOff = upg_rst_i | (~upg_rst_i & upg_done_i);
     prgrom prgrom(
-        .clka(clk),
-        .addra(PC[15:2]),
+        .clka(kickOff?clk:upg_clk_i),
+        .wea(kickOff?1'b0:upg_wen_i),
+        .addra(kickOff?PC[15:2]:upg_adr_i),
+        .dina(kickOff?32'h00000000:upg_dat_i),
         .douta(Instruction)
     );
 
