@@ -9,7 +9,45 @@ output[7:0] seg_out,
 output[7:0] seg_en,  //数码显像管
 output hsync,
 output vsync,
-output [11:0] vga_rgb
+output [11:0] vga_rgb,
+
+//Uart 接口输入输出
+input start_pg,
+input rx,
+output tx
+);
+
+// UART Programmer Pinouts
+wire upg_clk, upg_clk_o;
+wire upg_wen_o; //Uart write out enable
+wire upg_done_o; //Uart rx data have done
+//data to which memory unit of program_rom/dmemory32
+wire [14:0] upg_adr_o;
+//data to program_rom or dmemory32
+wire [31:0] upg_dat_o;
+
+wire spg_bufg;
+BUFG U1(.I(start_pg), .O(spg_bufg)); // de-twitter
+// Generate UART Programmer reset signal
+reg upg_rst;
+always @ (posedge reset_h) begin
+if (spg_bufg) upg_rst = 0;
+if (reset_h) upg_rst = 1;
+end
+//used for other modules which don't relate to UART
+wire rst;
+assign rst = reset_h | !upg_rst;
+
+uart_bmpg_0 uart(
+    .upg_adr_o(upg_adr_o),
+    .upg_clk_i(upg_clk),
+    .upg_clk_o(upg_clk_o),
+    .upg_dat_o(upg_dat_o),
+    .upg_done_o(upg_done_o),
+    .upg_rst_i(upg_rst),
+    .upg_rx_i(rx),
+    .upg_tx_o(tx),
+    .upg_wen_o(upg_wen_o)
 );
 
 assign reset = ~reset_h;
@@ -94,14 +132,14 @@ display dis(fpga_clk,clk_vga,reset,2'b0,27'b110,5'b0, seg_en, seg_out,hsync,vsyn
 
 
 //Data memory
-dmemory32 uram(clk_cpu,memWrite,address,writeData,readData);
+dmemory32 uram(clk_cpu,memWrite,address,writeData,readData,upg_rst,upg_clk,upg_wen_o&upg_adr_o[14],upg_adr_o[13:0],upg_dat_o,upg_done_o);
 /*The ‘clock’ is from CPU-TOP, suppose its one edge has been used at the upstream module of data memory, such as IFetch, Why Data-Memroy DO NOT use the same edge as other module ? */
 assign clk = !clk_cpu;
 
 
 //Instruction Fetch
 IFetc32 ifetch(Instruction, branch_base_addr, link_addr, clk_cpu, reset, Addr_Result,
- Read_data_1, branch, nbranch, jmp, jal, jr, Zero);
+ Read_data_1, branch, nbranch, jmp, jal, jr, Zero,upg_rst,upg_clk,upg_wen_o&!upg_adr_o[14],upg_adr_o,upg_dat_o,upg_done_o);
 
 //ALU
 Executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,branch_base_addr,ALUOp
@@ -123,5 +161,7 @@ io_address_convert iac(LEDCtrl, SwitchCtrl, address, address_io);
 led led(clk_cpu, reset, LEDCtrl, address_io[1:0], writeData, led_out);
 
 Switch switch0(clk_cpu, reset, SwitchCtrl, address_io[1:0], switch, io_rdata);
+
+
 
 endmodule
