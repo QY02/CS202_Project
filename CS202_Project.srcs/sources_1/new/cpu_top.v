@@ -171,7 +171,7 @@ wire [4:0] write_reg;
 //         io_rdata_test <= 32'hffffffff;
 //     end
 //     else begin
-//         if (Instruction == 32'h8c10fc70) begin
+//         if (Instruction == 32'h8d100000) begin
 //             io_rdata_test <= ALU_Result;
 //         end
 //         else begin
