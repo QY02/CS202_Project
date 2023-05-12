@@ -28,7 +28,7 @@ module decoder32(
     input [4:0] read_reg1,
     input [4:0] read_reg2,
     input [4:0] write_reg,
-    input [10:0] to_extend_data_low11,
+    input [15:0] to_extend_data,
     input [31:0] write_data,
     input reg_write,
 
@@ -45,14 +45,14 @@ integer i;
 
 always @(*) begin
     if (extend_mode) begin
-        extended_data = {16'b0000_0000_0000_0000, write_reg, to_extend_data_low11};
+        extended_data = {16'b0000_0000_0000_0000, to_extend_data};
     end
     else begin
         if (write_reg[4] == 1'b1) begin
-            extended_data = {16'b1111_1111_1111_1111, write_reg, to_extend_data_low11};
+            extended_data = {16'b1111_1111_1111_1111, to_extend_data};
         end
         else begin
-            extended_data = {16'b0000_0000_0000_0000, write_reg, to_extend_data_low11};
+            extended_data = {16'b0000_0000_0000_0000, to_extend_data};
         end
     end
 end

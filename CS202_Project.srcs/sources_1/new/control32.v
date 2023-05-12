@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module control32(Opcode,func,Alu_resultHigh,jr,jmp,jal,branch,nbranch,regDST,memIOToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp,extend_mode);
+module control32(Opcode,func,Alu_resultHigh,jr,jmp,jal,branch,nbranch,regDST,memToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp,extend_mode);
 input [5:0] Opcode;
 input [5:0] func;
 input [21:0] Alu_resultHigh;
@@ -30,7 +30,7 @@ output jal; // 1 indicate the instruction is "jal", otherwise it's not
 output branch; // 1 indicate the instruction is "beq" , otherwise it's not
 output nbranch; // 1 indicate the instruction is "bne", otherwise it's not
 output regDST; // 1 indicate destination register is "rd"(R),otherwise it's "rt"(I)
-output memIOToReg; // 1 indicate read data from memory and write it into register
+output memToReg; // 1 indicate read data from memory and write it into register
 output regWrite; // 1 indicate write register(R,I(lw)), otherwise it's not
 output IORead; // 1 indicate read data from IO, otherwise it's not
 output IOWrite; // 1 indicate write data into IO, otherwise it's not
@@ -57,7 +57,7 @@ assign regDST = R_format;
 //
 wire lw = (Opcode==6'b100011)?1'b1:1'b0;
 wire sw = (Opcode==6'b101011)?1'b1:1'b0;
-assign memIOToReg = IORead||memRead;
+assign memToReg = memRead;
 assign regWrite = (R_format||lw||jal||I_format)&&!(jr);
 assign memWrite = ((sw==1) && (Alu_resultHigh[21:0] != 22'b0000_0000_0000_0000_1111_11)) ? 1'b1:1'b0;
 assign memRead = ((lw==1) && (Alu_resultHigh[21:0] != 22'b0000_0000_0000_0000_1111_11)) ? 1'b1:1'b0;

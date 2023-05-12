@@ -73,6 +73,7 @@ wire [31:0] Instruction; //读出的指令 -->decoder  input
 wire [31:0] branch_base_addr; // (pc+4) to ALU which is used by branch type instruction -->ALU  inputs
 wire [31:0] link_addr; // (pc+4) to Decoder which is used by jal instruction
 
+// wire [31:0] Instruction_test;
 
 //controller  outputs
 wire jr ; // 1 indicates the instruction is "jr", otherwise it's not "jr" output Jmp; -->IF  inputs
@@ -81,7 +82,7 @@ wire jal; // 1 indicate the instruction is "jal", otherwise it's not  -->IF  inp
 wire branch; // 1 indicate the instruction is "beq" , otherwise it's not  -->IF  inputs
 wire nbranch; // 1 indicate the instruction is "bne", otherwise it's not  -->IF  inputs
 wire regDST; // 1 indicate destination register is "rd"(R),otherwise it's "rt"(I) -->decoder  input
-wire memIOToReg; // 1 indicate read data from memory and write it into register
+wire memToReg; // 1 indicate read data from memory and write it into register
 wire regWrite; // 1 indicate write register(R,I(lw)), otherwise it's not -->decoder  input
 wire IORead; // 1 indicate read data from IO, otherwise it's not
 //assign IORead = 1'b0;
@@ -115,6 +116,7 @@ wire [31:0] r_wdata;// data to decoder(register file) -->decoder  input
 wire [31:0] writeData;//写入的data -->d_memory  inputs
 wire LEDCtrl, SwitchCtrl;
 
+wire [31:0] address_io;
 
 //instruction related
 wire [5:0]Opcode;
@@ -127,8 +129,61 @@ assign Shamt=Instruction[10:6];
 assign Opcode=Instruction[31:26]; 
 assign Function_opcode=Instruction[5:0];
 
+wire [4:0] write_reg;
+
+// reg [31:0] Sign_extend_test;
+
+// always @(negedge clk_cpu, negedge reset) begin
+//     if (~reset) begin
+//         Sign_extend_test <= 32'b0;
+//     end
+//     else begin
+//         if (Instruction == 32'h8c10fc70) begin
+//             Sign_extend_test <= Sign_extend;
+//         end
+//         else begin
+//             Sign_extend_test <= Sign_extend_test;
+//         end
+//     end
+// end
+
+
+// reg [31:0] addr_out_test;
+
+// always @(negedge clk_cpu, negedge reset) begin
+//     if (~reset) begin
+//         addr_out_test <= 32'hffffffff;
+//     end
+//     else begin
+//         if (Instruction == 32'h8c10fc70) begin
+//             addr_out_test <= address_io;
+//         end
+//         else begin
+//             addr_out_test <= addr_out_test;
+//         end
+//     end
+// end
+
+// reg [31:0] io_rdata_test;
+
+// always @(negedge clk_cpu, negedge reset) begin
+//     if (~reset) begin
+//         io_rdata_test <= 32'hffffffff;
+//     end
+//     else begin
+//         if (Instruction == 32'h8c10fc70) begin
+//             io_rdata_test <= ALU_Result;
+//         end
+//         else begin
+//             io_rdata_test <= io_rdata_test;
+//         end
+//     end
+// end
+
+
+
 //display
-display dis(fpga_clk,clk_vga,reset,2'b0,27'b110,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
+display dis(fpga_clk,clk_vga,reset,2'b0,27'd6,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
 
 
 //Data memory
@@ -146,16 +201,16 @@ Executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,b
                         ,ALUSrc,I_format,Sftmd,ALU_Result,Zero,Addr_Result);
 
 //controller
-control32 control(Opcode,Function_opcode,ALU_Result[31:10],jr,jmp,jal,branch,nbranch,regDST,memIOToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp,extend_mode);
+control32 control(Opcode,Function_opcode,ALU_Result[31:10],jr,jmp,jal,branch,nbranch,regDST,memToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp,extend_mode);
 
+assign write_reg = regDST ? Instruction[15:11] : Instruction[20:16];
 //decoder
-decoder32 decoder(clk_cpu, reset, extend_mode, Instruction[25:21], Instruction[20:16], Instruction[15:11], Instruction[10:0], r_wdata, regWrite, Read_data_1, Read_data_2, Sign_extend);
+decoder32 decoder(clk_cpu, reset, extend_mode, Instruction[25:21], Instruction[20:16], write_reg, Instruction[15:0], r_wdata, regWrite, Read_data_1, Read_data_2, Sign_extend);
 
 //MemOrIO
-MemOrIO mem(memIOToReg, memWrite, IORead, IOWrite, Addr_Result, address, readData, io_rdata, r_wdata, 
-Read_data_1, writeData, LEDCtrl, SwitchCtrl);
+MemOrIO mem(memToReg, memWrite, IORead, IOWrite, ALU_Result, address, readData, io_rdata, r_wdata, 
+Read_data_2, writeData, LEDCtrl, SwitchCtrl);
 
-wire [31:0] address_io;
 io_address_convert iac(LEDCtrl, SwitchCtrl, address, address_io);
 
 led led(clk_cpu, reset, LEDCtrl, address_io[1:0], writeData, led_out);
