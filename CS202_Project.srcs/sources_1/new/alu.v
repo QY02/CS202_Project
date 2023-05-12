@@ -93,6 +93,6 @@ end
 
 assign Zero = (Ainput-Binput==0)?1:0;
 
-assign Addr_Result = PC_plus_4 -4 + (Sign_extend <<2);
+assign Addr_Result = PC_plus_4 + (Sign_extend <<2);
 
 endmodule
