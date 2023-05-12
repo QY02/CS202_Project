@@ -53,7 +53,7 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
             PC <= 32'h0000_0000;
         else begin
             if((Jmp == 1) || (Jal == 1)) begin
-                PC <= Addr_result;
+                PC <= {PC[31:28], Instruction[25:0], 2'b00};
             end
             else
                 PC <= Next_PC;
