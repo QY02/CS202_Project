@@ -62,6 +62,7 @@ always @ (posedge fpga_clk) begin
 end
 //used for other modules which don't relate to UART
 //wire rst;
+wire reset;
 assign reset = ~(reset_h | !upg_rst);
 
 uart_bmpg_0 uart(
