@@ -206,7 +206,7 @@ always @(*) begin
 end
 
 //display
-display dis(fpga_clk,clk_vga,reset,2'b0,uart_1,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
+display dis(fpga_clk,clk_vga,~reset_h,2'b0,uart_1,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
 
 
 //Data memory
