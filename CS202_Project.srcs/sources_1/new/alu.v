@@ -65,10 +65,10 @@ always @* begin // six types of shift instructions
             3'b010:Shift_Result = Binput >> Shamt; //Srl rd,rt,shamt 00010
             3'b100:Shift_Result = Binput << Ainput; //Sllv rd,rt,rs 00100
             3'b110:Shift_Result = Binput >> Ainput; //Srlv rd,rt,rs 00110
-            // 3'b011:Shift_Result = $signed(Binput) >>> $signed(Shamt); //Sra rd,rt,shamt 00011
-            // 3'b111:Shift_Result = $signed(Binput) >>>  $signed(Ainput); //Srav rd,rt,rs 00111
-            3'b011:Shift_Result = ({{31{Binput}}, 1'b0} << (~Shamt)) | (Binput >> Shamt) ; //Sra rd,rt,shamt 00011
-            3'b111:Shift_Result = ({{31{Binput}}, 1'b0} << (~Ainput)) | (Binput >> Ainput); //Srav rd,rt,rs 00111
+            3'b011:Shift_Result = $signed(Binput) >>> $signed(Shamt); //Sra rd,rt,shamt 00011
+            3'b111:Shift_Result = $signed(Binput) >>>  $signed(Ainput); //Srav rd,rt,rs 00111
+            // 3'b011:Shift_Result = ({{31{Binput}}, 1'b0} << (~Shamt)) | (Binput >> Shamt) ; //Sra rd,rt,shamt 00011
+            // 3'b111:Shift_Result = ({{31{Binput}}, 1'b0} << (~Ainput)) | (Binput >> Ainput); //Srav rd,rt,rs 00111
             default:Shift_Result = Binput;
         endcase
     else
@@ -91,7 +91,7 @@ else
 ALU_Result = ALU_output_mux;
 end
 
-assign Zero = (Ainput-Binput==0)?1:0;
+assign Zero = (ALU_output_mux==32'b0)?1:0;
 
 assign Addr_Result = PC_plus_4 + (Sign_extend <<2);
 
