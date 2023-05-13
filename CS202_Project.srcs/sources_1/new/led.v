@@ -36,8 +36,8 @@ always @(negedge clk, negedge rst_n) begin
         if (LEDCtrl) begin
             case (addr_in)
                 2'b00: LED[23:0] <= data[23:0];
-                2'b01: LED[23:8] <= data[15:0];
-                2'b10: LED[23:16] <= data[7:0];
+                2'b01: LED[23:0] <= {data[15:0], LED[7:0]};
+                2'b10: LED[23:0] <= {data[7:0], LED[15:0]};
                 default: LED <= LED;
             endcase
         end

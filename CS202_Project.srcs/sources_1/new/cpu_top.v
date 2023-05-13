@@ -30,13 +30,24 @@ wire spg_bufg;
 BUFG U1(.I(start_pg), .O(spg_bufg)); // de-twitter
 // Generate UART Programmer reset signal
 reg upg_rst;
-always @ (posedge reset_h) begin
-if (spg_bufg) upg_rst = 0;
-if (reset_h) upg_rst = 1;
+always @ (posedge fpga_clk) begin
+    if (spg_bufg) upg_rst = 0;
+    if (reset_h) upg_rst = 1;
+    // if (reset_h) begin
+    //     upg_rst <= 1;        
+    // end
+    // else begin
+    //     if (spg_bufg) begin
+    //         upg_rst <= 0;
+    //     end
+    //     else begin
+    //         upg_rst <= 1;
+    //     end
+    // end
 end
 //used for other modules which don't relate to UART
-wire rst;
-assign rst = reset_h | !upg_rst;
+//wire rst;
+assign reset = ~(reset_h | !upg_rst);
 
 uart_bmpg_0 uart(
     .upg_adr_o(upg_adr_o),
@@ -50,7 +61,7 @@ uart_bmpg_0 uart(
     .upg_wen_o(upg_wen_o)
 );
 
-assign reset = ~reset_h;
+//assign reset = ~reset_h;
 
 wire clk_cpu;
 wire clk_vga;
@@ -58,6 +69,7 @@ wire clk_vga;
 clk_main clk_main(  //顶层模块分频
     .clk_out1(clk_cpu),
     .clk_out2(clk_vga),
+    .clk_out3(upg_clk),
     .resetn(reset),
     .clk_in(fpga_clk)
 );
@@ -164,26 +176,37 @@ wire [4:0] write_reg;
 //     end
 // end
 
-// reg [31:0] io_rdata_test;
+reg [31:0] io_rdata_test;
 
-// always @(negedge clk_cpu, negedge reset) begin
-//     if (~reset) begin
-//         io_rdata_test <= 32'hffffffff;
-//     end
-//     else begin
-//         if (Instruction == 32'h8d100000) begin
-//             io_rdata_test <= ALU_Result;
-//         end
-//         else begin
-//             io_rdata_test <= io_rdata_test;
-//         end
-//     end
-// end
+always @(negedge clk_cpu, negedge reset) begin
+    if (~reset) begin
+        io_rdata_test <= 32'hffffffff;
+    end
+    else begin
+        if (Instruction == 32'had0b0001) begin
+            io_rdata_test <= {writeData[15:0], Read_data_2[12:0], LEDCtrl, address_io[1:0]};
+        end
+        else begin
+            io_rdata_test <= io_rdata_test;
+        end
+    end
+end
 
 
+
+reg [26:0] uart_1;
+
+always @(*) begin
+    if (upg_rst) begin
+        uart_1 = 27'd6;
+    end
+    else begin
+        uart_1 = 27'd66;
+    end
+end
 
 //display
-display dis(fpga_clk,clk_vga,reset,2'b0,27'd6,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
+display dis(fpga_clk,clk_vga,reset,2'b0,uart_1,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
 
 
 //Data memory

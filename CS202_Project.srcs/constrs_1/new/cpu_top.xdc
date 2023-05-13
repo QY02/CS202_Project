@@ -2,7 +2,7 @@
 set_property IOSTANDARD LVCMOS33 [get_ports {fpga_clk}]
 set_property IOSTANDARD LVCMOS33 [get_ports {reset_h}]
 set_property PACKAGE_PIN Y18 [get_ports {fpga_clk}]
-set_property PACKAGE_PIN P1 [get_ports {reset_h}]
+set_property PACKAGE_PIN P20 [get_ports {reset_h}]
 
 
 #display
@@ -181,3 +181,6 @@ set_property PACKAGE_PIN W4 [get_ports {switch[0]}]
 #uart
 set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN Y19} [get_ports rx]
 set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN V18} [get_ports tx]
+set_property IOSTANDARD LVCMOS33 [get_ports {start_pg}]
+set_property PACKAGE_PIN P4 [get_ports {start_pg}]
+

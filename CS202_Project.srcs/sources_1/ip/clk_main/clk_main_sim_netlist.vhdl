@@ -1,7 +1,7 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
--- Date        : Fri May 12 16:53:49 2023
+-- Date        : Sat May 13 16:35:33 2023
 -- Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               D:/Projects/CO/Project/CS202_Project/CS202_Project/CS202_Project.srcs/sources_1/ip/clk_main/clk_main_sim_netlist.vhdl
@@ -18,6 +18,7 @@ entity clk_main_clk_main_clk_wiz is
   port (
     clk_out1 : out STD_LOGIC;
     clk_out2 : out STD_LOGIC;
+    clk_out3 : out STD_LOGIC;
     resetn : in STD_LOGIC;
     clk_in : in STD_LOGIC
   );
@@ -29,10 +30,10 @@ architecture STRUCTURE of clk_main_clk_main_clk_wiz is
   signal clk_in_clk_main : STD_LOGIC;
   signal clk_out1_clk_main : STD_LOGIC;
   signal clk_out2_clk_main : STD_LOGIC;
+  signal clk_out3_clk_main : STD_LOGIC;
   signal clkfbout_buf_clk_main : STD_LOGIC;
   signal clkfbout_clk_main : STD_LOGIC;
   signal reset_high : STD_LOGIC;
-  signal NLW_plle2_adv_inst_CLKOUT2_UNCONNECTED : STD_LOGIC;
   signal NLW_plle2_adv_inst_CLKOUT3_UNCONNECTED : STD_LOGIC;
   signal NLW_plle2_adv_inst_CLKOUT4_UNCONNECTED : STD_LOGIC;
   signal NLW_plle2_adv_inst_CLKOUT5_UNCONNECTED : STD_LOGIC;
@@ -50,6 +51,7 @@ architecture STRUCTURE of clk_main_clk_main_clk_wiz is
   attribute IFD_DELAY_VALUE of clkin1_ibufg : label is "AUTO";
   attribute BOX_TYPE of clkout1_buf : label is "PRIMITIVE";
   attribute BOX_TYPE of clkout2_buf : label is "PRIMITIVE";
+  attribute BOX_TYPE of clkout3_buf : label is "PRIMITIVE";
   attribute BOX_TYPE of plle2_adv_inst : label is "PRIMITIVE";
 begin
 clkf_buf: unisim.vcomponents.BUFG
@@ -75,6 +77,11 @@ clkout2_buf: unisim.vcomponents.BUFG
       I => clk_out2_clk_main,
       O => clk_out2
     );
+clkout3_buf: unisim.vcomponents.BUFG
+     port map (
+      I => clk_out3_clk_main,
+      O => clk_out3
+    );
 plle2_adv_inst: unisim.vcomponents.PLLE2_ADV
     generic map(
       BANDWIDTH => "OPTIMIZED",
@@ -88,7 +95,7 @@ plle2_adv_inst: unisim.vcomponents.PLLE2_ADV
       CLKOUT1_DIVIDE => 23,
       CLKOUT1_DUTY_CYCLE => 0.500000,
       CLKOUT1_PHASE => 0.000000,
-      CLKOUT2_DIVIDE => 1,
+      CLKOUT2_DIVIDE => 92,
       CLKOUT2_DUTY_CYCLE => 0.500000,
       CLKOUT2_PHASE => 0.000000,
       CLKOUT3_DIVIDE => 1,
@@ -117,7 +124,7 @@ plle2_adv_inst: unisim.vcomponents.PLLE2_ADV
       CLKINSEL => '1',
       CLKOUT0 => clk_out1_clk_main,
       CLKOUT1 => clk_out2_clk_main,
-      CLKOUT2 => NLW_plle2_adv_inst_CLKOUT2_UNCONNECTED,
+      CLKOUT2 => clk_out3_clk_main,
       CLKOUT3 => NLW_plle2_adv_inst_CLKOUT3_UNCONNECTED,
       CLKOUT4 => NLW_plle2_adv_inst_CLKOUT4_UNCONNECTED,
       CLKOUT5 => NLW_plle2_adv_inst_CLKOUT5_UNCONNECTED,
@@ -149,6 +156,7 @@ entity clk_main is
   port (
     clk_out1 : out STD_LOGIC;
     clk_out2 : out STD_LOGIC;
+    clk_out3 : out STD_LOGIC;
     resetn : in STD_LOGIC;
     clk_in : in STD_LOGIC
   );
@@ -163,6 +171,7 @@ inst: entity work.clk_main_clk_main_clk_wiz
       clk_in => clk_in,
       clk_out1 => clk_out1,
       clk_out2 => clk_out2,
+      clk_out3 => clk_out3,
       resetn => resetn
     );
 end STRUCTURE;
