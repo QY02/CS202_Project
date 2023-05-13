@@ -26,9 +26,24 @@ wire [14:0] upg_adr_o;
 //data to program_rom or dmemory32
 wire [31:0] upg_dat_o;
 
+// wire clk_100MHz;
+
+// wire spg_bufg0;
+// button_debounce bd(clk_100MHz, ~reset_h, start_pg, spg_bufg0);
+
 wire spg_bufg;
 BUFG U1(.I(start_pg), .O(spg_bufg)); // de-twitter
 // Generate UART Programmer reset signal
+
+// button_FSA bf(clk_100MHz, ~reset_h, spg_bufg0, spg_bufg);
+
+// assign led_out[23] = spg_bufg;
+// assign led_out[22] = spg_bufg0;
+
+// wire upg_rst;
+// assign upg_rst = ~spg_bufg;
+
+
 reg upg_rst;
 always @ (posedge fpga_clk) begin
     if (spg_bufg) upg_rst = 0;
@@ -217,7 +232,7 @@ assign clk = !clk_cpu;
 
 //Instruction Fetch
 IFetc32 ifetch(Instruction, branch_base_addr, link_addr, clk_cpu, reset, Addr_Result,
- Read_data_1, branch, nbranch, jmp, jal, jr, Zero,upg_rst,upg_clk,upg_wen_o&!upg_adr_o[14],upg_adr_o,upg_dat_o,upg_done_o);
+ Read_data_1, branch, nbranch, jmp, jal, jr, Zero,upg_rst,upg_clk,upg_wen_o&!upg_adr_o[14],upg_adr_o[13:0],upg_dat_o,upg_done_o);
 
 //ALU
 Executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,branch_base_addr,ALUOp
