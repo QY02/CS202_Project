@@ -1,7 +1,7 @@
 // Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
-// Date        : Sat May 13 19:46:27 2023
+// Date        : Sat May 13 23:28:56 2023
 // Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
 //               D:/Projects/CO/Project/CS202_Project/CS202_Project/CS202_Project.srcs/sources_1/ip/clk_main/clk_main_sim_netlist.v
@@ -17,26 +17,22 @@ module clk_main
    (clk_out1,
     clk_out2,
     clk_out3,
-    resetn,
     clk_in);
   output clk_out1;
   output clk_out2;
   output clk_out3;
-  input resetn;
   input clk_in;
 
   (* IBUF_LOW_PWR *) wire clk_in;
   wire clk_out1;
   wire clk_out2;
   wire clk_out3;
-  wire resetn;
 
   clk_main_clk_main_clk_wiz inst
        (.clk_in(clk_in),
         .clk_out1(clk_out1),
         .clk_out2(clk_out2),
-        .clk_out3(clk_out3),
-        .resetn(resetn));
+        .clk_out3(clk_out3));
 endmodule
 
 (* ORIG_REF_NAME = "clk_main_clk_wiz" *) 
@@ -44,12 +40,10 @@ module clk_main_clk_main_clk_wiz
    (clk_out1,
     clk_out2,
     clk_out3,
-    resetn,
     clk_in);
   output clk_out1;
   output clk_out2;
   output clk_out3;
-  input resetn;
   input clk_in;
 
   wire clk_in;
@@ -62,8 +56,6 @@ module clk_main_clk_main_clk_wiz
   wire clk_out3_clk_main;
   wire clkfbout_buf_clk_main;
   wire clkfbout_clk_main;
-  wire reset_high;
-  wire resetn;
   wire NLW_plle2_adv_inst_CLKOUT3_UNCONNECTED;
   wire NLW_plle2_adv_inst_CLKOUT4_UNCONNECTED;
   wire NLW_plle2_adv_inst_CLKOUT5_UNCONNECTED;
@@ -150,12 +142,7 @@ module clk_main_clk_main_clk_wiz
         .DWE(1'b0),
         .LOCKED(NLW_plle2_adv_inst_LOCKED_UNCONNECTED),
         .PWRDWN(1'b0),
-        .RST(reset_high));
-  LUT1 #(
-    .INIT(2'h1)) 
-    plle2_adv_inst_i_1
-       (.I0(resetn),
-        .O(reset_high));
+        .RST(1'b0));
 endmodule
 `ifndef GLBL
 `define GLBL

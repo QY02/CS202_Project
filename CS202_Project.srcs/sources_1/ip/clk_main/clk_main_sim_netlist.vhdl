@@ -1,7 +1,7 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
--- Date        : Sat May 13 19:46:27 2023
+-- Date        : Sat May 13 23:28:56 2023
 -- Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               D:/Projects/CO/Project/CS202_Project/CS202_Project/CS202_Project.srcs/sources_1/ip/clk_main/clk_main_sim_netlist.vhdl
@@ -19,7 +19,6 @@ entity clk_main_clk_main_clk_wiz is
     clk_out1 : out STD_LOGIC;
     clk_out2 : out STD_LOGIC;
     clk_out3 : out STD_LOGIC;
-    resetn : in STD_LOGIC;
     clk_in : in STD_LOGIC
   );
   attribute ORIG_REF_NAME : string;
@@ -33,7 +32,6 @@ architecture STRUCTURE of clk_main_clk_main_clk_wiz is
   signal clk_out3_clk_main : STD_LOGIC;
   signal clkfbout_buf_clk_main : STD_LOGIC;
   signal clkfbout_clk_main : STD_LOGIC;
-  signal reset_high : STD_LOGIC;
   signal NLW_plle2_adv_inst_CLKOUT3_UNCONNECTED : STD_LOGIC;
   signal NLW_plle2_adv_inst_CLKOUT4_UNCONNECTED : STD_LOGIC;
   signal NLW_plle2_adv_inst_CLKOUT5_UNCONNECTED : STD_LOGIC;
@@ -137,15 +135,7 @@ plle2_adv_inst: unisim.vcomponents.PLLE2_ADV
       DWE => '0',
       LOCKED => NLW_plle2_adv_inst_LOCKED_UNCONNECTED,
       PWRDWN => '0',
-      RST => reset_high
-    );
-plle2_adv_inst_i_1: unisim.vcomponents.LUT1
-    generic map(
-      INIT => X"1"
-    )
-        port map (
-      I0 => resetn,
-      O => reset_high
+      RST => '0'
     );
 end STRUCTURE;
 library IEEE;
@@ -157,7 +147,6 @@ entity clk_main is
     clk_out1 : out STD_LOGIC;
     clk_out2 : out STD_LOGIC;
     clk_out3 : out STD_LOGIC;
-    resetn : in STD_LOGIC;
     clk_in : in STD_LOGIC
   );
   attribute NotValidForBitStream : boolean;
@@ -171,7 +160,6 @@ inst: entity work.clk_main_clk_main_clk_wiz
       clk_in => clk_in,
       clk_out1 => clk_out1,
       clk_out2 => clk_out2,
-      clk_out3 => clk_out3,
-      resetn => resetn
+      clk_out3 => clk_out3
     );
 end STRUCTURE;

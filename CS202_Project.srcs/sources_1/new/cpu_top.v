@@ -86,7 +86,6 @@ clk_main clk_main(  //顶层模块分频
     .clk_out1(clk_cpu),
     .clk_out2(clk_vga),
     .clk_out3(upg_clk),
-    .resetn(reset),
     .clk_in(fpga_clk)
 );
 
