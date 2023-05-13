@@ -225,14 +225,14 @@ display dis(fpga_clk,clk_vga,~reset_h,2'b0,uart_1,5'b0, seg_en, seg_out,hsync,vs
 
 
 //Data memory
-dmemory32 uram(clk_cpu,memWrite,address,writeData,readData,upg_rst,upg_clk,upg_wen_o&upg_adr_o[14],upg_adr_o[13:0],upg_dat_o,upg_done_o);
+dmemory32 uram(clk_cpu,memWrite,address,writeData,readData,upg_rst,upg_clk_o,upg_wen_o&upg_adr_o[14],upg_adr_o[13:0],upg_dat_o,upg_done_o);
 /*The ‘clock’ is from CPU-TOP, suppose its one edge has been used at the upstream module of data memory, such as IFetch, Why Data-Memroy DO NOT use the same edge as other module ? */
-assign clk = !clk_cpu;
+//assign clk = !clk_cpu;
 
 
 //Instruction Fetch
 IFetc32 ifetch(Instruction, branch_base_addr, link_addr, clk_cpu, reset, Addr_Result,
- Read_data_1, branch, nbranch, jmp, jal, jr, Zero,upg_rst,upg_clk,upg_wen_o&!upg_adr_o[14],upg_adr_o[13:0],upg_dat_o,upg_done_o);
+ Read_data_1, branch, nbranch, jmp, jal, jr, Zero,upg_rst,upg_clk_o,upg_wen_o&(!upg_adr_o[14]),upg_adr_o[13:0],upg_dat_o,upg_done_o);
 
 //ALU
 Executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,branch_base_addr,ALUOp
