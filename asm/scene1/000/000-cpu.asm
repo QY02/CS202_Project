@@ -19,17 +19,19 @@ start:
 
     #sw $t3, 2($t0)
 
-	beq $zero, $zero, isExp
-	#add $zero, $zero, $zero
-	#beq $s0, $zero, loop
-	#add $zero, $zero, $zero
+	beq $s0, $t3, isExp
+	add $zero, $zero, $zero
+	beq $s0, $zero, loop
+	add $zero, $zero, $zero
 	#j start
 	#add $zero, $zero, $zero
 loop:
-	#sll $t1, $t1, 1
-	#beq $s0, $t1, isExp
-	#slt $t2, $t1, $s0
-	#beq $t2, $t3, loop
+	sll $t1, $t1, 1
+	beq $s0, $t1, isExp
+	add $zero, $zero, $zero
+	slt $t2, $t1, $s0
+	beq $t2, $t3, loop
+	add $zero, $zero, $zero
 
 	sw $zero, 1($t0)
 	j start

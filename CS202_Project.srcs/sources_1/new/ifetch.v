@@ -37,7 +37,7 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
         .douta(Instruction)
     );
 
-    assign branch_base_addr = PC + 32'd4; // pc+4
+    assign branch_base_addr = PC; // pc
     assign link_addr = PC + 32'd4; // pc+4
 
     always @(*) begin

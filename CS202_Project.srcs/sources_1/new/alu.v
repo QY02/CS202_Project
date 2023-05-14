@@ -9,7 +9,7 @@ input[31:0] Sign_extend, //one of the sources of Binput
 input[5:0] Exe_opcode, //instruction[31:26]
 input[5:0] Function_opcode, //instructions[5:0]
 input[4:0] Shamt, //instruction[10:6], the amount of shift bits
-input[31:0] PC_plus_4, //pc+4
+input[31:0] PC, //pc
 // from Controller
 input[1:0] ALUOp, //{ (R_format || I_format) , (Branch || nBranch) }
 input ALUSrc, // 1 means the 2nd operand is an immediate (except beq,bne）
@@ -97,6 +97,6 @@ end
 
 assign Zero = (ALU_output_mux==32'b0)?1'b1:1'b0;
 
-assign Addr_Result = PC_plus_4 + (Sign_extend <<2);
+assign Addr_Result = PC + (Sign_extend <<2);
 
 endmodule
