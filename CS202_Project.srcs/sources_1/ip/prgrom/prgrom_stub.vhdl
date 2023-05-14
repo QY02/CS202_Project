@@ -3,8 +3,8 @@
 -- Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
 -- Date        : Sun May 14 16:59:46 2023
 -- Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode synth_stub
---               D:/Projects/CO/Project/CS202_Project/CS202_Project/CS202_Project.srcs/sources_1/ip/prgrom/prgrom_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub -rename_top prgrom -prefix
+--               prgrom_ prgrom_stub.vhdl
 -- Design      : prgrom
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a100tfgg484-1

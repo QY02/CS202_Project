@@ -12,27 +12,17 @@ start:
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $s0, 0($t0)
-	
-	addi $t1, $zero, 1 #var 1
 
-	beq $s0, $t3, isExp
-	add $zero, $zero, $zero
-	beq $s0, $zero, loop
-	add $zero, $zero, $zero
-	
-loop:
-	sll $t1, $t1, 1
-	beq $s0, $t1, isExp
-	add $zero, $zero, $zero
-	slt $t2, $t1, $s0
-	beq $t2, $t3, loop
+	and $t1, $s0, $t3
+
+	beq $t1, $t3, isOdd
 	add $zero, $zero, $zero
 
 	sw $zero, 1($t0)
 	j start
 	add $zero, $zero, $zero
 	
-isExp:
-	sw $t3, 1($t0)
+isOdd:
+    sw $t3, 1($t0)
 	j start
 	add $zero, $zero, $zero
