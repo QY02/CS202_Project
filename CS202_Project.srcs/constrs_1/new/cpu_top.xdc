@@ -1,8 +1,8 @@
 #reset,clk
-set_property IOSTANDARD LVCMOS33 [get_ports {fpga_clk}]
-set_property IOSTANDARD LVCMOS33 [get_ports {reset_h}]
-set_property PACKAGE_PIN Y18 [get_ports {fpga_clk}]
-set_property PACKAGE_PIN P20 [get_ports {reset_h}]
+set_property IOSTANDARD LVCMOS33 [get_ports fpga_clk]
+set_property IOSTANDARD LVCMOS33 [get_ports reset_h]
+set_property PACKAGE_PIN Y18 [get_ports fpga_clk]
+set_property PACKAGE_PIN P20 [get_ports reset_h]
 
 
 #display
@@ -24,8 +24,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports {seg_out[5]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {seg_out[6]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {seg_out[7]}]
 
-set_property IOSTANDARD LVCMOS33 [get_ports {hsync}]
-set_property IOSTANDARD LVCMOS33 [get_ports {vsync}]
+set_property IOSTANDARD LVCMOS33 [get_ports hsync]
+set_property IOSTANDARD LVCMOS33 [get_ports vsync]
 
 set_property IOSTANDARD LVCMOS33 [get_ports {vga_rgb[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {vga_rgb[1]}]
@@ -61,8 +61,8 @@ set_property PACKAGE_PIN F14 [get_ports {seg_out[5]}]
 set_property PACKAGE_PIN F13 [get_ports {seg_out[6]}]
 set_property PACKAGE_PIN F15 [get_ports {seg_out[7]}]
 
-set_property PACKAGE_PIN M21 [get_ports {hsync}]
-set_property PACKAGE_PIN L21 [get_ports {vsync}]
+set_property PACKAGE_PIN M21 [get_ports hsync]
+set_property PACKAGE_PIN L21 [get_ports vsync]
 
 set_property PACKAGE_PIN H20 [get_ports {vga_rgb[0]}]
 set_property PACKAGE_PIN G20 [get_ports {vga_rgb[1]}]
@@ -181,6 +181,7 @@ set_property PACKAGE_PIN W4 [get_ports {switch[0]}]
 #uart
 set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN Y19} [get_ports rx]
 set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN V18} [get_ports tx]
-set_property IOSTANDARD LVCMOS33 [get_ports {start_pg}]
-set_property PACKAGE_PIN P4 [get_ports {start_pg}]
+set_property IOSTANDARD LVCMOS33 [get_ports start_pg]
+set_property PACKAGE_PIN P4 [get_ports start_pg]
+
 

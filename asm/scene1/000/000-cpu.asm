@@ -15,16 +15,16 @@ start:
 	
 	addi $t1, $zero, 1 #var 1
 	
-	#j loop
+	#j isExp
 
-    sw $t3, 2($t0)
+    #sw $t3, 2($t0)
 
-	beq $s0, $t3, isExp
-	add $zero, $zero, $zero
-	beq $s0, $zero, loop
-	add $zero, $zero, $zero
-	j start
-	add $zero, $zero, $zero
+	beq $zero, $zero, isExp
+	#add $zero, $zero, $zero
+	#beq $s0, $zero, loop
+	#add $zero, $zero, $zero
+	#j start
+	#add $zero, $zero, $zero
 loop:
 	#sll $t1, $t1, 1
 	#beq $s0, $t1, isExp
