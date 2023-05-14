@@ -23,21 +23,13 @@ start:
     beq $t1, $t2, case010
     add $zero, $zero, $zero
 
-    addi $t2, $zero, 3
-    beq $t1, $t2, case011
-    add $zero, $zero, $zero
+    #addi $t2, $zero, 3
+    #beq $t1, $t2, case011
+    #add $zero, $zero, $zero
 
-    addi $t2, $zero, 4
-    beq $t1, $t2, case100
-    add $zero, $zero, $zero
-
-    addi $t2, $zero, 5
-    beq $t1, $t2, case101
-    add $zero, $zero, $zero
-
-    addi $t2, $zero, 6
-    beq $t1, $t2, case110
-    add $zero, $zero, $zero
+    #addi $t2, $zero, 4
+    #beq $t1, $t2, case100
+    #add $zero, $zero, $zero
 
     j start
     add $zero, $zero, $zero
@@ -117,7 +109,8 @@ case010:
     add $zero, $zero, $zero
 
 case011:
-    nor $t1, $s1, $s2
+    or $t1, $s1, $s2
+    not $t1, $t1
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $s1, 0($t0)
@@ -128,28 +121,6 @@ case011:
 
 case100:
     xor $t1, $s1, $s2
-    lui $t0, 0xFFFF
-    ori $t0, $t0, 0xFC60
-    sw $s1, 0($t0)
-    sw $s2, 1($t0)
-    sw $t1, 2($t0)
-    j start
-    add $zero, $zero, $zero
-
-case101:
-    sll $t2, $s1, 24
-    sll $t3, $s2, 24
-    slt $t1, $t2, $t3
-    lui $t0, 0xFFFF
-    ori $t0, $t0, 0xFC60
-    sw $s1, 0($t0)
-    sw $s2, 1($t0)
-    sw $t1, 2($t0)
-    j start
-    add $zero, $zero, $zero
-
-case110:
-    sltu $t1, $s1, $s2
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $s1, 0($t0)
