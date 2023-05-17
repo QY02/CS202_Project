@@ -5,7 +5,7 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
     // output reg [31:0] Instruction_test;
     output[31:0] Instruction; // the instruction fetched from this module to Decoder and Controller
     output[31:0] branch_base_addr; // (pc+4) to ALU which is used by branch type instruction
-    output[31:0] link_addr; // (pc+4) to Decoder which is used by jal instruction
+    output reg [31:0] link_addr; // (pc+4) to Decoder which is used by jal instruction
     //from CPU TOP
     input clk, rst_n; // Clock and rst_n
     // from ALU
@@ -38,7 +38,16 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
     );
 
     assign branch_base_addr = PC; // pc
-    assign link_addr = PC + 32'd4; // pc+4
+
+    always @(posedge clk, negedge rst_n) begin
+        if (~rst_n) begin
+            link_addr <= 32'b0;
+        end
+        else begin
+            link_addr <= PC + 32'd4;
+        end
+    end
+    // assign link_addr = PC + 32'd4; // pc+4
 
     always @(*) begin
         if(((Branch == 1) && (Zero == 1 )) || ((nBranch == 1) && (Zero == 0))) // beq, bne

@@ -23,6 +23,7 @@
 module decoder32(
     input clk,
     input rst_n,
+    input jal,
 
     input extend_mode,
     input [4:0] read_reg1,
@@ -57,6 +58,19 @@ always @(*) begin
     end
 end
 
+reg [31:0] jal_addr;
+reg last_jal;
+always @(negedge clk, negedge rst_n) begin
+    if (~rst_n) begin
+        jal_addr <= 32'b0;
+        last_jal <= 1'b0;
+    end
+    else begin
+        jal_addr <= write_data;
+        last_jal <= jal;
+    end
+end
+
 always @(posedge clk, negedge rst_n) begin
     if (~rst_n) begin
         for (i = 0; i < 32; i = i + 1) begin
@@ -65,7 +79,12 @@ always @(posedge clk, negedge rst_n) begin
     end
     else begin
         if (reg_write) begin
-            registers[write_reg] <= write_data;
+            if (~last_jal) begin
+                registers[write_reg] <= write_data;
+            end
+            else begin
+                registers[write_reg] <= jal_addr;
+            end
         end
     end
 end
