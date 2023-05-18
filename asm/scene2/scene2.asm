@@ -199,8 +199,7 @@ stackin011:
 	addi $t6,$t6,-8
 	sw $ra, 4($sp)
  	sw $s0, 0($sp)
- 	
- 	slti $t4,$s0,1
+	slti $t4,$s0,1
  	beq $t4,$0,stackout011
  	add $0,$0,$0
  	jr $ra
@@ -224,11 +223,11 @@ stackout011:
 	lw $ra,4($sp)
 	addi $sp,$sp,8
 	addi $t6,$t6,8
-	beq  $t6,0,011end #$t6 is used to record when $sp point back, then jump out of the loop
+	beq  $t6,$0,end011 #$t6 is used to record when $sp point back, then jump out of the loop
 	add $0,$0,$0
 	jr $ra 	 	
 	add $0,$0,$0
-011end:
+end011:
 	j start
 	add $zero,$zero,$zero
 
@@ -307,7 +306,7 @@ case111:
     	srl $s2,$s2,25 #remove sign bit of s1,s2
 divd:
 	slt $t1,$s1,$s2
-	beq $t1,1,printoutDiv
+	beq $t1,$s7,printoutDiv
 	add $0,$0,$0
 	sub $s1,$s1,$s2
 	addi $a3,$a3,1 #add quotient
@@ -390,7 +389,9 @@ stall:# for 1 sec
 	addi $t9,$0,0 
 sec1:
 	addi $t9,$t9,1
-	bne $t9,0x05f5e100
+	lui $t8, 0x05F5
+	ori $t8, $t8, 0xE100
+	bne $t9,$t8,sec1
 	add $0,$0,$0
 	jr $ra
 	add $0,$0,$0
