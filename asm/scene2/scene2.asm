@@ -4,6 +4,7 @@
 initialization:
     add $s1, $zero, $zero
     add $s2, $zero, $zero
+	addi $s7, $zero, 1
 
 start:
     lui $t0, 0xFFFF
@@ -58,12 +59,18 @@ case000:
     addi $s1,$zero,0 #positive add up
     addi $s2,$zero,1 #negative add up
     
-    srl $t3,7($s0)#read the significant bit
+    srl $t3, $s0, 7#read the significant bit
     
-    beq $t3,1,negativeAdd
+    beq $t3,$s7,signExtend
     add $zero,$zero,$zero
     j positiveAdd
     add $zero,$zero,$zero
+signExtend:
+    lui $t5, 0xFFFF
+	ori $t5, $t5, 0xFF00
+	or $s0, $s0, $t5
+	j negativeAdd
+	add $zero,$zero,$zero
 negativeAdd:
 	addi $t4,$t4,-1
 	add $s2,$s2,$t4
@@ -116,11 +123,11 @@ stackout001:
 	addi $sp,$sp,8
 	addi $t6,$t6,8
 	addi $t3,$t3,1 # t3 is used to calculate the cnt of stack operation
-	beq  $t6,0,001end #$t6 is used to record when $sp point back, then jump out of the loop
+	beq  $t6,$zero,end001 #$t6 is used to record when $sp point back, then jump out of the loop
 	add $0,$0,$0
 	jr $ra 	 	
 	add $0,$0,$0
-001end:
+end001:
 	lui $t0, 0xFFFF
     	ori $t0, $t0, 0xFC60
     	sw $t3, 0($t0)
@@ -168,11 +175,11 @@ stackout010:
 	lw $ra,4($sp)
 	addi $sp,$sp,8
 	addi $t6,$t6,8
-	beq  $t6,0,010end #$t6 is used to record when $sp point back, then jump out of the loop
+	beq  $t6,$zero,end010 #$t6 is used to record when $sp point back, then jump out of the loop
 	add $0,$0,$0
 	jr $ra 	 	
 	add $0,$0,$0
-010end:
+end010:
 	j start
 	add $zero,$zero,$zero
 
