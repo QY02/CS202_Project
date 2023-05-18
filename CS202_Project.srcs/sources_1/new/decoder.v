@@ -49,7 +49,7 @@ always @(*) begin
         extended_data = {16'b0000_0000_0000_0000, to_extend_data};
     end
     else begin
-        if (write_reg[4] == 1'b1) begin
+        if (to_extend_data[15] == 1'b1) begin
             extended_data = {16'b1111_1111_1111_1111, to_extend_data};
         end
         else begin

@@ -55,6 +55,9 @@ case000:
     sll $s0, $s0, 24
     srl $s0, $s0, 24
     
+	beq $s0, $zero, zero
+    add $zero, $zero, $zero
+
     addi $t4,$zero,0 #the adder each time
     addi $s1,$zero,0 #positive add up
     addi $s2,$zero,1 #negative add up
@@ -79,6 +82,13 @@ negativeAdd:
 	lui $t0, 0xFFFF
     	ori $t0, $t0, 0xFC60
     	sw $s2, 0($t0)
+	jal stall
+	add $zero,$zero,$zero
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC60
+    sw $zero, 0($t0)
+	jal stall
+	add $zero,$zero,$zero
 	j start
 	add $zero,$zero,$zero
 positiveAdd:
@@ -91,6 +101,13 @@ positiveAdd:
     	sw $s1, 0($t0)
 	j start
 	add $zero,$zero,$zero
+zero:
+    lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC60
+    sw $zero, 0($t0)
+	j start
+	add $zero,$zero,$zero
+
 case001:
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC70
@@ -387,10 +404,10 @@ finishInput:
     add $zero, $zero, $zero
 stall:# for 1 sec
 	addi $t9,$0,0 
+	lui $t8, 0x0065
+	ori $t8, $t8, 0xB9AA
 sec1:
 	addi $t9,$t9,1
-	lui $t8, 0x05F5
-	ori $t8, $t8, 0xE100
 	bne $t9,$t8,sec1
 	add $0,$0,$0
 	jr $ra
