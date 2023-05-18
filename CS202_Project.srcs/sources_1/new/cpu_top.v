@@ -139,7 +139,7 @@ wire [31:0] io_rdata;
 
 //MemOrIO  outputs
 wire [31:0] address;// 地址 -->d_memory  inputs
-wire [31:0] r_wdata;// data to decoder(register file) -->decoder  input
+wire [31:0] r_wdata_from_memIO;// data to decoder(register file) -->decoder  input
 wire [31:0] writeData;//写入的data -->d_memory  inputs
 wire LEDCtrl, SwitchCtrl;
 
@@ -241,12 +241,17 @@ Executs32 alu(Read_data_1,Read_data_2,Sign_extend,Opcode,Function_opcode,Shamt,b
 //controller
 control32 control(Opcode,Function_opcode,ALU_Result[31:10],jr,jmp,jal,branch,nbranch,regDST,memToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp,extend_mode);
 
-assign write_reg = regDST ? Instruction[15:11] : Instruction[20:16];
+wire [5:0] write_regDST;
+assign write_regDST = regDST ? Instruction[15:11] : Instruction[20:16];
+assign write_reg = jal ? 5'b11111 : write_regDST;
+wire [31:0] r_wdata;
+assign r_wdata = jal ? link_addr : r_wdata_from_memIO;
+
 //decoder
-decoder32 decoder(clk_cpu, reset, extend_mode, Instruction[25:21], Instruction[20:16], write_reg, Instruction[15:0], r_wdata, regWrite, Read_data_1, Read_data_2, Sign_extend);
+decoder32 decoder(clk_cpu, reset, jal, extend_mode, Instruction[25:21], Instruction[20:16], write_reg, Instruction[15:0], r_wdata, regWrite, Read_data_1, Read_data_2, Sign_extend);
 
 //MemOrIO
-MemOrIO mem(memToReg, memWrite, IORead, IOWrite, ALU_Result, address, readData, io_rdata, r_wdata, 
+MemOrIO mem(memToReg, memWrite, IORead, IOWrite, ALU_Result, address, readData, io_rdata, r_wdata_from_memIO, 
 Read_data_2, writeData, LEDCtrl, SwitchCtrl);
 
 io_address_convert iac(LEDCtrl, SwitchCtrl, address, address_io);
