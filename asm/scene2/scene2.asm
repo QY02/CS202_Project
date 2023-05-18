@@ -54,10 +54,11 @@ case000:
     sll $s0, $s0, 24
     srl $s0, $s0, 24
     
-    addi $t4,$zero,0
-    addi $s1,$zero,0
-    addi $s2,$zero,1
-    lw $t3, 7($s0)#read the significant bit
+    addi $t4,$zero,0 #the adder each time
+    addi $s1,$zero,0 #positive add up
+    addi $s2,$zero,1 #negative add up
+    
+    srl $t3,7($s0)#read the significant bit
     
     beq $t3,1,negativeAdd
     add $zero,$zero,$zero
@@ -70,7 +71,7 @@ negativeAdd:
 	add $zero,$zero,$zero
 	lui $t0, 0xFFFF
     	ori $t0, $t0, 0xFC60
-    	sw $s1, 0($t0)
+    	sw $s2, 0($t0)
 	j start
 	add $zero,$zero,$zero
 positiveAdd:
@@ -84,7 +85,6 @@ positiveAdd:
 	j start
 	add $zero,$zero,$zero
 case001:
-    addi $t3, $zero, 0
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC70
     lw $s0, 0($t0)
@@ -94,9 +94,11 @@ case001:
 
     addi $s1,$0,0
     addi $t6,$0,0
+    addi $t3, $zero, 0
+    
 stackin001:
 	addi $sp,$sp,-8
-	addi $t6,$t6,-8
+	addi $t6,$t6,-8 #record the change of $sp
 	sw $ra, 4($sp)
  	sw $s0, 0($sp)
  	addi $t3,$t3,1 #when stack get in or out,count
@@ -141,9 +143,17 @@ stackin010:
 	sw $ra, 4($sp)
  	sw $s0, 0($sp)
  	
+ 	add $t7,$0,$ra #temp $ra
+ 	
  	lui $t0, 0xFFFF
     	ori $t0, $t0, 0xFC60
     	sw $s0, 0($t0) #s0 is the num insert into the stack
+    	jal stall #stop for 1 sec
+    	add $0,$0,$0
+    	jal stall
+    	add $0,$0,$0
+    	
+    	add $ra,$0,$t7 #change back
     	
  	slti $t4,$s0,1
  	beq $t4,$0,stackout010
@@ -193,10 +203,16 @@ stackout011:
 	add $0,$0,$0
 	lw $t5,0($sp)
 	
+	add $t7,$0,$ra #temp $ra
+	
 	add $s1,$s1,$t5 #s1 is used to store the total sum
 	lui $t0, 0xFFFF
     	ori $t0, $t0, 0xFC60
     	sw $t5, 0($t0) #s0 is the num out of the stack
+    	jal stall #stop for 1 sec
+    	add $0,$0,$0
+    	jal stall
+    	add $0,$0,$0
     	
 	lw $ra,4($sp)
 	addi $sp,$sp,8
@@ -296,7 +312,31 @@ printoutDiv:
 	lui $t0, 0xFFFF
     	ori $t0, $t0, 0xFC60	
 	sw $a3,0($t0)
-	sw $s1,1($t0)
+	
+	jal stall
+	add $0,$0,$0
+	jal stall
+	add $0,$0,$0
+	jal stall
+	add $0,$0,$0
+	jal stall
+	add $0,$0,$0
+	jal stall
+	add $0,$0,$0
+	
+	sw $s1,0($t0)
+	
+	jal stall
+	add $0,$0,$0
+	jal stall
+	add $0,$0,$0
+	jal stall
+	add $0,$0,$0
+	jal stall
+	add $0,$0,$0
+	jal stall
+	add $0,$0,$0
+	
 	j start
 	add $0,$0,$0
 	
@@ -339,3 +379,11 @@ finishInput:
     #sw $s2, 1($t0)
     jr $ra
     add $zero, $zero, $zero
+stall:# for 1 sec
+	addi $t9,$0,0 
+sec1:
+	addi $t9,$t9,1
+	bne $t9,0x05f5e100
+	add $0,$0,$0
+	jr $ra
+	add $0,$0,$0
