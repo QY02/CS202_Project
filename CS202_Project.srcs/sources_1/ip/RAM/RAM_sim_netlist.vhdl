@@ -1,7 +1,7 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
--- Date        : Wed May 17 22:34:05 2023
+-- Date        : Sat May 20 02:05:00 2023
 -- Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               D:/Projects/CO/Project/CS202_Project/CS202_Project/CS202_Project.srcs/sources_1/ip/RAM/RAM_sim_netlist.vhdl
@@ -84,7 +84,6 @@ end RAM_blk_mem_gen_mux;
 
 architecture STRUCTURE of RAM_blk_mem_gen_mux is
   signal sel_pipe : STD_LOGIC_VECTOR ( 1 downto 0 );
-  signal sel_pipe_d1 : STD_LOGIC_VECTOR ( 1 downto 0 );
 begin
 \douta[10]_INST_0\: unisim.vcomponents.LUT6
     generic map(
@@ -94,8 +93,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_17\(5),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_18\(5),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_19\(5),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_20\(5),
       O => douta(5)
     );
@@ -107,8 +106,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_17\(6),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_18\(6),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_19\(6),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_20\(6),
       O => douta(6)
     );
@@ -120,8 +119,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_17\(7),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_18\(7),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_19\(7),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_20\(7),
       O => douta(7)
     );
@@ -133,8 +132,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_13\(0),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_14\(0),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_15\(0),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_16\(0),
       O => douta(8)
     );
@@ -146,8 +145,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_9\(0),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_10\(0),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_11\(0),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_12\(0),
       O => douta(9)
     );
@@ -159,8 +158,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_9\(1),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_10\(1),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_11\(1),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_12\(1),
       O => douta(10)
     );
@@ -172,8 +171,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_9\(2),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_10\(2),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_11\(2),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_12\(2),
       O => douta(11)
     );
@@ -185,8 +184,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_9\(3),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_10\(3),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_11\(3),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_12\(3),
       O => douta(12)
     );
@@ -198,8 +197,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_9\(4),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_10\(4),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_11\(4),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_12\(4),
       O => douta(13)
     );
@@ -211,8 +210,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_9\(5),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_10\(5),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_11\(5),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_12\(5),
       O => douta(14)
     );
@@ -224,8 +223,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_9\(6),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_10\(6),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_11\(6),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_12\(6),
       O => douta(15)
     );
@@ -237,8 +236,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_9\(7),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_10\(7),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_11\(7),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_12\(7),
       O => douta(16)
     );
@@ -250,8 +249,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_5\(0),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_6\(0),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_7\(0),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_8\(0),
       O => douta(17)
     );
@@ -263,8 +262,8 @@ begin
       I0 => DOADO(0),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_2\(0),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_3\(0),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_4\(0),
       O => douta(18)
     );
@@ -276,8 +275,8 @@ begin
       I0 => DOADO(1),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_2\(1),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_3\(1),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_4\(1),
       O => douta(19)
     );
@@ -289,8 +288,8 @@ begin
       I0 => DOADO(2),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_2\(2),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_3\(2),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_4\(2),
       O => douta(20)
     );
@@ -302,8 +301,8 @@ begin
       I0 => DOADO(3),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_2\(3),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_3\(3),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_4\(3),
       O => douta(21)
     );
@@ -315,8 +314,8 @@ begin
       I0 => DOADO(4),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_2\(4),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_3\(4),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_4\(4),
       O => douta(22)
     );
@@ -328,8 +327,8 @@ begin
       I0 => DOADO(5),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_2\(5),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_3\(5),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_4\(5),
       O => douta(23)
     );
@@ -341,8 +340,8 @@ begin
       I0 => DOADO(6),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_2\(6),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_3\(6),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_4\(6),
       O => douta(24)
     );
@@ -354,8 +353,8 @@ begin
       I0 => DOADO(7),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_2\(7),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_3\(7),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_4\(7),
       O => douta(25)
     );
@@ -367,8 +366,8 @@ begin
       I0 => DOPADOP(0),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\(0),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_0\(0),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_1\(0),
       O => douta(26)
     );
@@ -380,8 +379,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_17\(0),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_18\(0),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_19\(0),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_20\(0),
       O => douta(0)
     );
@@ -393,8 +392,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_17\(1),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_18\(1),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_19\(1),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_20\(1),
       O => douta(1)
     );
@@ -406,8 +405,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_17\(2),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_18\(2),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_19\(2),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_20\(2),
       O => douta(2)
     );
@@ -419,8 +418,8 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_17\(3),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_18\(3),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_19\(3),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_20\(3),
       O => douta(3)
     );
@@ -432,32 +431,10 @@ begin
       I0 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_17\(4),
       I1 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_18\(4),
       I2 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_19\(4),
-      I3 => sel_pipe_d1(1),
-      I4 => sel_pipe_d1(0),
+      I3 => sel_pipe(1),
+      I4 => sel_pipe(0),
       I5 => \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_20\(4),
       O => douta(4)
-    );
-\no_softecc_norm_sel2.has_mem_regs.WITHOUT_ECC_PIPE.ce_pri.sel_pipe_d1_reg[0]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clka,
-      CE => '1',
-      D => sel_pipe(0),
-      Q => sel_pipe_d1(0),
-      R => '0'
-    );
-\no_softecc_norm_sel2.has_mem_regs.WITHOUT_ECC_PIPE.ce_pri.sel_pipe_d1_reg[1]\: unisim.vcomponents.FDRE
-    generic map(
-      INIT => '0'
-    )
-        port map (
-      C => clka,
-      CE => '1',
-      D => sel_pipe(1),
-      Q => sel_pipe_d1(1),
-      R => '0'
     );
 \no_softecc_sel_reg.ce_pri.sel_pipe_reg[0]\: unisim.vcomponents.FDRE
     generic map(
@@ -508,7 +485,7 @@ architecture STRUCTURE of RAM_blk_mem_gen_prim_wrapper_init is
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM18.ram\: unisim.vcomponents.RAMB18E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
       INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -625,7 +602,7 @@ begin
       DOPBDOP(1 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM18.ram_DOPBDOP_UNCONNECTED\(1 downto 0),
       ENARDEN => '1',
       ENBWREN => '0',
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -668,7 +645,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized0\ is
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -872,7 +849,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -918,7 +895,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized1\ is
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -1122,7 +1099,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -1170,7 +1147,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized10\ i
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -1376,7 +1353,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -1424,7 +1401,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized11\ i
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -1630,7 +1607,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -1678,7 +1655,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized12\ i
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -1884,7 +1861,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -1932,7 +1909,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized13\ i
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -2138,7 +2115,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -2186,7 +2163,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized2\ is
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -2392,7 +2369,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -2442,7 +2419,7 @@ begin
   \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_0\ <= \^device_7series.no_bmm_info.sp.simple_prim36.ram_0\;
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -2648,7 +2625,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -2707,7 +2684,7 @@ begin
   \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_0\ <= \^device_7series.no_bmm_info.sp.simple_prim36.ram_0\;
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -2913,7 +2890,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -2970,7 +2947,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized5\ is
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -3176,7 +3153,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -3224,7 +3201,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized6\ is
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -3430,7 +3407,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -3478,7 +3455,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized7\ is
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -3684,7 +3661,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -3732,7 +3709,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized8\ is
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -3938,7 +3915,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -3986,7 +3963,7 @@ architecture STRUCTURE of \RAM_blk_mem_gen_prim_wrapper_init__parameterized9\ is
 begin
 \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram\: unisim.vcomponents.RAMB36E1
     generic map(
-      DOA_REG => 1,
+      DOA_REG => 0,
       DOB_REG => 0,
       EN_ECC_READ => false,
       EN_ECC_WRITE => false,
@@ -4192,7 +4169,7 @@ begin
       INJECTDBITERR => '0',
       INJECTSBITERR => '0',
       RDADDRECC(8 downto 0) => \NLW_DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_RDADDRECC_UNCONNECTED\(8 downto 0),
-      REGCEAREGCE => '1',
+      REGCEAREGCE => '0',
       REGCEB => '0',
       RSTRAMARSTRAM => '0',
       RSTRAMB => '0',
@@ -5320,7 +5297,7 @@ entity RAM_blk_mem_gen_v8_4_1 is
   attribute C_HAS_INJECTERR : integer;
   attribute C_HAS_INJECTERR of RAM_blk_mem_gen_v8_4_1 : entity is 0;
   attribute C_HAS_MEM_OUTPUT_REGS_A : integer;
-  attribute C_HAS_MEM_OUTPUT_REGS_A of RAM_blk_mem_gen_v8_4_1 : entity is 1;
+  attribute C_HAS_MEM_OUTPUT_REGS_A of RAM_blk_mem_gen_v8_4_1 : entity is 0;
   attribute C_HAS_MEM_OUTPUT_REGS_B : integer;
   attribute C_HAS_MEM_OUTPUT_REGS_B of RAM_blk_mem_gen_v8_4_1 : entity is 0;
   attribute C_HAS_MUX_OUTPUT_REGS_A : integer;
@@ -5647,7 +5624,7 @@ architecture STRUCTURE of RAM is
   attribute C_HAS_INJECTERR : integer;
   attribute C_HAS_INJECTERR of U0 : label is 0;
   attribute C_HAS_MEM_OUTPUT_REGS_A : integer;
-  attribute C_HAS_MEM_OUTPUT_REGS_A of U0 : label is 1;
+  attribute C_HAS_MEM_OUTPUT_REGS_A of U0 : label is 0;
   attribute C_HAS_MEM_OUTPUT_REGS_B : integer;
   attribute C_HAS_MEM_OUTPUT_REGS_B of U0 : label is 0;
   attribute C_HAS_MUX_OUTPUT_REGS_A : integer;

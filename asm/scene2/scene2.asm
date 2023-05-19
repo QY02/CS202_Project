@@ -5,6 +5,7 @@ initialization:
     add $s1, $zero, $zero
     add $s2, $zero, $zero
 	addi $s7, $zero, 1
+	ori $sp, $zero, 0xFFFC
 
 start:
     lui $t0, 0xFFFF
@@ -116,40 +117,112 @@ case001:
     sll $s0, $s0, 24
     srl $s0, $s0, 24
 
-    addi $s1,$0,0
-    addi $t6,$0,0
-    addi $t3, $zero, 0
-    
-stackin001:
-	addi $sp,$sp,-8
-	addi $t6,$t6,-8 #record the change of $sp
-	sw $ra, 4($sp)
- 	sw $s0, 0($sp)
- 	addi $t3,$t3,1 #when stack get in or out,count
- 	slti $t4,$s0,1
- 	beq $t4,$0,stackout001
- 	add $0,$0,$0
- 	jr $ra
-stackout001:
-	addi $s0,$s0,-1
-	jal stackin001
-	add $0,$0,$0
-	lw $t5,0($sp)
-	add $s1,$s1,$t5 #s1 is used to store the total sum
-	lw $ra,4($sp)
-	addi $sp,$sp,8
-	addi $t6,$t6,8
-	addi $t3,$t3,1 # t3 is used to calculate the cnt of stack operation
-	beq  $t6,$zero,end001 #$t6 is used to record when $sp point back, then jump out of the loop
-	add $0,$0,$0
-	jr $ra 	 	
-	add $0,$0,$0
-end001:
+    # addi $s1,$0,0
+    # addi $s2,$0,0
+    #addi $t3, $zero, 0
+
+	# slti $t1, $s0, 1
+	# beq $t1, $s7, end001
+	# add $zero, $zero, $zero
+
+    addi $a0, $s0, 0
+	addi $v0, $zero, 0
+	addi $v1, $zero, 0
+
+	# lui $t0, 0xFFFF
+	# ori $t0, $t0, 0xFC60
+	# sw $a0, 0($t0)
+	# jal stall
+	# add $zero, $zero, $zero
+
+	jal calculate001
+	add $zero, $zero, $zero
+
 	lui $t0, 0xFFFF
-    	ori $t0, $t0, 0xFC60
-    	sw $t3, 0($t0)
+	ori $t0, $t0, 0xFC60
+	sw $v0, 0($t0)
+	sw $v1, 2($t0)
+
+	jal stall
+	add $zero, $zero, $zero
+
 	j start
-	add $zero,$zero,$zero
+	add $zero, $zero, $zero
+    
+calculate001:
+	slti $t1, $a0, 1
+	beq $t1, $s7, return001
+	add $zero, $zero, $zero
+
+    addi $sp,$sp,-8
+	sw $ra, 4($sp)
+	sw $a0, 0($sp)
+	addi $v1, $v1, 2
+	addi $a0, $a0, -1
+
+	# lui $t0, 0xFFFF
+	# ori $t0, $t0, 0xFC60
+	# # lw $s1, 0($sp)
+	# # sw $s1, 1($t0)
+	# sw $ra, 0($t0)
+	# sw $a0, 2($t0)
+	# #sw $v1, 2($t0)
+	# jal stall
+	# add $zero, $zero, $zero
+
+	jal calculate001
+	add $zero, $zero, $zero
+	lw $a0, 0($sp)
+	lw $ra, 4($sp)
+	addi $sp,$sp,8
+	addi $v1, $v1, 2
+
+	# lui $t0, 0xFFFF
+	# ori $t0, $t0, 0xFC60
+	# sw $v1, 0($t0)
+	# addi $s2, $ra, 0
+	# jal stall
+	# add $zero, $zero, $zero
+	# addi $ra, $s2, 0
+
+
+	add $v0, $v0, $a0
+return001:
+	jr $ra
+	add $zero, $zero, $zero
+
+# stackin001:
+# 	addi $sp,$sp,-8
+# 	addi $t6,$t6,-8 #record the change of $sp
+# 	sw $ra, 4($sp)
+#  	sw $s0, 0($sp)
+#  	addi $t3,$t3,1 #when stack get in or out,count
+#  	slti $t4,$s0,1
+#  	beq $t4,$0,stackout001
+#  	add $0,$0,$0
+#  	jr $ra
+# stackout001:
+# 	addi $s0,$s0,-1
+# 	jal stackin001
+# 	add $0,$0,$0
+# 	lw $t5,0($sp)
+# 	add $s1,$s1,$t5 #s1 is used to store the total sum
+# 	lw $ra,4($sp)
+# 	addi $sp,$sp,8
+# 	addi $t6,$t6,8
+# 	addi $t3,$t3,1 # t3 is used to calculate the cnt of stack operation
+# 	beq  $t6,$zero,end001 #$t6 is used to record when $sp point back, then jump out of the loop
+# 	add $0,$0,$0
+# 	jr $ra 	 	
+# 	add $0,$0,$0
+# end001:
+# 	lui $t0, 0xFFFF
+#     	ori $t0, $t0, 0xFC60
+# 		sw $s1, 0($t0)
+#     	sw $s2, 2($t0)
+# 	j start
+# 	add $zero,$zero,$zero
+
 case010:
     addi $t3, $zero, 0
     lui $t0, 0xFFFF
