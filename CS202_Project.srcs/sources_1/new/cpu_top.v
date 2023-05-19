@@ -4,6 +4,8 @@ module cpu_top (
 input fpga_clk,  //时钟
 input[23:0] switch,  //24个拨码开关
 input reset_h,  
+input[3:0] row,
+output[3:0] col,
 output[23:0] led_out, //17个led输出（测试场景1）
 output[7:0] seg_out, 
 output[7:0] seg_en,  //数码显像管
@@ -260,6 +262,7 @@ led led(clk_cpu, reset, LEDCtrl, address_io[1:0], writeData, led_out);
 
 Switch switch0(clk_cpu, reset, SwitchCtrl, address_io[1:0], switch, io_rdata);
 
+keyboard key(fpga_clk,reset,row,col,key_wdata);
 
 
 endmodule
