@@ -160,6 +160,8 @@ assign Function_opcode=Instruction[5:0];
 
 wire [4:0] write_reg;
 
+wire[15:0] key_wdata;
+
 // reg [31:0] Sign_extend_test;
 
 // always @(negedge clk_cpu, negedge reset) begin
