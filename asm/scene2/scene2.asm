@@ -117,34 +117,16 @@ case001:
     sll $s0, $s0, 24
     srl $s0, $s0, 24
 
-    # addi $s1,$0,0
-    # addi $s2,$0,0
-    #addi $t3, $zero, 0
-
-	# slti $t1, $s0, 1
-	# beq $t1, $s7, end001
-	# add $zero, $zero, $zero
-
     addi $a0, $s0, 0
 	addi $v0, $zero, 0
 	addi $v1, $zero, 0
-
-	# lui $t0, 0xFFFF
-	# ori $t0, $t0, 0xFC60
-	# sw $a0, 0($t0)
-	# jal stall
-	# add $zero, $zero, $zero
 
 	jal calculate001
 	add $zero, $zero, $zero
 
 	lui $t0, 0xFFFF
 	ori $t0, $t0, 0xFC60
-	# sw $v0, 0($t0)
 	sw $v1, 0($t0)
-
-	# jal stall
-	# add $zero, $zero, $zero
 
 	j start
 	add $zero, $zero, $zero
@@ -160,32 +142,12 @@ calculate001:
 	addi $v1, $v1, 2
 	addi $a0, $a0, -1
 
-	# lui $t0, 0xFFFF
-	# ori $t0, $t0, 0xFC60
-	# # lw $s1, 0($sp)
-	# # sw $s1, 1($t0)
-	# sw $ra, 0($t0)
-	# sw $a0, 2($t0)
-	# #sw $v1, 2($t0)
-	# jal stall
-	# add $zero, $zero, $zero
-
 	jal calculate001
 	add $zero, $zero, $zero
 	lw $a0, 0($sp)
 	lw $ra, 4($sp)
 	addi $sp,$sp,8
 	addi $v1, $v1, 2
-
-	# lui $t0, 0xFFFF
-	# ori $t0, $t0, 0xFC60
-	# sw $v1, 0($t0)
-	# addi $s2, $ra, 0
-	# jal stall
-	# add $zero, $zero, $zero
-	# addi $ra, $s2, 0
-
-
 	add $v0, $v0, $a0
 return001:
 	jr $ra
@@ -224,7 +186,6 @@ return001:
 # 	add $zero,$zero,$zero
 
 case010:
-    addi $t3, $zero, 0
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC70
     lw $s0, 0($t0)
@@ -232,49 +193,102 @@ case010:
     sll $s0, $s0, 24
     srl $s0, $s0, 24
 
-    addi $s1,$0,0
-    addi $t6,$0,0
-stackin010:
-	addi $sp,$sp,-8
-	addi $t6,$t6,-8
-	sw $ra, 4($sp)
- 	sw $s0, 0($sp)
- 	
- 	add $t7,$0,$ra #temp $ra
- 	
- 	lui $t0, 0xFFFF
-    	ori $t0, $t0, 0xFC60
-    	sw $s0, 0($t0) #s0 is the num insert into the stack
-    	jal stall #stop for 1 sec
-    	add $0,$0,$0
-    	jal stall
-    	add $0,$0,$0
-    	
-    	add $ra,$0,$t7 #change back
-    	
- 	slti $t4,$s0,1
- 	beq $t4,$0,stackout010
- 	add $0,$0,$0
- 	jr $ra
-stackout010:
-	addi $s0,$s0,-1
-	jal stackin010
-	add $0,$0,$0
-	lw $t5,0($sp)
-	add $s1,$s1,$t5 #s1 is used to store the total sum
-	lw $ra,4($sp)
-	addi $sp,$sp,8
-	addi $t6,$t6,8
-	beq  $t6,$zero,end010 #$t6 is used to record when $sp point back, then jump out of the loop
-	add $0,$0,$0
-	jr $ra 	 	
-	add $0,$0,$0
-end010:
+    addi $a0, $s0, 0
+	addi $v0, $zero, 0
+	addi $v1, $zero, 0
+
+	jal calculate010
+	add $zero, $zero, $zero
+
+	# lui $t0, 0xFFFF
+	# ori $t0, $t0, 0xFC60
+	# sw $v1, 0($t0)
+
 	j start
-	add $zero,$zero,$zero
+	add $zero, $zero, $zero
+    
+calculate010:
+	slti $t1, $a0, 1
+	beq $t1, $s7, return010
+	add $zero, $zero, $zero
+
+    addi $sp,$sp,-8
+	sw $ra, 4($sp)
+	sw $a0, 0($sp)
+
+	lui $t0, 0xFFFF
+	ori $t0, $t0, 0xFC60
+	sw $a0, 0($t0)
+	jal stall
+	jal stall
+
+	addi $v1, $v1, 2
+	addi $a0, $a0, -1
+
+	jal calculate010
+	add $zero, $zero, $zero
+	lw $a0, 0($sp)
+	lw $ra, 4($sp)
+	addi $sp,$sp,8
+	addi $v1, $v1, 2
+	add $v0, $v0, $a0
+return010:
+	jr $ra
+	add $zero, $zero, $zero
+
+
+
+# case010:
+#     addi $t3, $zero, 0
+#     lui $t0, 0xFFFF
+#     ori $t0, $t0, 0xFC70
+#     lw $s0, 0($t0)
+
+#     sll $s0, $s0, 24
+#     srl $s0, $s0, 24
+
+#     addi $s1,$0,0
+#     addi $t6,$0,0
+# stackin010:
+# 	addi $sp,$sp,-8
+# 	addi $t6,$t6,-8
+# 	sw $ra, 4($sp)
+#  	sw $s0, 0($sp)
+ 	
+#  	add $t7,$0,$ra #temp $ra
+ 	
+#  	lui $t0, 0xFFFF
+#     	ori $t0, $t0, 0xFC60
+#     	sw $s0, 0($t0) #s0 is the num insert into the stack
+#     	jal stall #stop for 1 sec
+#     	add $0,$0,$0
+#     	jal stall
+#     	add $0,$0,$0
+    	
+#     	add $ra,$0,$t7 #change back
+    	
+#  	slti $t4,$s0,1
+#  	beq $t4,$0,stackout010
+#  	add $0,$0,$0
+#  	jr $ra
+# stackout010:
+# 	addi $s0,$s0,-1
+# 	jal stackin010
+# 	add $0,$0,$0
+# 	lw $t5,0($sp)
+# 	add $s1,$s1,$t5 #s1 is used to store the total sum
+# 	lw $ra,4($sp)
+# 	addi $sp,$sp,8
+# 	addi $t6,$t6,8
+# 	beq  $t6,$zero,end010 #$t6 is used to record when $sp point back, then jump out of the loop
+# 	add $0,$0,$0
+# 	jr $ra 	 	
+# 	add $0,$0,$0
+# end010:
+# 	j start
+# 	add $zero,$zero,$zero
 
 case011:
-    addi $t3, $zero, 0
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC70
     lw $s0, 0($t0)
@@ -282,44 +296,98 @@ case011:
     sll $s0, $s0, 24
     srl $s0, $s0, 24
 
-    addi $s1,$0,0
-    addi $t6,$0,0
-stackin011:
-	addi $sp,$sp,-8
-	addi $t6,$t6,-8
-	sw $ra, 4($sp)
- 	sw $s0, 0($sp)
-	slti $t4,$s0,1
- 	beq $t4,$0,stackout011
- 	add $0,$0,$0
- 	jr $ra
-stackout011:
-	addi $s0,$s0,-1
-	jal stackin011
-	add $0,$0,$0
-	lw $t5,0($sp)
-	
-	add $t7,$0,$ra #temp $ra
-	
-	add $s1,$s1,$t5 #s1 is used to store the total sum
-	lui $t0, 0xFFFF
-    	ori $t0, $t0, 0xFC60
-    	sw $t5, 0($t0) #s0 is the num out of the stack
-    	jal stall #stop for 1 sec
-    	add $0,$0,$0
-    	jal stall
-    	add $0,$0,$0
-    	
-	lw $ra,4($sp)
-	addi $sp,$sp,8
-	addi $t6,$t6,8
-	beq  $t6,$0,end011 #$t6 is used to record when $sp point back, then jump out of the loop
-	add $0,$0,$0
-	jr $ra 	 	
-	add $0,$0,$0
-end011:
+    addi $a0, $s0, 0
+	addi $v0, $zero, 0
+	addi $v1, $zero, 0
+
+	jal calculate011
+	add $zero, $zero, $zero
+
+	# lui $t0, 0xFFFF
+	# ori $t0, $t0, 0xFC60
+	# sw $v1, 0($t0)
+
 	j start
-	add $zero,$zero,$zero
+	add $zero, $zero, $zero
+    
+calculate011:
+	slti $t1, $a0, 1
+	beq $t1, $s7, return011
+	add $zero, $zero, $zero
+
+    addi $sp,$sp,-8
+	sw $ra, 4($sp)
+	sw $a0, 0($sp)
+
+	addi $v1, $v1, 2
+	addi $a0, $a0, -1
+
+	jal calculate011
+	add $zero, $zero, $zero
+	lw $a0, 0($sp)
+
+	lui $t0, 0xFFFF
+	ori $t0, $t0, 0xFC60
+	sw $a0, 0($t0)
+	jal stall
+	jal stall
+
+	lw $ra, 4($sp)
+	addi $sp,$sp,8
+	addi $v1, $v1, 2
+	add $v0, $v0, $a0
+return011:
+	jr $ra
+	add $zero, $zero, $zero
+
+
+# case011:
+#     addi $t3, $zero, 0
+#     lui $t0, 0xFFFF
+#     ori $t0, $t0, 0xFC70
+#     lw $s0, 0($t0)
+
+#     sll $s0, $s0, 24
+#     srl $s0, $s0, 24
+
+#     addi $s1,$0,0
+#     addi $t6,$0,0
+# stackin011:
+# 	addi $sp,$sp,-8
+# 	addi $t6,$t6,-8
+# 	sw $ra, 4($sp)
+#  	sw $s0, 0($sp)
+# 	slti $t4,$s0,1
+#  	beq $t4,$0,stackout011
+#  	add $0,$0,$0
+#  	jr $ra
+# stackout011:
+# 	addi $s0,$s0,-1
+# 	jal stackin011
+# 	add $0,$0,$0
+# 	lw $t5,0($sp)
+	
+# 	add $t7,$0,$ra #temp $ra
+	
+# 	add $s1,$s1,$t5 #s1 is used to store the total sum
+# 	lui $t0, 0xFFFF
+#     	ori $t0, $t0, 0xFC60
+#     	sw $t5, 0($t0) #s0 is the num out of the stack
+#     	jal stall #stop for 1 sec
+#     	add $0,$0,$0
+#     	jal stall
+#     	add $0,$0,$0
+    	
+# 	lw $ra,4($sp)
+# 	addi $sp,$sp,8
+# 	addi $t6,$t6,8
+# 	beq  $t6,$0,end011 #$t6 is used to record when $sp point back, then jump out of the loop
+# 	add $0,$0,$0
+# 	jr $ra 	 	
+# 	add $0,$0,$0
+# end011:
+# 	j start
+# 	add $zero,$zero,$zero
 
 case100:
     add $t1, $s1, $s2
@@ -477,8 +545,8 @@ finishInput:
     add $zero, $zero, $zero
 stall:# for 1 sec
 	addi $t9,$0,0 
-	lui $t8, 0x0065
-	ori $t8, $t8, 0xB9AA
+	lui $t8, 0x0098
+	ori $t8, $t8, 0x9680
 sec1:
 	addi $t9,$t9,1
 	bne $t9,$t8,sec1

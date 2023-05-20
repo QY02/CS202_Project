@@ -1,8 +1,9 @@
 `timescale 1ns / 1ps
 
-module Switch(clk, rst,SwitchCtrl,addr_in, switch_in,switch_wdata);
+module Switch(clk, rst, IORead, SwitchCtrl,addr_in, switch_in,switch_wdata);
     input clk;			       //  时钟信号
     input rst;			       //  复位信号
+    input IORead;
     input SwitchCtrl;
     input [1:0] addr_in;
     output reg [31:0] switch_wdata;
@@ -12,7 +13,7 @@ module Switch(clk, rst,SwitchCtrl,addr_in, switch_in,switch_wdata);
             switch_wdata <= 32'b0;
         end
 		else begin
-            if (SwitchCtrl) begin
+            if (SwitchCtrl && IORead) begin
                 case (addr_in)
                     2'b00: switch_wdata[23:0] <= switch_in[23:0];
                     2'b01: switch_wdata[23:0] <= {8'b0, switch_in[23:8]};

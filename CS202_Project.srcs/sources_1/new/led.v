@@ -21,7 +21,7 @@
 
 
 module led(
-    input clk, rst_n, LEDCtrl,
+    input clk, rst_n, IOWrite, LEDCtrl,
     input [1:0] addr_in,
     input [31:0] data,
     output reg [23:0] LED
@@ -33,7 +33,7 @@ always @(negedge clk, negedge rst_n) begin
     end
     else begin
         //addr_LED <= addr_in - 32'hFFFFFC60;
-        if (LEDCtrl) begin
+        if (LEDCtrl && IOWrite) begin
             case (addr_in)
                 2'b00: LED[23:0] <= data[23:0];
                 2'b01: LED[23:0] <= {data[15:0], LED[7:0]};

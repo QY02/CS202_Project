@@ -260,9 +260,9 @@ Read_data_2, writeData, LEDCtrl, SwitchCtrl);
 
 io_address_convert iac(LEDCtrl, SwitchCtrl, address, address_io);
 
-led led(clk_cpu, reset, LEDCtrl, address_io[1:0], writeData, led_out);
+led led(clk_cpu, reset, IOWrite, LEDCtrl, address_io[1:0], writeData, led_out);
 
-Switch switch0(clk_cpu, reset, SwitchCtrl, address_io[1:0], switch, io_rdata);
+Switch switch0(clk_cpu, reset, IORead, SwitchCtrl, address_io[1:0], switch, io_rdata);
 
 keyboard key(fpga_clk,reset,row,col,key_wdata);
 
