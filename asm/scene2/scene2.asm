@@ -11,6 +11,10 @@ start:
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC70
     lw $t1, 2($t0)
+
+	sll $t3, $t1, 27
+	srl $t3, $t3, 31
+
     srl $t1, $t1, 5
     beq $t1, $zero, case000
     add $zero, $zero, $zero
@@ -26,7 +30,7 @@ start:
     beq $t1, $t2, case011
     add $zero, $zero, $zero
     
-    jal inputNum
+    beq $t3, $s7, inputNum
     add $0,$0,$0 #input the number A and B,stored in $s1,$s2
 
     addi $t2, $zero, 4
@@ -391,62 +395,133 @@ return011:
 
 case100:
     add $t1, $s1, $s2
+
+    sll $t1, $t1, 24
+	srl $t1, $t1, 24
+
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $t1, 0($t0) #final answer
-    srl $s1,$s1,7
-    srl $s2,$s2,7
+
+    # sw $s7, 0($t0)
+	# sw $s2, 1($t0)
+
+    srl $t3,$s1,7
+    srl $t4,$s2,7
     srl $t1,$t1,7
-    beq $s1,$s2,possiOverflow
+    beq $t3,$t4,possiOverflow
     add $0,$0,$0
     j start
     add $zero, $zero, $zero
 possiOverflow:
-	bne $s1,$t1,overflow
+	bne $t3,$t1,overflow
 	add $0,$0,$0
+	j start
 overflow:
-	addi $t2,$0,1
-	sw $t2,1($t0) #output the overflow
+	#addi $t2,$0,1
+	sw $s7,1($t0) #output the overflow
 	j start
 	add $0,$0,$0
+
+
+
 case101:
     sub $t1, $s1, $s2
+
+    sll $t1, $t1, 24
+	srl $t1, $t1, 24
+
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $t1, 0($t0) #final answer
-    srl $s1,$s1,7
-    srl $s2,$s2,7
+    srl $t3,$s1,7
+    srl $t4,$s2,7
     srl $t1,$t1,7
-    bne $s1,$s2,possiOverflow
+    bne $t3,$t4,possiOverflow
     add $0,$0,$0
     j start
     add $zero, $zero, $zero
 
 case110:
-    srl $a1,$s1,7 #sign bit
-    srl $a2,$s2,7
-    xor $a1,$a1,$a2
-    sll $a1,$a1,15 #significant bit,1+15*0
-    
-    sll $s1,$s1,25
-    srl $s1,$s1,25
-    sll $s2,$s2,25
-    srl $s2,$s2,25 #remove sign bit of s1,s2
-    
-    addi $a3,$0,0 #cnt
-    addi $s3,$0,0 #answer
-multi:
-	beq $a3,$s2,printout
-	add $0,$0,$0
-	addi $a3,$a3,1
-	add $s3,$s1,$s3
-printout:
-	or $s3,$s3,$a1 #add sign bit
+    srl $t1, $s1, 7
+	srl $t2, $s2, 7
+	beq $t1, $s7, negA
+	addi $t3, $s1, 0
+	j checkB110
+checkB110:
+    beq $t2, $s7, negB
+	addi $t4, $s2, 0
+	j multiply
+
+negA:
+    nor $t3, $s1, $zero
+	addi $t3, $t3, 1
+	j checkB110
+
+
+negB:
+	nor $t4, $s2, $zero
+	addi $t4, $t4, 1
+	j multiply
+
+multiply:
+    sll $t3, $t3, 24
+	srl $t3, $t3, 24
+	sll $t4, $t4, 24
+	srl $t4, $t4, 24
+    addi $s3, $zero, 0
+	addi $t5, $zero, 0
+
+multiplyLoop:
+    beq $t5, $t4, multiplyFinish
+	add $s3, $s3, $t3
+	addi $t5, $t5, 1
+	j multiplyLoop
+
+multiplyFinish:
+    xor $t1, $t1, $t2
+	beq $t1, $s7, negAnswer
+	j printAnswer
+
+negAnswer:
+    nor $s3, $s3, $zero
+	addi $s3, $s3, 1
+	j printAnswer
+
+printAnswer:
+    sll $s3, $s3, 16
+	srl $s3, $s3, 16
 	lui $t0, 0xFFFF
    	ori $t0, $t0, 0xFC60
 	sw $s3,0($t0)
 	j start
-	add $0,$0,$0
+
+
+# case110:
+#     srl $a1,$s1,7 #sign bit
+#     srl $a2,$s2,7
+#     xor $a1,$a1,$a2
+#     sll $a1,$a1,15 #significant bit,1+15*0
+    
+#     sll $s1,$s1,25
+#     srl $s1,$s1,25
+#     sll $s2,$s2,25
+#     srl $s2,$s2,25 #remove sign bit of s1,s2
+    
+#     addi $a3,$0,0 #cnt
+#     addi $s3,$0,0 #answer
+# multi:
+# 	beq $a3,$s2,printout
+# 	add $0,$0,$0
+# 	addi $a3,$a3,1
+# 	add $s3,$s1,$s3
+# printout:
+# 	or $s3,$s3,$a1 #add sign bit
+# 	lui $t0, 0xFFFF
+#    	ori $t0, $t0, 0xFC60
+# 	sw $s3,0($t0)
+# 	j start
+# 	add $0,$0,$0
 case111:
 	srl $a1,$s1,7 #sign bit of both
     	srl $a2,$s2,7
@@ -517,6 +592,10 @@ inputNum:
 
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
+    sw $s0, 0($t0)
+
+    lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC60
     sw $t1, 2($t0)
 
     beq $t1, $zero, inputA
@@ -528,21 +607,21 @@ inputNum:
 
 inputA:
     add $s1, $zero, $s0
-    j finishInput
+    j start
     add $zero, $zero, $zero
 
 inputB:
     add $s2, $zero, $s0
-    j finishInput
+    j start
     add $zero, $zero, $zero
 
-finishInput:
-    lui $t0, 0xFFFF
-    ori $t0, $t0, 0xFC60
-    #sw $s1, 0($t0)
-    #sw $s2, 1($t0)
-    jr $ra
-    add $zero, $zero, $zero
+# finishInput:
+#     lui $t0, 0xFFFF
+#     ori $t0, $t0, 0xFC60
+#     #sw $s1, 0($t0)
+#     #sw $s2, 1($t0)
+#     jr $ra
+#     add $zero, $zero, $zero
 stall:# for 1 sec
 	addi $t9,$0,0 
 	lui $t8, 0x0098
