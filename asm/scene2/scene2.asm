@@ -140,11 +140,11 @@ case001:
 
 	lui $t0, 0xFFFF
 	ori $t0, $t0, 0xFC60
-	sw $v0, 0($t0)
-	sw $v1, 2($t0)
+	# sw $v0, 0($t0)
+	sw $v1, 0($t0)
 
-	jal stall
-	add $zero, $zero, $zero
+	# jal stall
+	# add $zero, $zero, $zero
 
 	j start
 	add $zero, $zero, $zero
