@@ -522,62 +522,142 @@ printAnswer:
 # 	sw $s3,0($t0)
 # 	j start
 # 	add $0,$0,$0
+
 case111:
-	srl $a1,$s1,7 #sign bit of both
-    	srl $a2,$s2,7
-    	xor $a1,$a1,$a2
-    	sll $a1,$a1,7 #significant bit,1+7*0,for quotient
-    	
-    	srl $t3,$s1,7
-    	sll $t3,$t3,7 #sign bit of remainder
-    	addi $a3,$0,0 #quotient
-    	#remainder is $s1
-    	
-    	sll $s1,$s1,25
-    	srl $s1,$s1,25
-    	sll $s2,$s2,25
-    	srl $s2,$s2,25 #remove sign bit of s1,s2
-divd:
-	slt $t1,$s1,$s2
-	beq $t1,$s7,printoutDiv
-	add $0,$0,$0
-	sub $s1,$s1,$s2
-	addi $a3,$a3,1 #add quotient
-	j divd
-	add $0,$0,$0
-printoutDiv:
-	or $s1,$s1,$t3
-	or $a3,$a3,$a1
+    srl $t1, $s1, 7
+	srl $t2, $s2, 7
+	beq $t1, $s7, negA111
+	addi $t3, $s1, 0
+	j checkB111
+checkB111:
+    beq $t2, $s7, negB111
+	addi $t4, $s2, 0
+	j divde
+
+negA111:
+    nor $t3, $s1, $zero
+	addi $t3, $t3, 1
+	j checkB111
+
+
+negB111:
+	nor $t4, $s2, $zero
+	addi $t4, $t4, 1
+	j divde
+
+divde:
+    sll $t3, $t3, 24
+	srl $t3, $t3, 24
+	sll $t4, $t4, 24
+	srl $t4, $t4, 24
+    addi $s3, $zero, 0
+
+divdeLoop:
+    slt $t6, $t3, $t4
+	beq $t6, $s7, divdeFinish
+	sub $t3, $t3, $t4
+	addi $s3, $s3, 1
+	j divdeLoop
+
+divdeFinish:
+    xor $t2, $t1, $t2
+	beq $t2, $s7, negQuotient
+checkRemainder:
+	beq $t1, $s7, negRemainder
+	j printDivideAnswer
+
+negQuotient:
+    nor $s3, $s3, $zero
+	addi $s3, $s3, 1
+	j checkRemainder
+
+negRemainder:
+	nor $t3, $t3, $zero
+	addi $t3, $t3, 1
+	j printDivideAnswer
+
+printDivideAnswer:
+    sll $s3, $s3, 24
+	srl $s3, $s3, 24
+	sll $t3, $t3, 24
+	srl $t3, $t3, 24
+
 	lui $t0, 0xFFFF
-    	ori $t0, $t0, 0xFC60	
-	sw $a3,0($t0)
-	
+   	ori $t0, $t0, 0xFC60
+	sw $s3,0($t0)
+
 	jal stall
-	add $0,$0,$0
 	jal stall
-	add $0,$0,$0
 	jal stall
-	add $0,$0,$0
 	jal stall
-	add $0,$0,$0
 	jal stall
-	add $0,$0,$0
-	
-	sw $s1,0($t0)
-	
+
+	sw $t3,0($t0)
+
 	jal stall
-	add $0,$0,$0
 	jal stall
-	add $0,$0,$0
 	jal stall
-	add $0,$0,$0
 	jal stall
-	add $0,$0,$0
 	jal stall
-	add $0,$0,$0
-	
+
 	j start
-	add $0,$0,$0
+
+# case111:
+# 	srl $a1,$s1,7 #sign bit of both
+#     	srl $a2,$s2,7
+#     	xor $a1,$a1,$a2
+#     	sll $a1,$a1,7 #significant bit,1+7*0,for quotient
+    	
+#     	srl $t3,$s1,7
+#     	sll $t3,$t3,7 #sign bit of remainder
+#     	addi $a3,$0,0 #quotient
+#     	#remainder is $s1
+    	
+#     	sll $s1,$s1,25
+#     	srl $s1,$s1,25
+#     	sll $s2,$s2,25
+#     	srl $s2,$s2,25 #remove sign bit of s1,s2
+# divd:
+# 	slt $t1,$s1,$s2
+# 	beq $t1,$s7,printoutDiv
+# 	add $0,$0,$0
+# 	sub $s1,$s1,$s2
+# 	addi $a3,$a3,1 #add quotient
+# 	j divd
+# 	add $0,$0,$0
+# printoutDiv:
+# 	or $s1,$s1,$t3
+# 	or $a3,$a3,$a1
+# 	lui $t0, 0xFFFF
+#     	ori $t0, $t0, 0xFC60	
+# 	sw $a3,0($t0)
+	
+# 	jal stall
+# 	add $0,$0,$0
+# 	jal stall
+# 	add $0,$0,$0
+# 	jal stall
+# 	add $0,$0,$0
+# 	jal stall
+# 	add $0,$0,$0
+# 	jal stall
+# 	add $0,$0,$0
+	
+# 	sw $s1,0($t0)
+	
+# 	jal stall
+# 	add $0,$0,$0
+# 	jal stall
+# 	add $0,$0,$0
+# 	jal stall
+# 	add $0,$0,$0
+# 	jal stall
+# 	add $0,$0,$0
+# 	jal stall
+# 	add $0,$0,$0
+	
+# 	j start
+# 	add $0,$0,$0
 	
 inputNum:
     lui $t0, 0xFFFF
