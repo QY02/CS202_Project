@@ -42,13 +42,16 @@ module display(
 
 // reg upg_rst_save;
 
+reg sign;
 reg [31:0] writeDataPositive;
 
 always @(*) begin
     if (writeData[31] == 1'b1) begin
+        sign = 1'b1;
         writeDataPositive = ~writeData + 32'b1;
     end
     else begin
+        sign = 1'b0;
         writeDataPositive = writeData;
     end
 end
@@ -121,7 +124,12 @@ reg [63:0] display_in;
 always @(*) begin
     case (mode)
         2'b00:
-            display_in = digits;
+            if (~sign) begin
+                display_in = digits;
+            end
+            else begin
+                display_in = {8'b0000_0010, digits[55:0]};
+            end
         2'b01:
             display_in = messages;
         default:
