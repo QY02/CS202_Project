@@ -54,6 +54,11 @@ case000:
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $s0, 0($t0)
+    lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $a0, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC60
 	
 	addi $t1, $zero, 1 #var 1
 
@@ -91,6 +96,11 @@ case001:
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $s0, 0($t0)
+    lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $a0, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC60
 
 	and $t1, $s0, $t3
 
