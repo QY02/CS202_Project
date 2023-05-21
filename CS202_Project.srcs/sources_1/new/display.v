@@ -41,38 +41,38 @@ module display(
     );
 
 // reg upg_rst_save;
+reg [31:0] data;
 
 reg sign;
-reg [31:0] writeDataPositive;
+reg [31:0] dataPositive;
 
 always @(*) begin
-    if (writeData[31] == 1'b1) begin
+    if (data[31] == 1'b1) begin
         sign = 1'b1;
-        writeDataPositive = ~writeData + 32'b1;
+        dataPositive = ~data + 32'b1;
     end
     else begin
         sign = 1'b0;
-        writeDataPositive = writeData;
+        dataPositive = data;
     end
 end
 
 
 reg [1:0] mode;
-reg [26:0] data;
 reg [4:0] message_code;
 
 always @(negedge clk_cpu, negedge rst_n) begin
     if (~rst_n) begin
         // upg_rst_save <= 1'b0;
         mode <= 2'b01;
-        data <= 27'b0;
+        data <= 31'b0;
         message_code <= 5'b0;
     end
     else begin
         if (~upg_rst) begin
             // upg_rst_save <= 1'b1;
             mode <= 2'b01;
-            data <= 27'b0;
+            data <= 31'b0;
             message_code <= 5'b1;
         end
         else begin
@@ -80,13 +80,13 @@ always @(negedge clk_cpu, negedge rst_n) begin
                 case (addr_in)
                     1'b0: begin
                         mode <= 2'b00;
-                        data <= writeDataPositive[26:0];
+                        data <= writeData;
                         message_code <= 5'b0;
                     end
                     1'b1: begin
                         mode <= 2'b01;
-                        data <= 27'b0;
-                        message_code <= writeDataPositive[4:0];
+                        data <= 31'b0;
+                        message_code <= writeData[4:0];
                     end
                     default: begin
                         mode <= mode;
@@ -114,7 +114,7 @@ end
 
 
 wire [63:0] digits;
-convert_to_eight_digits cted(data, digits);
+convert_to_eight_digits cted(dataPositive[26:0], digits);
 
 wire [63:0] messages;
 convert_to_message ctm(message_code, messages);

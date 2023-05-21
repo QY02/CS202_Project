@@ -97,6 +97,11 @@ negativeAdd:
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $zero, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+	sw $zero, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC60
 	jal stall
 	add $zero,$zero,$zero
 	j start
@@ -294,7 +299,11 @@ case100:
     sw $t1, 0($t0) #final answer
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC90
-    sw $t1, 0($t0)
+
+    sll $t7, $t1, 24
+	sra $t7, $t7, 24
+	sw $t7, 0($t0)
+
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
 
@@ -326,7 +335,9 @@ case101:
     sw $t1, 0($t0) #final answer
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC90
-    sw $t1, 0($t0)
+	sll $t7, $t1, 24
+	sra $t7, $t7, 24
+    sw $t7, 0($t0)
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     srl $t3,$s1,7
@@ -390,7 +401,9 @@ printAnswer:
 	sw $s3,0($t0)
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC90
-    sw $s3, 0($t0)
+	sll $t7, $s3, 16
+	sra $t7, $t7, 16
+    sw $t7, 0($t0)
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
 	j start
@@ -460,7 +473,9 @@ printDivideAnswer:
 	sw $s3,0($t0)
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC90
-    sw $s3, 0($t0)
+	sll $t7, $s3, 24
+	sra $t7, $t7, 24
+    sw $t7, 0($t0)
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
 
@@ -473,7 +488,9 @@ printDivideAnswer:
 	sw $t3,0($t0)
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC90
-    sw $t3, 0($t0)
+	sll $t7, $t3, 24
+	sra $t7, $t7, 24
+    sw $t7, 0($t0)
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
 
@@ -502,7 +519,9 @@ inputNum:
     sw $s0, 0($t0)
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC90
-    sw $s0, 0($t0)
+	sll $t7, $s0, 24
+	sra $t7, $t7, 24
+    sw $t7, 0($t0)
 	lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
 
