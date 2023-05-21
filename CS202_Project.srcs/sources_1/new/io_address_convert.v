@@ -21,7 +21,7 @@
 
 
 module io_address_convert(
-    input LEDCtrl, SwitchCtrl,
+    input LEDCtrl, SwitchCtrl, displayCtrl,
     input [31:0] addr_in,
     output reg [31:0] addr_out
     );
@@ -32,6 +32,9 @@ always @(*) begin
     end
     else if (SwitchCtrl) begin
         addr_out = addr_in - 32'hFFFFFC70;
+    end
+    else if (displayCtrl) begin
+        addr_out = addr_in - 32'hFFFFFC90;
     end
     else begin
         addr_out = 32'b0;

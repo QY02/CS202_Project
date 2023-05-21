@@ -146,7 +146,7 @@ reg [31:0] io_rdataSelected;
 wire [31:0] address;// 地址 -->d_memory  inputs
 wire [31:0] r_wdata_from_memIO;// data to decoder(register file) -->decoder  input
 wire [31:0] writeData;//写入的data -->d_memory  inputs
-wire LEDCtrl, SwitchCtrl, KeyBoardCtrl;
+wire LEDCtrl, SwitchCtrl, KeyBoardCtrl, displayCtrl;
 
 wire [31:0] address_io;
 
@@ -240,7 +240,7 @@ end
 
 
 //display
-display dis(fpga_clk,clk_vga,~reset_h,2'b0,io_rdataSelected[26:0],5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
+display dis(fpga_clk,clk_cpu,clk_vga,IOWrite,displayCtrl,upg_rst,~reset_h,address_io,writeData,seg_en, seg_out,hsync,vsync,vga_rgb);
 
 
 //Data memory
@@ -271,9 +271,9 @@ decoder32 decoder(clk_cpu, reset, jal, extend_mode, Instruction[25:21], Instruct
 
 //MemOrIO
 MemOrIO mem(memToReg, memWrite, IORead, IOWrite, ALU_Result, address, readData, io_rdataSelected, r_wdata_from_memIO, 
-Read_data_2, writeData, LEDCtrl, SwitchCtrl, KeyBoardCtrl);
+Read_data_2, writeData, LEDCtrl, SwitchCtrl, KeyBoardCtrl, displayCtrl);
 
-io_address_convert iac(LEDCtrl, SwitchCtrl, address, address_io);
+io_address_convert iac(LEDCtrl, SwitchCtrl, displayCtrl, address, address_io);
 
 led led(clk_cpu, reset, IOWrite, LEDCtrl, address_io[1:0], writeData, led_out);
 

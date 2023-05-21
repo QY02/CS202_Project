@@ -8,14 +8,14 @@ module keyboard(
   output reg [31:0] io_rdata       
 );
  
-reg [3:0] boarddata;
+reg [4:0] boarddata;
 always@(negedge clk or negedge rst) begin
     if(~rst) begin
         io_rdata <= 32'b0;
         end
 		else begin
             if (KeyBoardCtrl && IORead) begin
-                io_rdata[3:0] <= boarddata[3:0];
+                io_rdata[4:0] <= boarddata[4:0];
             end
             else begin
                 io_rdata <= io_rdata;
@@ -122,30 +122,32 @@ always @ (negedge key_clk, negedge rst)
 
 always @ (negedge key_clk, negedge rst)
   if (~rst)
-    boarddata <= 16'h0;
+    boarddata <= 5'b1_1111;
   else
     if (key_pressed_flag)
         case ({col_val, row_val})
-            8'b1110_1110 : boarddata <= 4'h1;   
-            8'b1110_1101 : boarddata <= 4'h4;
-            8'b1110_1011 : boarddata <= 4'h7;
-            8'b1110_0111 : boarddata <= 4'hE;
+            8'b1110_1110 : boarddata <= 5'h1;   
+            8'b1110_1101 : boarddata <= 5'h4;
+            8'b1110_1011 : boarddata <= 5'h7;
+            8'b1110_0111 : boarddata <= 5'hE;
             
-            8'b1101_1110 : boarddata <= 4'h2;
-            8'b1101_1101 : boarddata <= 4'h5;
-            8'b1101_1011 : boarddata <= 4'h8;
-            8'b1101_0111 : boarddata <= 4'h0;
+            8'b1101_1110 : boarddata <= 5'h2;
+            8'b1101_1101 : boarddata <= 5'h5;
+            8'b1101_1011 : boarddata <= 5'h8;
+            8'b1101_0111 : boarddata <= 5'h0;
             
-            8'b1011_1110 : boarddata <= 4'h3;
-            8'b1011_1101 : boarddata <= 4'h6;
-            8'b1011_1011 : boarddata <= 4'h9;
-            8'b1011_0111 : boarddata <= 4'hF;
+            8'b1011_1110 : boarddata <= 5'h3;
+            8'b1011_1101 : boarddata <= 5'h6;
+            8'b1011_1011 : boarddata <= 5'h9;
+            8'b1011_0111 : boarddata <= 5'hF;
 
-            8'b0111_1110 : boarddata <= 4'hA;
-            8'b0111_1101 : boarddata <= 4'hB;
-            8'b0111_1011 : boarddata <= 4'hC;
-            8'b0111_0111 : boarddata <= 4'hD;
+            8'b0111_1110 : boarddata <= 5'hA;
+            8'b0111_1101 : boarddata <= 5'hB;
+            8'b0111_1011 : boarddata <= 5'hC;
+            8'b0111_0111 : boarddata <= 5'hD;
 
             // default: boarddata <= boarddata;        
-    endcase
+        endcase
+    else
+        boarddata <= 5'b1_1111;
 endmodule

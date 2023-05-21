@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module MemOrIO(mRead, mWrite, ioRead, ioWrite, addr_in, addr_out, m_rdata, io_rdata, r_wdata, r_rdata, write_data, LEDCtrl, SwitchCtrl,KeyBoardCtrl);
+module MemOrIO(mRead, mWrite, ioRead, ioWrite, addr_in, addr_out, m_rdata, io_rdata, r_wdata, r_rdata, write_data, LEDCtrl, SwitchCtrl,KeyBoardCtrl, displayCtrl);
 
 input mRead, mWrite, ioRead, ioWrite;
 
@@ -34,7 +34,7 @@ output reg [31:0] r_wdata;
 input [31:0] r_rdata;
 output reg [31:0] write_data;
 
-output LEDCtrl, SwitchCtrl, KeyBoardCtrl;
+output LEDCtrl, SwitchCtrl, KeyBoardCtrl, displayCtrl;
 
 assign addr_out = addr_in;
 
@@ -67,6 +67,8 @@ assign LEDCtrl = ((addr_in >= 32'hFFFFFC60) && (addr_in <= 32'hFFFFFC62)) ? 1'b1
 assign SwitchCtrl = ((addr_in >= 32'hFFFFFC70) && (addr_in <= 32'hFFFFFC72)) ? 1'b1 : 1'b0;
 
 assign KeyBoardCtrl = (addr_in == 32'hFFFFFC80) ? 1'b1 : 1'b0;
+
+assign displayCtrl = ((addr_in >= 32'hFFFFFC90) && (addr_in <= 32'hFFFFFC91)) ? 1'b1 : 1'b0;
 
 
 endmodule
