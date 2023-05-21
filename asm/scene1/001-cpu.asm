@@ -12,6 +12,11 @@ start:
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $s0, 0($t0)
+    lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $a0, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC60
 
 	and $t1, $s0, $t3
 
