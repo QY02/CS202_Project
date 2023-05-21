@@ -35,9 +35,9 @@ always @(negedge clk, negedge rst_n) begin
         //addr_LED <= addr_in - 32'hFFFFFC60;
         if (LEDCtrl && IOWrite) begin
             case (addr_in)
-                2'b00: LED[23:0] <= data[23:0];
-                2'b01: LED[23:0] <= {data[15:0], LED[7:0]};
-                2'b10: LED[23:0] <= {data[7:0], LED[15:0]};
+                2'b00: LED[23:0] <= data[23:0];//分段处理读入的信号  FFFF FF60-FFFF FF62
+                2'b01: LED[23:0] <= {data[15:0], LED[7:0]};//分段处理读入的信号  FFFF FF61-FFFF FF62
+                2'b10: LED[23:0] <= {data[7:0], LED[15:0]};//分段处理读入的信号  FFFF FF62
                 default: LED <= LED;
             endcase
         end

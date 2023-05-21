@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module io_address_convert(
+module io_address_convert(//把实际的地址转换成IO的地址
     input LEDCtrl, SwitchCtrl, displayCtrl,
     input [31:0] addr_in,
     output reg [31:0] addr_out
@@ -28,7 +28,7 @@ module io_address_convert(
 
 always @(*) begin
     if (LEDCtrl) begin
-        addr_out = addr_in - 32'hFFFFFC60;
+        addr_out = addr_in - 32'hFFFFFC60;//00 01 10
     end
     else if (SwitchCtrl) begin
         addr_out = addr_in - 32'hFFFFFC70;
