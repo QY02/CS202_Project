@@ -16,6 +16,12 @@ start:
     addi $t2, $zero, 1
     beq $t1, $t2, case001
     
+    lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90 #数码显像管存址
+    sw $zero, 0($t0)
+    lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC60
+
     addi $t2, $zero, 7
     beq $t1, $t2, case111
     

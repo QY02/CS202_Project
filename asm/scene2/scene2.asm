@@ -87,6 +87,11 @@ negativeAdd:
 	lui $t0, 0xFFFF
     	ori $t0, $t0, 0xFC60
     	sw $s2, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $s2, 0($t0)
+		lui $t0, 0xFFFF
+    	ori $t0, $t0, 0xFC60
 	jal stall
 	add $zero,$zero,$zero
 	lui $t0, 0xFFFF
@@ -466,6 +471,11 @@ printDivideAnswer:
 	jal stall
 
 	sw $t3,0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $t3, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC60
 
 	jal stall
 	jal stall
@@ -499,11 +509,6 @@ inputNum:
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $t1, 2($t0)
-	lui $t0, 0xFFFF
-    ori $t0, $t0, 0xFC90
-    sw $t1, 0($t0)
-	lui $t0, 0xFFFF
-    ori $t0, $t0, 0xFC60
 
     beq $t1, $zero, inputA
 
