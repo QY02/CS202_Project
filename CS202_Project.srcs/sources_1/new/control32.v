@@ -66,6 +66,6 @@ assign IORead = ((lw==1) && (Alu_resultHigh[21:0] == 22'h3F_FFFF)) ? 1'b1:1'b0;
 assign ALUSrc = I_format||lw|sw;
 assign Sftmd = (((func==6'b000000)||(func==6'b000010)||(func==6'b000011)||(func==6'b000100)||(func==6'b000110)||(func==6'b000111))&& R_format)? 1'b1:1'b0;
 assign ALUOp = {(R_format||I_format),(branch||nbranch)};
-assign extend_mode = lw||sw||(Opcode==6'b00_1101);     
+assign extend_mode = (Opcode==6'b00_1101) || (Opcode==6'b00_1100) || (Opcode==6'b00_1110);     
 
 endmodule

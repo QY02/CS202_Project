@@ -104,12 +104,23 @@ positiveAdd:
 	lui $t0, 0xFFFF
     	ori $t0, $t0, 0xFC60
     	sw $s1, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $s1, 0($t0)
+		lui $t0, 0xFFFF
+    	ori $t0, $t0, 0xFC60
+
 	j start
 	add $zero,$zero,$zero
 zero:
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC60
     sw $zero, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $zero, 0($t0)
+		lui $t0, 0xFFFF
+    	ori $t0, $t0, 0xFC60
 	j start
 	add $zero,$zero,$zero
 
@@ -131,6 +142,11 @@ case001:
 	lui $t0, 0xFFFF
 	ori $t0, $t0, 0xFC60
 	sw $v1, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $v1, 0($t0)
+		lui $t0, 0xFFFF
+    	ori $t0, $t0, 0xFC60
 
 	j start
 	add $zero, $zero, $zero
@@ -223,6 +239,11 @@ calculate010:
 	lui $t0, 0xFFFF
 	ori $t0, $t0, 0xFC60
 	sw $a0, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $a0, 0($t0)
+		lui $t0, 0xFFFF
+    	ori $t0, $t0, 0xFC60
 	jal stall
 	jal stall
 
@@ -333,6 +354,11 @@ calculate011:
 	lui $t0, 0xFFFF
 	ori $t0, $t0, 0xFC60
 	sw $a0, 0($t0)
+	lui $t0, 0xFFFF
+    ori $t0, $t0, 0xFC90
+    sw $a0, 0($t0)
+		lui $t0, 0xFFFF
+    	ori $t0, $t0, 0xFC60
 	jal stall
 	jal stall
 
