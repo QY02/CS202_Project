@@ -12,11 +12,11 @@
 
 # Developer's infomation
 
-| Name   | Task                                                 | Contributions |
-| ------ | ---------------------------------------------------- | ------------- |
-| 秦尧   | VGA, Decoder, MemOrIO, IFetch, LED, Keyboard, Report | 33.3%         |
-| 陶毅诚 | CPU-top, ALU,D-memory, Switch, Report ,Bonus video   | 33.3%         |
-| 谢尚儒 | All assemble scripts, UART, Controller, Report       | 33.3%         |
+| Name   | Task                                                        | Contributions |
+| ------ | ----------------------------------------------------------- | ------------- |
+| 秦尧   | VGA, Decoder, MemOrIO, IFetch, LED, Report                  | 33.3%         |
+| 陶毅诚 | CPU-top, ALU,D-memory, Switch,Keyboard, Report ,Bonus video | 33.3%         |
+| 谢尚儒 | All assemble scripts, UART, Controller, Report              | 33.3%         |
 
 
 
@@ -40,13 +40,14 @@ We implemented the **MIPS32 Instruction Set**.
 
 【1】with 3 registers
 
-| 指令 | [31 : 26] | [25 : 21] | [20 : 16] | [15 : 11] | [10 : 6] | [5 : 0]    |
-| ---- | --------- | --------- | --------- | --------- | -------- | ---------- |
-| add  | 000000    | rs        | rt        | rd        | 00000    | 100000(32) |
-| sub  | 000000    | rs        | rt        | rd        | 00000    | 100010(34) |
-| and  | 000000    | rs        | rt        | rd        | 00000    | 100100(36) |
-| or   | 000000    | rs        | rt        | rd        | 00000    | 100101(37) |
-| xor  | 000000    | rs        | rt        | rd        | 00000    | 100110(38) |
+| 指令    | [31 : 26]  | [25 : 21] | [20 : 16] | [15 : 11] | [10 : 6]  | [5 : 0]        |
+| ------- | ---------- | --------- | --------- | --------- | --------- | -------------- |
+| add     | 000000     | rs        | rt        | rd        | 00000     | 100000(32)     |
+| sub     | 000000     | rs        | rt        | rd        | 00000     | 100010(34)     |
+| **and** | **000000** | **rs**    | **rt**    | **rd**    | **00000** | **100100(36)** |
+| **or**  | **000000** | **rs**    | **rt**    | **rd**    | **00000** | **100101(37)** |
+| xor     | 000000     | rs        | rt        | rd        | 00000     | 100110(38)     |
+| **nor** | **000000** | **rs**    | **rt**    | **rd**    | **00000** | **100111(27)** |
 
 【2】with 2 registers
 
@@ -74,11 +75,11 @@ We implemented the **MIPS32 Instruction Set**.
 
 【1】For ALU
 
-| 指令 | [31 : 26] | [25 : 21] | [20 : 16] | [15 : 0] |
-| ---- | --------- | --------- | --------- | -------- |
-| addi | 001000    | rs        | rt        | imm      |
-| andi | 001100    | rs        | rt        | imm      |
-| ori  | 001101    | rs        | rt        | imm      |
+| 指令     | [31 : 26]  | [25 : 21] | [20 : 16] | [15 : 0] |
+| -------- | ---------- | --------- | --------- | -------- |
+| addi     | 001000     | rs        | rt        | imm      |
+| **andi** | **001100** | **rs**    | **rt**    | **imm**  |
+| **ori**  | **001101** | **rs**    | **rt**    | **imm**  |
 
 【2】For memory 
 
