@@ -4,8 +4,8 @@ module cpu_top (
 input fpga_clk,  //时钟
 input[23:0] switch,  //24个拨码开关
 input reset_h,  
-// input[3:0] row,
-// output[3:0] col,
+input[3:0] row,
+output[3:0] col,
 output[23:0] led_out, //17个led输出（测试场景1）
 output[7:0] seg_out, 
 output[7:0] seg_en,  //数码显像管
@@ -136,14 +136,17 @@ wire [31:0] Read_data_2;//读出的第二个data -->ALU  inputs (one of the sour
 wire [31:0] Sign_extend;//16-32 -->ALU  inputs
 
 
-wire [31:0] io_rdata;
+wire [31:0] io_rdata1;
+wire [31:0] io_rdata2;
+
+reg [31:0] io_rdataSelected;
 //assign io_rdata = 16'b0;
 
 //MemOrIO  outputs
 wire [31:0] address;// 地址 -->d_memory  inputs
 wire [31:0] r_wdata_from_memIO;// data to decoder(register file) -->decoder  input
 wire [31:0] writeData;//写入的data -->d_memory  inputs
-wire LEDCtrl, SwitchCtrl;
+wire LEDCtrl, SwitchCtrl, KeyBoardCtrl;
 
 wire [31:0] address_io;
 
@@ -224,8 +227,20 @@ always @(*) begin
     end
 end
 
+
+always @(*) begin
+    if (SwitchCtrl&&~KeyBoardCtrl) begin
+        io_rdataSelected = io_rdata1;
+    end
+    else if (~SwitchCtrl&&KeyBoardCtrl) begin
+        io_rdataSelected = io_rdata2;
+    end
+    else io_rdataSelected = 32'b0;
+end
+
+
 //display
-display dis(fpga_clk,clk_vga,~reset_h,2'b0,uart_1,5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
+display dis(fpga_clk,clk_vga,~reset_h,2'b0,io_rdataSelected[26:0],5'b0, seg_en, seg_out,hsync,vsync,vga_rgb);
 
 
 //Data memory
@@ -255,16 +270,16 @@ assign r_wdata = jal ? link_addr : r_wdata_from_memIO;
 decoder32 decoder(clk_cpu, reset, jal, extend_mode, Instruction[25:21], Instruction[20:16], write_reg, Instruction[15:0], r_wdata, regWrite, Read_data_1, Read_data_2, Sign_extend);
 
 //MemOrIO
-MemOrIO mem(memToReg, memWrite, IORead, IOWrite, ALU_Result, address, readData, io_rdata, r_wdata_from_memIO, 
-Read_data_2, writeData, LEDCtrl, SwitchCtrl);
+MemOrIO mem(memToReg, memWrite, IORead, IOWrite, ALU_Result, address, readData, io_rdataSelected, r_wdata_from_memIO, 
+Read_data_2, writeData, LEDCtrl, SwitchCtrl, KeyBoardCtrl);
 
 io_address_convert iac(LEDCtrl, SwitchCtrl, address, address_io);
 
 led led(clk_cpu, reset, IOWrite, LEDCtrl, address_io[1:0], writeData, led_out);
 
-Switch switch0(clk_cpu, reset, IORead, SwitchCtrl, address_io[1:0], switch, io_rdata);
+Switch switch0(clk_cpu, reset, IORead, SwitchCtrl, address_io[1:0], switch, io_rdata1);
 
-keyboard key(fpga_clk,reset,row,col,key_wdata);
+keyboard key(clk_cpu,reset,IORead,KeyBoardCtrl,row,col,io_rdata2);
 
 
 endmodule
