@@ -42,6 +42,18 @@ module display(
 
 // reg upg_rst_save;
 
+reg [31:0] writeDataPositive;
+
+always @(*) begin
+    if (writeData[31] == 1'b1) begin
+        writeDataPositive = ~writeData + 32'b1;
+    end
+    else begin
+        writeDataPositive = writeData;
+    end
+end
+
+
 reg [1:0] mode;
 reg [26:0] data;
 reg [4:0] message_code;
@@ -65,13 +77,13 @@ always @(negedge clk_cpu, negedge rst_n) begin
                 case (addr_in)
                     1'b0: begin
                         mode <= 2'b00;
-                        data <= writeData[26:0];
+                        data <= writeDataPositive[26:0];
                         message_code <= 5'b0;
                     end
                     1'b1: begin
                         mode <= 2'b01;
                         data <= 27'b0;
-                        message_code <= writeData[4:0];
+                        message_code <= writeDataPositive[4:0];
                     end
                     default: begin
                         mode <= mode;
