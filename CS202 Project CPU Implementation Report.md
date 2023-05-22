@@ -12,11 +12,11 @@
 
 # Developer's infomation
 
-| Name   | Task                                                        | Contributions |
-| ------ | ----------------------------------------------------------- | ------------- |
-| 秦尧   | VGA, Decoder, MemOrIO, IFetch, LED, Report                  | 33.3%         |
-| 陶毅诚 | CPU-top, ALU,D-memory, Switch,Keyboard, Report ,Bonus video | 33.3%         |
-| 谢尚儒 | All assemble scripts, UART, Controller, Report              | 33.3%         |
+| Name   | Task                                                         | Contributions |
+| ------ | ------------------------------------------------------------ | ------------- |
+| 秦尧   | VGA, Decoder, MemOrIO, IFetch, LED, Report                   | 33.3%         |
+| 陶毅诚 | CPU-top, ALU,D-memory, Switch, Keyboard, Report ,Bonus video | 33.3%         |
+| 谢尚儒 | All assemble scripts, UART, Controller, Report               | 33.3%         |
 
 
 
@@ -40,14 +40,21 @@ We implemented the **MIPS32 Instruction Set**.
 
 【1】with 3 registers
 
-| 指令    | [31 : 26]  | [25 : 21] | [20 : 16] | [15 : 11] | [10 : 6]  | [5 : 0]        |
-| ------- | ---------- | --------- | --------- | --------- | --------- | -------------- |
-| add     | 000000     | rs        | rt        | rd        | 00000     | 100000(32)     |
-| sub     | 000000     | rs        | rt        | rd        | 00000     | 100010(34)     |
-| **and** | **000000** | **rs**    | **rt**    | **rd**    | **00000** | **100100(36)** |
-| **or**  | **000000** | **rs**    | **rt**    | **rd**    | **00000** | **100101(37)** |
-| xor     | 000000     | rs        | rt        | rd        | 00000     | 100110(38)     |
-| **nor** | **000000** | **rs**    | **rt**    | **rd**    | **00000** | **100111(27)** |
+| 指令 | [31 : 26] | [25 : 21] | [20 : 16] | [15 : 11] | [10 : 6] | [5 : 0]    |
+| ---- | --------- | --------- | --------- | --------- | -------- | ---------- |
+| nor  | 000000    | rs        | rt        | rd        | 00000    | 100111(27) |
+| add  | 000000    | rs        | rt        | rd        | 00000    | 100000(32) |
+| addu | 000000    | rs        | rt        | rd        | 00000    | 100001(33) |
+| sub  | 000000    | rs        | rt        | rd        | 00000    | 100010(34) |
+| subu | 000000    | rs        | rt        | rd        | 00000    | 100011(35) |
+| and  | 000000    | rs        | rt        | rd        | 00000    | 100100(36) |
+| or   | 000000    | rs        | rt        | rd        | 00000    | 100101(37) |
+| xor  | 000000    | rs        | rt        | rd        | 00000    | 100110(38) |
+| slt  | 000000    | rs        | rt        | rd        | 00000    | 101010(42) |
+| sltu | 000000    | rs        | rt        | rd        | 00000    | 101011(43) |
+| sllv | 000000    | rs        | rt        | rd        | 00000    | 000100(4)  |
+| srlv | 000000    | rs        | rt        | rd        | 00000    | 000110(6)  |
+| srav | 000000    | rs        | rt        | rd        | 00000    | 000111(7)  |
 
 【2】with 2 registers
 
@@ -75,11 +82,15 @@ We implemented the **MIPS32 Instruction Set**.
 
 【1】For ALU
 
-| 指令     | [31 : 26]  | [25 : 21] | [20 : 16] | [15 : 0] |
-| -------- | ---------- | --------- | --------- | -------- |
-| addi     | 001000     | rs        | rt        | imm      |
-| **andi** | **001100** | **rs**    | **rt**    | **imm**  |
-| **ori**  | **001101** | **rs**    | **rt**    | **imm**  |
+| 指令  | [31 : 26] | [25 : 21] | [20 : 16] | [15 : 0] |
+| ----- | --------- | --------- | --------- | -------- |
+| addi  | 001000    | rs        | rt        | imm      |
+| addiu | 001001    | rs        | rt        | imm      |
+| andi  | 001100    | rs        | rt        | imm      |
+| ori   | 001101    | rs        | rt        | imm      |
+| xori  | 001110    | rs        | rt        | imm      |
+| slti  | 001010    | rs        | rt        | imm      |
+| sltiu | 001011    | rs        | rt        | imm      |
 
 【2】For memory 
 
@@ -116,17 +127,9 @@ We implemented the **MIPS32 Instruction Set**.
 | j    | 000010    | address  |
 | jal  | 001100    | address  |
 
-### Updates or optimizations
-
-
-
 ### Registers
 
 We have 32 registers. Each register has 32 bits.
-
-### Support for exception handling
-
-
 
 ### Addressing Mode design
 
@@ -136,7 +139,7 @@ Addressing unit, size of instruction space, data space
 
 ### Support for external IO
 
-MMIO(and the corresponding addresses of related peripherals), using round-robin or interrupted access to IO.
+We choose **MMIO** (and the corresponding addresses of related peripherals), using **round-robin** IO.
 
 ### CPU的CPI，属于单周期还是多周期CPU，是否支持pipeline(如支持，是几级流水，采用什么方式解决的流水线冲突问题)。
 
@@ -401,8 +404,6 @@ Note: 3+8 switch on the development board are used for input, of which 3 switche
 | 3'b110 |                 |                 |
 | 3'b111 |                 |                 |
 
-### 
-
 # Bonus
 
 - 1)Implement support for complex peripheral interfaces (such as VGA interfaces, mini keyboard interfaces, etc.)
@@ -422,4 +423,7 @@ Note: 3+8 switch on the development board are used for input, of which 3 switche
 
 ## Problems
 
+
+
 ## Summary
+
