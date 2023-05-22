@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module convert_to_message(
+module convert_to_message( //根据输入的信息代码输出对应的提示信息
     input [4:0] message_code,
     output [63:0] messages
     );

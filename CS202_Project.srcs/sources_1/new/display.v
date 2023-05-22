@@ -35,12 +35,12 @@ module display(
     output [7:0] seg_en, //数码显示管使能信号
     output [7:0] seg_out0, //数码显示管显示内容
 
+    //VGA
     output hsync,
     output vsync,
     output [11:0] vga_rgb
     );
 
-// reg upg_rst_save;
 reg [31:0] data;
 
 reg sign;
@@ -63,14 +63,12 @@ reg [4:0] message_code;
 
 always @(negedge clk_cpu, negedge rst_n) begin
     if (~rst_n) begin
-        // upg_rst_save <= 1'b0;
         mode <= 2'b01;
         data <= 31'b0;
         message_code <= 5'b0;
     end
     else begin
         if (~upg_rst) begin
-            // upg_rst_save <= 1'b1;
             mode <= 2'b01;
             data <= 31'b0;
             message_code <= 5'b1;
@@ -95,12 +93,6 @@ always @(negedge clk_cpu, negedge rst_n) begin
                     end
                 endcase
             end
-            // else if (upg_rst_save) begin
-            //     upg_rst_save <= 1'b0;
-            //     mode <= 2'b01;
-            //     data <= 27'b0;
-            //     message_code <= 5'b0;
-            // end
             else begin
                 mode <= mode;
                 data <= data;

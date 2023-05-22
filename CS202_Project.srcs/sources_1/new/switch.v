@@ -15,9 +15,9 @@ module Switch(clk, rst, IORead, SwitchCtrl,addr_in, switch_in,switch_wdata);
 		else begin
             if (SwitchCtrl && IORead) begin
                 case (addr_in)
-                    2'b00: switch_wdata[23:0] <= switch_in[23:0]; //分段处理读入的信号  FFFF FF70-FFFF FF72
-                    2'b01: switch_wdata[23:0] <= {8'b0, switch_in[23:8]};//FFFF FF71-FFFF FF72
-                    2'b10: switch_wdata[23:0] <= {16'b0, switch_in[23:16]}; //FFFF FF72
+                    2'b00: switch_wdata[23:0] <= switch_in[23:0]; //分段处理读入的信号  FFFF FC70
+                    2'b01: switch_wdata[23:0] <= {8'b0, switch_in[23:8]};//FFFF FC71
+                    2'b10: switch_wdata[23:0] <= {16'b0, switch_in[23:16]}; //FFFF FC72
                     default: switch_wdata <= switch_wdata;
                 endcase
             end

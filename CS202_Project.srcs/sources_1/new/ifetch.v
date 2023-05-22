@@ -47,7 +47,6 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
             link_addr <= PC + 32'd4;
         end
     end
-    // assign link_addr = PC + 32'd4; // pc+4
 
     always @(*) begin
         if(((Branch == 1) && (Zero == 1 )) || ((nBranch == 1) && (Zero == 0))) // beq, bne
@@ -61,15 +60,8 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
     always @(negedge clk, negedge rst_n) begin
         if(~rst_n) begin
             PC <= 32'h0000_0000;
-            // Instruction_test <= 32'hffffffff;
         end
         else begin
-            // if (PC == 32'd16) begin
-            //     Instruction_test <= Instruction;
-            // end
-            // else begin
-            //     Instruction_test <= Instruction_test;
-            // end
             if((Jmp == 1) || (Jal == 1)) begin
                 PC <= {PC[31:28], Instruction[25:0], 2'b00};
             end

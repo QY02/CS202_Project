@@ -30,19 +30,8 @@ module vga_pic(
     output reg [11:0] pix_data
 );
 
-// parameter H_VALID = 11'd800,
-//           V_VALID = 11'd600;
-
 parameter   RED     = 12'hF00,
-            // ORANGE  = 12'hFC0,
-            // YELLOW  = 12'hFFE,
-            // GREEN   = 12'h0F0,
-            // CYAN    = 12'h07F,
-            // BLUE    = 12'h00F,
-            // PURPPLE = 12'hF81,
             BLACK   = 12'h000;
-            // WHITE   = 12'hFFF,
-            // GRAY    = 12'hD69;
 
 always@ (posedge clk or negedge rst_n) begin
     if (rst_n == 1'b0) begin

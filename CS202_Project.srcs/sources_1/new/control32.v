@@ -46,7 +46,6 @@ wire R_format;
 assign R_format = (Opcode==6'b000000)?1'b1:1'b0;
 assign I_format = (Opcode[5:3]==3'b001)?1'b1:1'b0;//except beq bne lw sw
 
-//jr
 assign jr = ((Opcode==6'b000000)&&(func==6'b001000)?1'b1:1'b0);
 assign jmp = (Opcode==6'b000010)?1'b1:1'b0;
 assign jal = (Opcode==6'b000011)?1'b1:1'b0;
@@ -54,7 +53,6 @@ assign branch = (Opcode==6'b000100)?1'b1:1'b0;
 assign nbranch = (Opcode==6'b000101)?1'b1:1'b0;
 assign regDST = R_format;
 
-//
 wire lw = (Opcode==6'b100011)?1'b1:1'b0;
 wire sw = (Opcode==6'b101011)?1'b1:1'b0;
 assign memToReg = memRead;

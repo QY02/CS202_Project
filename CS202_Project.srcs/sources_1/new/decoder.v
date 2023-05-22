@@ -39,12 +39,14 @@ module decoder32(
 );
 
 reg [31:0] registers [0:31];
+
+//从寄存器中读取数据
 assign read_data1 = registers[read_reg1];
 assign read_data2 = registers[read_reg2];
 
 integer i;
 
-always @(*) begin
+always @(*) begin //根据extend_mode进行zero_extend或sign_extend
     if (extend_mode) begin
         extended_data = {16'b0000_0000_0000_0000, to_extend_data};
     end
@@ -71,7 +73,7 @@ always @(negedge clk, negedge rst_n) begin
     end
 end
 
-always @(posedge clk, negedge rst_n) begin
+always @(posedge clk, negedge rst_n) begin //将数据写入寄存器
     if (~rst_n) begin
         for (i = 0; i < 32; i = i + 1) begin
             registers[i] <= 32'b0;

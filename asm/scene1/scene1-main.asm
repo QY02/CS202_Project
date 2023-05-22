@@ -6,7 +6,7 @@ initialization:
     add $s2, $zero, $zero
 
 start:
-    #程序启动，0xfffffc70存储输入
+    #程序启动，0xfffffc70开关
     lui $t0, 0xFFFF
     ori $t0, $t0, 0xFC70
     lw $t1, 2($t0)

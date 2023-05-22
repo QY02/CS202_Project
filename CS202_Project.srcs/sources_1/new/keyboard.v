@@ -1,4 +1,4 @@
-module keyboard(
+module keyboard( //参考github上已有代码
   input            clk,        //20Mhz
   input            rst,
   input         IORead,
@@ -24,10 +24,8 @@ always@(negedge clk or negedge rst) begin
         end
     end
 
-//++++++++++++++++++++++++++++++++++++++
 // 分频部分 开始
-//++++++++++++++++++++++++++++++++++++++
-reg [17:0] cnt;                        // 计数子
+reg [17:0] cnt;
  
 always @ (negedge clk, negedge rst)
   if (~rst)
@@ -35,12 +33,10 @@ always @ (negedge clk, negedge rst)
   else
     cnt <= cnt + 1'b1;
  
-wire key_clk = cnt[17];                // (2^20/50M = 21)ms 
+wire key_clk = cnt[17];
 
 
-//++++++++++++++++++++++++++++++++++++++
 // 状态机部分 开始
-//++++++++++++++++++++++++++++++++++++++
 // 状态数较少，独热码编码
 parameter NO_KEY_PRESSED = 6'b000_001;  // 没有按键按下  
 parameter SCAN_COL0      = 6'b000_010;  // 扫描第0列 
@@ -125,14 +121,10 @@ always @ (negedge key_clk, negedge rst)
         key_pressed_flag <= 1;          // 置键盘按下标志  
       end
     endcase
-//--------------------------------------
 // 状态机部分 结束
-//--------------------------------------
  
- 
-//++++++++++++++++++++++++++++++++++++++
+
 // 扫描行列值部分 开始
-//++++++++++++++++++++++++++++++++++++++
 always @ (negedge key_clk, negedge rst)
   if (~rst)
     boarddata <= 5'b1_1111;
@@ -157,9 +149,7 @@ always @ (negedge key_clk, negedge rst)
             8'b0111_1110 : boarddata <= 5'hA;
             8'b0111_1101 : boarddata <= 5'hB;
             8'b0111_1011 : boarddata <= 5'hC;
-            8'b0111_0111 : boarddata <= 5'hD;
-
-            // default: boarddata <= boarddata;        
+            8'b0111_0111 : boarddata <= 5'hD;     
         endcase
     else
         boarddata <= 5'b1_1111;

@@ -6,9 +6,10 @@ input[23:0] switch,  //24个拨码开关
 input reset_h,  
 input[3:0] row,
 output[3:0] col,
-output[23:0] led_out, //17个led输出（测试场景1）
+output[23:0] led_out, //24个led输出
 output[7:0] seg_out, 
 output[7:0] seg_en,  //数码显像管
+//VGA
 output hsync,
 output vsync,
 output [11:0] vga_rgb,
@@ -28,42 +29,16 @@ wire [14:0] upg_adr_o;
 //data to program_rom or dmemory32
 wire [31:0] upg_dat_o;
 
-// wire clk_100MHz;
-
-// wire spg_bufg0;
-// button_debounce bd(clk_100MHz, ~reset_h, start_pg, spg_bufg0);
-
 wire spg_bufg;
 BUFG U1(.I(start_pg), .O(spg_bufg)); // de-twitter
 // Generate UART Programmer reset signal
-
-// button_FSA bf(clk_100MHz, ~reset_h, spg_bufg0, spg_bufg);
-
-// assign led_out[23] = spg_bufg;
-// assign led_out[22] = spg_bufg0;
-
-// wire upg_rst;
-// assign upg_rst = ~spg_bufg;
-
 
 reg upg_rst;
 always @ (posedge fpga_clk) begin
     if (spg_bufg) upg_rst = 0;
     if (reset_h) upg_rst = 1;
-    // if (reset_h) begin
-    //     upg_rst <= 1;        
-    // end
-    // else begin
-    //     if (spg_bufg) begin
-    //         upg_rst <= 0;
-    //     end
-    //     else begin
-    //         upg_rst <= 1;
-    //     end
-    // end
 end
 //used for other modules which don't relate to UART
-//wire rst;
 wire reset;
 assign reset = ~(reset_h | !upg_rst);
 
@@ -78,8 +53,6 @@ uart_bmpg_0 uart(
     .upg_tx_o(tx),
     .upg_wen_o(upg_wen_o)
 );
-
-//assign reset = ~reset_h;
 
 wire clk_cpu;
 wire clk_vga;
@@ -102,8 +75,6 @@ wire [31:0] Instruction; //读出的指令 -->decoder  input
 wire [31:0] branch_base_addr; // (pc+4) to ALU which is used by branch type instruction -->ALU  inputs
 wire [31:0] link_addr; // (pc+4) to Decoder which is used by jal instruction
 
-// wire [31:0] Instruction_test;
-
 //controller  outputs
 wire jr ; // 1 indicates the instruction is "jr", otherwise it's not "jr" output Jmp; -->IF  inputs
 wire jmp; // 1 indicate the instruction is "j", otherwise it's not  -->IF  inputs
@@ -114,7 +85,6 @@ wire regDST; // 1 indicate destination register is "rd"(R),otherwise it's "rt"(I
 wire memToReg; // 1 indicate read data from memory and write it into register
 wire regWrite; // 1 indicate write register(R,I(lw)), otherwise it's not -->decoder  input
 wire IORead; // 1 indicate read data from IO, otherwise it's not
-//assign IORead = 1'b0;
 wire IOWrite; // 1 indicate write data into IO, otherwise it's not
 wire memWrite; // 1 indicate write data memory, otherwise it's not -->d_memory  inputs
 wire ALUSrc; // 1 indicate the 2nd data is immidiate (except "beq","bne") -->ALU  inputs
@@ -140,7 +110,6 @@ wire [31:0] io_rdata1;
 wire [31:0] io_rdata2;
 
 reg [31:0] io_rdataSelected;
-//assign io_rdata = 16'b0;
 
 //MemOrIO  outputs
 wire [31:0] address;// 地址 -->d_memory  inputs
@@ -165,69 +134,6 @@ wire [4:0] write_reg;
 
 wire[15:0] key_wdata;
 
-// reg [31:0] Sign_extend_test;
-
-// always @(negedge clk_cpu, negedge reset) begin
-//     if (~reset) begin
-//         Sign_extend_test <= 32'b0;
-//     end
-//     else begin
-//         if (Instruction == 32'h8c10fc70) begin
-//             Sign_extend_test <= Sign_extend;
-//         end
-//         else begin
-//             Sign_extend_test <= Sign_extend_test;
-//         end
-//     end
-// end
-
-
-// reg [31:0] addr_out_test;
-
-// always @(negedge clk_cpu, negedge reset) begin
-//     if (~reset) begin
-//         addr_out_test <= 32'hffffffff;
-//     end
-//     else begin
-//         if (Instruction == 32'h8c10fc70) begin
-//             addr_out_test <= address_io;
-//         end
-//         else begin
-//             addr_out_test <= addr_out_test;
-//         end
-//     end
-// end
-
-reg [31:0] io_rdata_test;
-
-always @(negedge clk_cpu, negedge reset) begin
-    if (~reset) begin
-        io_rdata_test <= 32'hffffffff;
-    end
-    else begin
-        if (Instruction == 32'had0b0001) begin
-            io_rdata_test <= {writeData[15:0], Read_data_2[12:0], LEDCtrl, address_io[1:0]};
-        end
-        else begin
-            io_rdata_test <= io_rdata_test;
-        end
-    end
-end
-
-
-
-reg [26:0] uart_1;
-
-always @(*) begin
-    if (upg_rst) begin
-        uart_1 = 27'd6;
-    end
-    else begin
-        uart_1 = 27'd66;
-    end
-end
-
-
 always @(*) begin
     if (SwitchCtrl&&~KeyBoardCtrl) begin
         io_rdataSelected = io_rdata1;
@@ -245,9 +151,7 @@ display dis(fpga_clk,clk_cpu,clk_vga,IOWrite,displayCtrl,upg_rst,~reset_h,addres
 
 //Data memory
 dmemory32 uram(clk_cpu,memWrite,address,writeData,readData,upg_rst,upg_clk_o,upg_wen_o&upg_adr_o[14],upg_adr_o[13:0],upg_dat_o,upg_done_o);
-/*The ‘clock’ is from CPU-TOP, suppose its one edge has been used at the upstream module of data memory, such as IFetch, Why Data-Memroy DO NOT use the same edge as other module ? */
-//assign clk = !clk_cpu;
-
+//The ‘clock’ is from CPU-TOP, suppose its one edge has been used at the upstream module of data memory, such as IFetch, Why Data-Memroy DO NOT use the same edge as other module ?
 
 //Instruction Fetch
 IFetc32 ifetch(Instruction, branch_base_addr, link_addr, clk_cpu, reset, Addr_Result,

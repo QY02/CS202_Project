@@ -34,8 +34,6 @@ assign Ainput = Read_data_1;
 assign Binput = (ALUSrc == 1'b0) ? Read_data_2 : Sign_extend[31:0];
 
 assign Exe_code = (I_format==1'b0)?Function_opcode :{ 3'b000 , Exe_opcode[2:0]};
-// wire R_format;
-// assign R_format= (Exe_opcode==6'b000000)? 1'b1:1'b0;
 
 assign ALU_ctl[0] = (Exe_code[0] | Exe_code[3]) & ALUOp[1];
 assign ALU_ctl[1] = ((!Exe_code[2]) | (!ALUOp[1]));
@@ -68,8 +66,6 @@ always @* begin // six types of shift instructions
             3'b110:Shift_Result = Binput >> Ainput; //Srlv rd,rt,rs 00110
             3'b011:Shift_Result = $signed(Binput) >>> Shamt; //Sra rd,rt,shamt 00011
             3'b111:Shift_Result = $signed(Binput) >>>  Ainput; //Srav rd,rt,rs 00111
-            // 3'b011:Shift_Result = ({{31{Binput}}, 1'b0} << (~Shamt)) | (Binput >> Shamt) ; //Sra rd,rt,shamt 00011
-            // 3'b111:Shift_Result = ({{31{Binput}}, 1'b0} << (~Ainput)) | (Binput >> Ainput); //Srav rd,rt,rs 00111
             default:Shift_Result = Binput;
         endcase
     else

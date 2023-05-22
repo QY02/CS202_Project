@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.4.1 (win64) Build 2117270 Tue Jan 30 15:32:00 MST 2018
--- Date        : Sat May 20 12:46:29 2023
+-- Date        : Mon May 22 02:25:27 2023
 -- Host        : LAPTOP-OF4B8OJA running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode funcsim -rename_top RAM -prefix
---               RAM_ RAM_sim_netlist.vhdl
+-- Command     : write_vhdl -force -mode funcsim
+--               D:/Projects/CO/Project/CS202_Project/CS202_Project/CS202_Project.srcs/sources_1/ip/RAM/RAM_sim_netlist.vhdl
 -- Design      : RAM
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -19,6 +19,8 @@ entity RAM_bindec is
     ena_array : out STD_LOGIC_VECTOR ( 1 downto 0 );
     addra : in STD_LOGIC_VECTOR ( 1 downto 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of RAM_bindec : entity is "bindec";
 end RAM_bindec;
 
 architecture STRUCTURE of RAM_bindec is
@@ -76,6 +78,8 @@ entity RAM_blk_mem_gen_mux is
     \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_19\ : in STD_LOGIC_VECTOR ( 7 downto 0 );
     \DEVICE_7SERIES.NO_BMM_INFO.SP.SIMPLE_PRIM36.ram_20\ : in STD_LOGIC_VECTOR ( 7 downto 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of RAM_blk_mem_gen_mux : entity is "blk_mem_gen_mux";
 end RAM_blk_mem_gen_mux;
 
 architecture STRUCTURE of RAM_blk_mem_gen_mux is
@@ -467,6 +471,8 @@ entity RAM_blk_mem_gen_prim_wrapper_init is
     dina : in STD_LOGIC_VECTOR ( 0 to 0 );
     wea : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of RAM_blk_mem_gen_prim_wrapper_init : entity is "blk_mem_gen_prim_wrapper_init";
 end RAM_blk_mem_gen_prim_wrapper_init;
 
 architecture STRUCTURE of RAM_blk_mem_gen_prim_wrapper_init is
@@ -4189,6 +4195,8 @@ entity RAM_blk_mem_gen_prim_width is
     dina : in STD_LOGIC_VECTOR ( 0 to 0 );
     wea : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of RAM_blk_mem_gen_prim_width : entity is "blk_mem_gen_prim_width";
 end RAM_blk_mem_gen_prim_width;
 
 architecture STRUCTURE of RAM_blk_mem_gen_prim_width is
@@ -4640,6 +4648,8 @@ entity RAM_blk_mem_gen_generic_cstr is
     dina : in STD_LOGIC_VECTOR ( 31 downto 0 );
     wea : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of RAM_blk_mem_gen_generic_cstr : entity is "blk_mem_gen_generic_cstr";
 end RAM_blk_mem_gen_generic_cstr;
 
 architecture STRUCTURE of RAM_blk_mem_gen_generic_cstr is
@@ -5116,6 +5126,8 @@ entity RAM_blk_mem_gen_top is
     dina : in STD_LOGIC_VECTOR ( 31 downto 0 );
     wea : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of RAM_blk_mem_gen_top : entity is "blk_mem_gen_top";
 end RAM_blk_mem_gen_top;
 
 architecture STRUCTURE of RAM_blk_mem_gen_top is
@@ -5141,6 +5153,8 @@ entity RAM_blk_mem_gen_v8_4_1_synth is
     dina : in STD_LOGIC_VECTOR ( 31 downto 0 );
     wea : in STD_LOGIC_VECTOR ( 0 to 0 )
   );
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of RAM_blk_mem_gen_v8_4_1_synth : entity is "blk_mem_gen_v8_4_1_synth";
 end RAM_blk_mem_gen_v8_4_1_synth;
 
 architecture STRUCTURE of RAM_blk_mem_gen_v8_4_1_synth is
@@ -5370,6 +5384,8 @@ entity RAM_blk_mem_gen_v8_4_1 is
   attribute C_WRITE_WIDTH_B of RAM_blk_mem_gen_v8_4_1 : entity is 32;
   attribute C_XDEVICEFAMILY : string;
   attribute C_XDEVICEFAMILY of RAM_blk_mem_gen_v8_4_1 : entity is "artix7";
+  attribute ORIG_REF_NAME : string;
+  attribute ORIG_REF_NAME of RAM_blk_mem_gen_v8_4_1 : entity is "blk_mem_gen_v8_4_1";
   attribute downgradeipidentifiedwarnings : string;
   attribute downgradeipidentifiedwarnings of RAM_blk_mem_gen_v8_4_1 : entity is "yes";
 end RAM_blk_mem_gen_v8_4_1;
