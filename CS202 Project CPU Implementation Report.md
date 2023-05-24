@@ -141,9 +141,11 @@ Addressing unit, size of instruction space, data space
 
 We choose **MMIO** (and the corresponding addresses of related peripherals), using **round-robin** IO.
 
-### CPU的CPI，属于单周期还是多周期CPU，是否支持pipeline(如支持，是几级流水，采用什么方式解决的流水线冲突问题)。
+### CPU Technical Detail
 
+Single cycle CPU, no pipeline
 
+Frequency: 20Mhz
 
 ## CPU interface
 
@@ -151,15 +153,17 @@ All codes below is in `cpu_top.xdc`.
 
 ### CPU Clock
 
+The CPU clock.
+
 ```verilog
-set_property IOSTANDARD LVCMOS33 [get_ports {fpga_clk}]
 set_property PACKAGE_PIN Y18 [get_ports {fpga_clk}]
 ```
 
 ### Reset
 
+The reset button.
+
 ```verilog
-set_property IOSTANDARD LVCMOS33 [get_ports {reset_h}]
 set_property PACKAGE_PIN P1 [get_ports {reset_h}]
 ```
 
@@ -173,30 +177,6 @@ set_property -dict {IOSTANDARD LVCMOS33 PACKAGE_PIN V18} [get_ports tx]
 ### Switch
 
 ```verilog
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[23]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[22]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[21]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[20]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[19]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[18]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[17]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[16]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[15]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[14]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[13]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[12]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[11]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[10]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[9]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[8]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[7]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[6]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[5]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[4]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[3]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[2]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[1]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {switch[0]}]
 set_property PACKAGE_PIN AA8 [get_ports {switch[18]}]
 set_property PACKAGE_PIN V8 [get_ports {switch[17]}]
 set_property PACKAGE_PIN V9 [get_ports {switch[16]}]
@@ -250,30 +230,6 @@ set_property PACKAGE_PIN E21 [get_ports {led_out[3]}]
 set_property PACKAGE_PIN D22 [get_ports {led_out[2]}]
 set_property PACKAGE_PIN E22 [get_ports {led_out[1]}]
 set_property PACKAGE_PIN A21 [get_ports {led_out[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[23]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[22]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[21]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[20]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[19]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[18]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[17]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[16]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[15]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[14]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[13]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[12]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[11]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[10]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[9]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[8]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[7]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[6]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[5]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[4]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[3]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[2]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[1]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led_out[0]}]
 ```
 
 ### VGA
@@ -318,6 +274,28 @@ set_property PACKAGE_PIN F13 [get_ports {seg_out[6]}]
 set_property PACKAGE_PIN F15 [get_ports {seg_out[7]}]
 ```
 
+### Keyboard
+
+```verilog
+set_property IOSTANDARD LVCMOS33 [get_ports {col[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {col[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {col[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {col[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {row[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {row[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {row[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {row[0]}]
+set_property PACKAGE_PIN M2 [get_ports {col[3]}]
+set_property PACKAGE_PIN K6 [get_ports {col[2]}]
+set_property PACKAGE_PIN J6 [get_ports {col[1]}]
+set_property PACKAGE_PIN L5 [get_ports {col[0]}]
+
+set_property PACKAGE_PIN K4 [get_ports {row[3]}]
+set_property PACKAGE_PIN J4 [get_ports {row[2]}]
+set_property PACKAGE_PIN L3 [get_ports {row[1]}]
+set_property PACKAGE_PIN K3 [get_ports {row[0]}]
+```
+
 
 
 ## CPU internal structure
@@ -329,6 +307,8 @@ set_property PACKAGE_PIN F15 [get_ports {seg_out[7]}]
 ### Design Specification of submodules
 
 #### CPU_top(cpu_top.v)
+
+
 
 #### ALU(alu.v)
 
@@ -406,18 +386,28 @@ Note: 3+8 switch on the development board are used for input, of which 3 switche
 
 # Bonus
 
-- 1)Implement support for complex peripheral interfaces (such as VGA interfaces, mini keyboard interfaces, etc.)
+### VGA interfaces
 
-  Ø Explanation: In this course, only access to complex peripheral interfaces achieved through software and hardware collaboration is supported (that is, accessing related complex peripherals through corresponding instructions or corresponding address information in instructions, rather than just using hardware control to achieve the use of complex peripherals)。
 
-  Ø 2)Use the uart interface to load different programs onto the CPU for execution without rewriting the FPGA chip。 Ø 3)Optimize performance based on existing Minisys ISA implemented CPUs (pipeline, cache, SIMD, etc.)
 
-  Ø Explanation: Relevant comparison cases and proof of performance improvement need to be provided simultaneously。 Ø 4)ISA for existing Minisys, instruction type extension, function extension, and implementation。
-   Ø 5)Better user experience
+### mini keyboard interfaces
 
-  Ø For example, the results of bit operations are displayed with LED, and the results of arithmetic operations are displayed with 7 segments of Nixie tube, etc
 
-  
+
+### Uart interface
+
+
+
+### Better user experience
+
+- The results of bit operations are displayed with LED, and the results of arithmetic operations are displayed with 7 segments of Nixie tube as well as VGA.
+- This part is implemented with our asm files, as we not only load the result into our LED, but also into our display module.
+
+### One more thing : Debug Hub
+
+- This part is a bonus in our opinion, as this provides a practical debug solution after using debug hub in Vivado. Otherwise it will be pretty hard to fix a bug.
+- We can open the implemented design and add debug hub to the signals we want to capture. After regenerating the bitstream and programing our board, we can directly view the signal wave diagram in Vivado.
+- We may set trigger to record a specific period signal and analysis its behavior.
 
 # Problems and Summary
 
