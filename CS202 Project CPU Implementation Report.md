@@ -12,11 +12,11 @@
 
 # Developer's infomation
 
-| Name   | Task                                                         | Contributions |
-| ------ | ------------------------------------------------------------ | ------------- |
-| 秦尧   | VGA, Decoder, MemOrIO, IFetch, LED, Report                   | 33.3%         |
-| 陶毅诚 | CPU-top, ALU,D-memory, Switch, Keyboard, Report ,Bonus video | 33.3%         |
-| 谢尚儒 | All assemble scripts, UART, Controller, Report               | 33.3%         |
+| Name   | Task                                                         | Contribution |
+| ------ | ------------------------------------------------------------ | ------------ |
+| 秦尧   | VGA, Decoder, MemOrIO, IFetch, LED, Report                   | 33.3%        |
+| 陶毅诚 | CPU-top, ALU, D-memory, Switch, Keyboard, Report ,Bonus video | 33.3%        |
+| 谢尚儒 | All assemble scripts, UART, Controller, Report               | 33.3%        |
 
 
 
@@ -308,19 +308,179 @@ set_property PACKAGE_PIN K3 [get_ports {row[0]}]
 
 #### CPU_top(cpu_top.v)
 
+```verilog
+module cpu_top (
+input fpga_clk,  //时钟
+input[23:0] switch,  //24个拨码开关
+input reset_h,  
+input[3:0] row,
+output[3:0] col,
+output[23:0] led_out, //24个led输出
+output[7:0] seg_out, 
+output[7:0] seg_en,  //数码显像管
+//VGA
+output hsync,
+output vsync,
+output [11:0] vga_rgb,
+
+//Uart 接口输入输出
+input start_pg,
+input rx,
+output tx
+);
+```
+
 
 
 #### ALU(alu.v)
 
+```verilog
+module Executs32 ( 
+// from Decoder
+input[31:0] Read_data_1, //the source of Ainput
+input[31:0] Read_data_2, //one of the sources of Binput
+input[31:0] Sign_extend, //one of the sources of Binput
+// from IFetch
+input[5:0] Exe_opcode, //instruction[31:26]
+input[5:0] Function_opcode, //instructions[5:0]
+input[4:0] Shamt, //instruction[10:6], the amount of shift bits
+input[31:0] PC_Plus_4, //pc
+// from Controller
+input[1:0] ALUOp, //{ (R_format || I_format) , (Branch || nBranch) }
+input ALUSrc, // 1 means the 2nd operand is an immediate (except beq,bne）
+input I_format, // 1 means I-Type instruction except beq, bne, LW, SW
+input Sftmd, // 1 means this is a shift instruction
+
+output reg [31:0]  ALU_Result, // the ALU calculation result
+output Zero, // 1 means the ALU_result is zero, 0 otherwise
+output[31:0] Addr_Result // the calculated instruction address
+);
+```
+
+
+
 #### Data Memory(dmemory32.v)
+
+```verilog
+module dmemory32(clock,memWrite,address,writeData,readData,upg_rst_i,upg_clk_i,upg_wen_i,upg_adr_i,upg_dat_i,upg_done_i );
+input clock, memWrite;  //memWrite 来自controller，为1'b1时表示要对data-memory做写操作
+input [31:0] address;   //address 以字节为单位
+input [31:0] writeData; //writeData ：向data-memory中写入的数据
+ output[31:0] readData;  //writeData ：从data-memory中读出的数据
+// UART Programmer Pinouts
+input upg_rst_i; // UPG reset (Active High)
+input upg_clk_i; // UPG ram_clk_i (10MHz)
+input upg_wen_i; // UPG write enable
+input [13:0] upg_adr_i; // UPG write address
+input [31:0] upg_dat_i; // UPG write data
+input upg_done_i; // 1 if programming is finished
+```
+
+
 
 #### Instruction Fetch(ifetch.v)
 
+```verilog
+module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result, Read_data_1, Branch, nBranch, Jmp, Jal, Jr, Zero
+,upg_rst_i,upg_clk_i,upg_wen_i,upg_adr_i,upg_dat_i,upg_done_i);
+    // output reg [31:0] Instruction_test;
+    output[31:0] Instruction; // the instruction fetched from this module to Decoder and Controller
+    output[31:0] branch_base_addr; // (pc+4) to ALU which is used by branch type instruction
+    output reg [31:0] link_addr; // (pc+4) to Decoder which is used by jal instruction
+    //from CPU TOP
+    input clk, rst_n; // Clock and rst_n
+    // from ALU
+    input[31:0] Addr_result; // the calculated address from ALU
+    input Zero; // while Zero is 1, it means the ALUresult is zero
+    // from Decoder
+    input[31:0] Read_data_1; // the address of instruction used by jr instruction
+    // from Controller
+    input Branch; // while Branch is 1,it means current instruction is beq
+    input nBranch; // while nBranch is 1,it means current instruction is bnq
+    input Jmp; // while Jmp 1, it means current instruction is jump
+    input Jal; // while Jal is 1, it means current instruction is jal
+    input Jr; // while Jr is 1, it means current instruction is j
+
+    input upg_rst_i; // UPG reset (Active High)
+    input upg_clk_i; // UPG clock (10MHz)
+    input upg_wen_i; // UPG write enable
+    input[13:0] upg_adr_i; // UPG write address
+    input[31:0] upg_dat_i; // UPG write data
+    input upg_done_i ;// 1 if program finished
+```
+
+
+
 #### MemOrIO(MemOrIO.v)
+
+```verilog
+module MemOrIO(mRead, mWrite, ioRead, ioWrite, addr_in, addr_out, m_rdata, io_rdata, r_wdata, r_rdata, write_data, LEDCtrl, SwitchCtrl,KeyBoardCtrl, displayCtrl);
+
+input mRead, mWrite, ioRead, ioWrite;
+
+input [31:0] addr_in;
+output [31:0] addr_out;
+
+input [31:0] m_rdata;
+input [31:0] io_rdata;
+output reg [31:0] r_wdata;
+
+input [31:0] r_rdata;
+output reg [31:0] write_data;
+
+output LEDCtrl, SwitchCtrl, KeyBoardCtrl, displayCtrl;
+```
+
+
 
 #### Decoder(decoder.v)
 
+```verilog
+module decoder32(
+    input clk,
+    input rst_n,
+    input jal,
+
+    input extend_mode,
+    input [4:0] read_reg1,
+    input [4:0] read_reg2,
+    input [4:0] write_reg,
+    input [15:0] to_extend_data,
+    input [31:0] write_data,
+    input reg_write,
+
+    output [31:0] read_data1,
+    output [31:0] read_data2,
+    output reg [31:0] extended_data
+);
+```
+
+
+
 #### Controller(contol32.v)
+
+```verilog
+module control32(Opcode,func,Alu_resultHigh,jr,jmp,jal,branch,nbranch,regDST,memToReg,regWrite,IORead,IOWrite,memWrite,ALUSrc,I_format,Sftmd,ALUOp,extend_mode);
+input [5:0] Opcode;
+input [5:0] func;
+input [21:0] Alu_resultHigh;
+output jr ; // 1 indicates the instruction is "jr", otherwise it's not "jr" output Jmp; // 1 indicate the instruction is "j", otherwise it's not
+output jmp;
+output jal; // 1 indicate the instruction is "jal", otherwise it's not
+output branch; // 1 indicate the instruction is "beq" , otherwise it's not
+output nbranch; // 1 indicate the instruction is "bne", otherwise it's not
+output regDST; // 1 indicate destination register is "rd"(R),otherwise it's "rt"(I)
+output memToReg; // 1 indicate read data from memory and write it into register
+output regWrite; // 1 indicate write register(R,I(lw)), otherwise it's not
+output IORead; // 1 indicate read data from IO, otherwise it's not
+output IOWrite; // 1 indicate write data into IO, otherwise it's not
+output memWrite; // 1 indicate write data memory, otherwise it's not
+output ALUSrc; // 1 indicate the 2nd data is immidiate (except "beq","bne")
+output I_format;
+output Sftmd; // 1 indicate the instruction is shift
+output [1:0] ALUOp;
+output extend_mode;
+```
 
 
 
@@ -384,6 +544,8 @@ Note: 3+8 switch on the development board are used for input, of which 3 switche
 | 3'b110 |                 |                 |
 | 3'b111 |                 |                 |
 
+
+
 # Bonus
 
 ### VGA interfaces
@@ -408,6 +570,8 @@ Note: 3+8 switch on the development board are used for input, of which 3 switche
 - This part is a bonus in our opinion, as this provides a practical debug solution after using debug hub in Vivado. Otherwise it will be pretty hard to fix a bug.
 - We can open the implemented design and add debug hub to the signals we want to capture. After regenerating the bitstream and programing our board, we can directly view the signal wave diagram in Vivado.
 - We may set trigger to record a specific period signal and analysis its behavior.
+
+
 
 # Problems and Summary
 
