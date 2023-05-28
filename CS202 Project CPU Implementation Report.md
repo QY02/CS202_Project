@@ -698,12 +698,42 @@ always@ (posedge clk or negedge rst_n) begin
 
 
 ### mini keyboard interfaces
+For the mini keyboard, we study the existing code on Github and make some adjustments to fit our design.
+The principle of the keyboard is using column signal and row signal to locate a specific key in the keyboard. We offer the keyboard a column selection signal to select a column, then the board will return a row selection signal to show which key is pressed. This is achieved by a finite state machine which scans the keyboard continuously.
+We made small adjustments that the clock signal(used to de-twitter) fits our cpu clock signal.
+Also we import control signal like IORead and KeyBoardCtrl to control the input of keyboard.
+Since we choose to implement MMIO way to connect our external IO, the address of our keyboard is 0x FFFF FC80. Moreover, we change the output of the keyboard so that once a key is released, the output value will be automatically set to 5’b1. This is to avoid data misuse in our asm file.
 
+Inputs and output:
+
+```verilog
+module keyboard(
+  input            clk, //20Mhz
+  input            rst,
+
+  //control signals
+  input         IORead,
+  input   KeyBoardCtrl,
+
+  //row selection and column selection signals
+  input      [3:0] row,      
+  output reg [3:0] col,
+
+  //output data, which will be written to register
+  output reg [31:0] io_rdata
+);
+```
+
+### Test description
+
+We design a testcase to verify our design of the VGA and the keyboard interfaces. In the testcase, we use lw instruction to get input data from the keyboard. Then we process the data and store the data in a register. Finally, we use sw instruction to display the data in the VGA.  
+The result is as follows, the cpu and the IO modules functioned correctly.
+![](vga_keyboard.png)
 
 
 ### Uart interface
 
-
+We implemented the uart interface so we can load different programs onto the cpu for execution without rewriting the FPGA chip. We have described the interface in the basic part of the report.
 
 ### Better user experience
 
@@ -713,16 +743,13 @@ always@ (posedge clk or negedge rst_n) begin
 ### One more thing : Debug Hub
 
 - This part is a bonus in our opinion, as this provides a practical debug solution after using debug hub in Vivado. Otherwise it will be pretty hard to fix a bug.
-- We can open the implemented design and add debug hub to the signals we want to capture. After regenerating the bitstream and programing our board, we can directly view the signal wave diagram in Vivado.
+- We can open the synthesis design and add debug hub to the signals we want to capture. After regenerating the bitstream and programing our board, we can directly view the signal wave diagram in Vivado.
 - We may set trigger to record a specific period signal and analysis its behavior.
-
-
 
 # Problems and Summary
 
-## Problems
-
-
-
-## Summary
-
+1. When writing codes in verilog, we should follow the rules strictly. Otherwise the circuit will behave very differently than expected.
+2. The warnings raised by vivado are very important. Many warnings are raised because our codes not follow the rules strictly. We can fix them quickly by looing at the warnings.
+3. When we find some strange bugs and do not know how do they come, we should check the ip cores first. Some wrong settings in ip cores may make the circuit behaves quite differently than expected.
+4. Every time we finish writing a module, we should test it. If we do not test the modules before we put them together, debug will be very difficult.
+5. When we test the cpu, we should start from the simplest case and do not write too many instructions in a asm file. So we can find bugs easily.
