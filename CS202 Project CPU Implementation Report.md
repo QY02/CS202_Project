@@ -513,6 +513,7 @@ output extend_mode; //1 indicate zero extension and 0 indicate sign extension
 # Test Demonstration
 
 ## On Board Test
+Test type: integration
 
 ### **Basic Test Scenario 1**
 
@@ -531,16 +532,16 @@ Note: 3+8 switch on the development board are used for input, of which 3 switche
 
 ### Test Results
 
-| ID     | Input/Operation | Output/Behavior |
-| ------ | --------------- | --------------- |
-| 3'b000 |                 |                 |
-| 3'b001 |                 |                 |
-| 3'b010 |                 |                 |
-| 3'b011 |                 |                 |
-| 3'b100 |                 |                 |
-| 3'b101 |                 |                 |
-| 3'b110 |                 |                 |
-| 3'b111 |                 |                 |
+| ID     | Input/Operation | Output/Behavior | Result |
+| ------ | --------------- | --------------- | ------ |
+| 3'b000 | 8'b0000_0100    | 1'b1            | Pass   |
+| 3'b001 | 8'b0000_1001    | 1'b1            | Pass   |
+| 3'b010 | N/A             | 8'b1111_1100    | Pass   |
+| 3'b011 | N/A             | 8'b0000_0011    | Pass   |
+| 3'b100 | N/A             | 8'b1100_1100    | Pass   |
+| 3'b101 | N/A             | 1'b0            | Pass   |
+| 3'b110 | N/A             | 1'b1            | Pass   |
+| 3'b111 | a = 8'b0011_1100, b = 8'b1111_0000|N/A| Pass   |
 
 ### **Basic Test Scenario 2-1**
 
@@ -559,18 +560,21 @@ Note: 3+8 switch on the development board are used for input, of which 3 switche
 
 ### Test Results
 
-| ID     | Input/Operation | Output/Behavior |
-| ------ | --------------- | --------------- |
-| 3'b000 |                 |                 |
-| 3'b001 |                 |                 |
-| 3'b010 |                 |                 |
-| 3'b011 |                 |                 |
-| 3'b100 |                 |                 |
-| 3'b101 |                 |                 |
-| 3'b110 |                 |                 |
-| 3'b111 |                 |                 |
+| ID     | Input/Operation | Output/Behavior | Result |
+| ------ | --------------- | --------------- | ------ |
+| 3'b000 | 8'b0000_0100    | 8'b0000_1010    | Pass   |
+| 3'b001 | 8'b0000_0100    | 8'b0001_0000    | Pass   |
+| 3'b010 | 8'b0000_0100    | 8'd4, 8'd3, 8'd2, 8'd1 | Pass   |
+| 3'b011 | 8'b0000_0100    | 8'd1, 8'd2, 8'd3, 8'd4 | Pass   |
+| 3'b100 | a = 8'b0111_1111, b = 8'b0111_1111 | overflow = 1'b1 | Pass   |
+| 3'b100 | a = 8'b0000_1001, b = 8'b0000_1111 | overflow = 1'b0, result = 8'b0001_1000 | Pass   |
+| 3'b101 | a = 8'b1000_0001, b = 8'b0111_1111 | overflow = 1'b1 | Pass   |
+| 3'b101 | a = 8'b1111_1000, b = 8'b0000_0101 | overflow = 1'b0, result = 8'b1111_0011 | Pass   |
+| 3'b110 | a = 8'b1111_1000, b = 8'b0000_0101 | 16'b1111_1111_1101_1000 | Pass   |
+| 3'b111 | a = 8'b1111_1000, b = 8'b0000_0101 | quotient = 8'b1111_1111, remainder = 8'b1111_1101 | Pass   |
 
-
+## Final Test Conclusion
+The cpu passed all the testcases and functioned correctly
 
 # Bonus
 
