@@ -8,6 +8,8 @@
 
 **陶毅诚 12112003**
 
+[TOC]
+
 
 
 # Developer's infomation
@@ -543,7 +545,7 @@ Note: 3+8 switch on the development board are used for input, of which 3 switche
 | 3'b110 | N/A             | 1'b1            | Pass   |
 | 3'b111 | a = 8'b0011_1100, b = 8'b1111_0000|N/A| Pass   |
 
-### **Basic Test Scenario 2-1**
+### **Basic Test Scenario 2**
 
 3+8 switch on the development board are used for input, of which 3 switch (x3-x0) are used for the number input of test cases, and 8 switch (sw7,.. Sw0) are used for the input of test data (sw7 corresponds to the highest bit bit of 8bit bit7, sw0 corresponds to the lowest bit bit bit of 8bit bit0);
 
@@ -698,11 +700,12 @@ always@ (posedge clk or negedge rst_n) begin
 
 
 ### mini keyboard interfaces
-For the mini keyboard, we study the existing code on Github and make some adjustments to fit our design.
-The principle of the keyboard is using column signal and row signal to locate a specific key in the keyboard. We offer the keyboard a column selection signal to select a column, then the board will return a row selection signal to show which key is pressed. This is achieved by a finite state machine which scans the keyboard continuously.
-We made small adjustments that the clock signal(used to de-twitter) fits our cpu clock signal.
-Also we import control signal like IORead and KeyBoardCtrl to control the input of keyboard.
-Since we choose to implement MMIO way to connect our external IO, the address of our keyboard is 0x FFFF FC80. Moreover, we change the output of the keyboard so that once a key is released, the output value will be automatically set to 5’b1. This is to avoid data misuse in our asm file.
+For the mini keyboard, we study the existing code on Github and make some adjustments to fit our design.  
+The principle of the keyboard is using column signal and row signal to locate a specific key in the keyboard. We offer the keyboard a column selection signal to select a column, then the board will return a row selection signal to show which key is pressed. This is achieved by a finite state machine which scans the keyboard continuously.  
+We made small adjustments that the clock signal(used to de-twitter) fits our cpu clock signal.  
+Also we import control signal like IORead and KeyBoardCtrl to control the input of keyboard.  
+Since we choose to implement MMIO way to connect our external IO, the address of our keyboard is 0x FFFF FC80.  
+Moreover, we change the output of the keyboard so that once a key is released, the output value will be automatically set to 5’b1. This is to avoid data misuse in our asm file.
 
 Inputs and output:
 
