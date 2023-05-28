@@ -26,13 +26,13 @@
 
 ### ISA
 
-We implemented the **MIPS32 Instruction Set**.
+We implemented the **Minisys Instruction Set Architecture**.
 
 #### 1.R Type Instructions
 
 **（1）R Type Instruction Format**
 
-| 000000 （op) | Rs    | Rt    | Rd    | shamt | funct |
+| 000000 (op) | Rs    | Rt    | Rd    | shamt | funct |
 | ------------ | ----- | ----- | ----- | ----- | ----- |
 | 6bits        | 5bits | 5bits | 5bits | 5bits | 6bits |
 
@@ -135,17 +135,25 @@ We have 32 registers. Each register has 32 bits.
 
 We chose **Harvard architecture**.
 
-Addressing unit, size of instruction space, data space
+Addressing unit: word  
+Size of instruction space: 64KB  
+Data space: 64KB
 
 ### Support for external IO
 
-We choose **MMIO** (and the corresponding addresses of related peripherals), using **round-robin** IO.
+We choose **MMIO**:  
+**Addresses of the peripheral:**  
+Switch: from 0xFFFF_FC70 to 0xFFFF_FC72  
+LED: from 0xFFFF_FC60 to 0xFFFF_FC62  
+KeyBoard: 0xFFFF_FC80  
+Display (seven segment digital display tube and VGA): 0xFFFF_FC90  
+Using **polling** method to access IO.
 
 ### CPU Technical Detail
 
+Clock frequency: 20Mhz  
+CPI: 1  
 Single cycle CPU, no pipeline
-
-Frequency: 20Mhz
 
 ## CPU interface
 
@@ -252,7 +260,7 @@ set_property PACKAGE_PIN J15 [get_ports {vga_rgb[10]}]
 set_property PACKAGE_PIN H15 [get_ports {vga_rgb[11]}]
 ```
 
-### Seven-segment Display
+### Seven-segment Display Tube
 
 ```verilog
 set_property PACKAGE_PIN C19 [get_ports {seg_en[0]}]
@@ -302,7 +310,7 @@ set_property PACKAGE_PIN K3 [get_ports {row[0]}]
 
 ### Connection Schematic of submodules inside the CPU
 
-
+![](schematic.jpg)
 
 ### Design Specification of submodules
 
@@ -310,20 +318,27 @@ set_property PACKAGE_PIN K3 [get_ports {row[0]}]
 
 ```verilog
 module cpu_top (
-input fpga_clk,  //时钟
-input[23:0] switch,  //24个拨码开关
-input reset_h,  
+input fpga_clk,  //clock
+input[23:0] switch,  //24 switches
+input reset_h,  //reset
+
+//keyboard
 input[3:0] row,
 output[3:0] col,
-output[23:0] led_out, //24个led输出
+
+//24 LEDs
+output[23:0] led_out, 
+
+//seven segment digital display tube
 output[7:0] seg_out, 
-output[7:0] seg_en,  //数码显像管
+output[7:0] seg_en,
+
 //VGA
 output hsync,
 output vsync,
 output [11:0] vga_rgb,
 
-//Uart 接口输入输出
+//Uart input and output
 input start_pg,
 input rx,
 output tx
@@ -363,10 +378,11 @@ output[31:0] Addr_Result // the calculated instruction address
 
 ```verilog
 module dmemory32(clock,memWrite,address,writeData,readData,upg_rst_i,upg_clk_i,upg_wen_i,upg_adr_i,upg_dat_i,upg_done_i );
-input clock, memWrite;  //memWrite 来自controller，为1'b1时表示要对data-memory做写操作
-input [31:0] address;   //address 以字节为单位
-input [31:0] writeData; //writeData ：向data-memory中写入的数据
- output[31:0] readData;  //writeData ：从data-memory中读出的数据
+input clock, memWrite;  //memWrite (from controller，when it is 1'b1, data-memory will be written)
+input [31:0] address;   //address (the unit is byte)
+input [31:0] writeData; //writeData (data write to data-memory)
+output[31:0] readData;  //readData (data read from data-memory)
+
 // UART Programmer Pinouts
 input upg_rst_i; // UPG reset (Active High)
 input upg_clk_i; // UPG ram_clk_i (10MHz)
@@ -416,18 +432,21 @@ module IFetc32(Instruction, branch_base_addr, link_addr, clk, rst_n, Addr_result
 ```verilog
 module MemOrIO(mRead, mWrite, ioRead, ioWrite, addr_in, addr_out, m_rdata, io_rdata, r_wdata, r_rdata, write_data, LEDCtrl, SwitchCtrl,KeyBoardCtrl, displayCtrl);
 
+//control signals from controller
 input mRead, mWrite, ioRead, ioWrite;
 
+//address of memory or IO
 input [31:0] addr_in;
 output [31:0] addr_out;
 
-input [31:0] m_rdata;
-input [31:0] io_rdata;
-output reg [31:0] r_wdata;
+input [31:0] m_rdata; //data read from memory
+input [31:0] io_rdata; //data read from IO
+output reg [31:0] r_wdata; //data write to register
 
-input [31:0] r_rdata;
-output reg [31:0] write_data;
+input [31:0] r_rdata; //data read from register
+output reg [31:0] write_data; //data write to memory or IO
 
+//control signals of IO
 output LEDCtrl, SwitchCtrl, KeyBoardCtrl, displayCtrl;
 ```
 
@@ -439,18 +458,25 @@ output LEDCtrl, SwitchCtrl, KeyBoardCtrl, displayCtrl;
 module decoder32(
     input clk,
     input rst_n,
-    input jal,
+    input jal, //whether the current instruction is jump and link
 
-    input extend_mode,
+    input extend_mode, //1 indicate zero extension and 0 indicate sign extension
+
+    //read addresses
     input [4:0] read_reg1,
     input [4:0] read_reg2,
+    //write address
     input [4:0] write_reg,
-    input [15:0] to_extend_data,
-    input [31:0] write_data,
-    input reg_write,
 
+    input [15:0] to_extend_data, //data to be extended
+    input [31:0] write_data, //data write to register
+    input reg_write, //write enable
+
+    //data read from registers
     output [31:0] read_data1,
     output [31:0] read_data2,
+
+    //data after extension
     output reg [31:0] extended_data
 );
 ```
@@ -479,7 +505,7 @@ output ALUSrc; // 1 indicate the 2nd data is immidiate (except "beq","bne")
 output I_format;
 output Sftmd; // 1 indicate the instruction is shift
 output [1:0] ALUOp;
-output extend_mode;
+output extend_mode; //1 indicate zero extension and 0 indicate sign extension
 ```
 
 
